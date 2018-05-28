@@ -3,6 +3,7 @@ package model;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import bean.LoginBean;
@@ -12,42 +13,57 @@ import bean.LoginBean;
  */
 public class LoginModel {
 
-	public LoginBean authentication(LoginBean bean) throws Exception {
+	public LoginBean authentication(LoginBean bean) {
 		// 初期化
 		StringBuilder sb = new StringBuilder();
 		String userId = bean.getUserId();
 		String password = bean.getPassword();
 
 		Connection conn = null;
-		String url = "";
-		String user = "";
-		String dbPassword = "";
+		String url = "jdbc:oracle:thin:@192.168.51.67:1521:XE";
+		String user = "DEV_TEAM_A";
+		String dbPassword = "A_DEV_TEAM";
 		// JDBCドライバーのロード
-		Class.forName("oracle.jdbc.driver.OracleDriver");
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 		// 接続作成
-		conn = DriverManager.getConnection(url, user, dbPassword);
+		try {
+			conn = DriverManager.getConnection(url, user, dbPassword);
 
-		// SQL作成
-		sb.append("SELECT ");
-		sb.append(" user_no ");
-		sb.append(" ,user_name ");
-		sb.append("FROM ");
-		sb.append(" m_user ");
-		sb.append("WHERE ");
-		sb.append(" user_id = '" + userId + "' ");
-		sb.append(" AND password = '" + password + "'");
+			// SQL作成
+			sb.append("SELECT ");
+			sb.append(" user_no ");
+			sb.append(" ,user_name ");
+			sb.append("FROM ");
+			sb.append(" m_user ");
+			sb.append("WHERE ");
+			sb.append(" user_id = '" + userId + "' ");
+			sb.append(" AND password = '" + password + "'");
 
-		// SQL実行
-		Statement stmt = conn.createStatement();
-		ResultSet rs = stmt.executeQuery(sb.toString());
+			// SQL実行
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sb.toString());
 
-		if (!rs.next()) {
-			bean.setErrorMessage("パスワードが一致しませんでした。");
-		} else {
-			bean.setUserNo(rs.getString("user_no"));
-			bean.setUserName(rs.getString("user_name"));
-			bean.setErrorMessage("");
-			conn.close();
+			if (!rs.next()) {
+				bean.setErrorMessage("パスワードが一致しませんでした。");
+			} else {
+				bean.setUserNo(rs.getString("user_no"));
+				bean.setUserName(rs.getString("user_name"));
+				bean.setErrorMessage("");
+				conn.close();
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 
 		return bean;
