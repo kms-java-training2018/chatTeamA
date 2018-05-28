@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>main page</title>
 </head>
 <body>
 	<h1>チャット研修プログラム</h1>
