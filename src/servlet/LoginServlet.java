@@ -47,6 +47,7 @@ public class LoginServlet extends HttpServlet {
 		// 認証処理
 		try {
 			bean = model.authentication(bean);
+			req.setAttribute("loginBean", bean);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

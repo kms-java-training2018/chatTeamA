@@ -27,6 +27,7 @@ public class LoginModel {
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
         } catch (ClassNotFoundException e) {
+            bean.setErrorMessage("データベースと接続出来ませんでした");
             e.printStackTrace();
         }
         // 接続作成
@@ -57,6 +58,7 @@ public class LoginModel {
 
             }
         } catch (SQLException e) {
+            bean.setErrorMessage("データがありませんでした。");
             e.printStackTrace();
         } finally {
             try {
@@ -65,7 +67,6 @@ public class LoginModel {
                 e.printStackTrace();
             }
         }
-
         return bean;
     }
 }
