@@ -49,7 +49,7 @@ public class LoginModel {
             ResultSet rs = stmt.executeQuery(sb.toString());
 
             if (!rs.next()) {
-                bean.setErrorMessage("パスワードが一致しませんでした。");
+                bean.setErrorMessage("会員IDもしくはパスワードが間違っています。");
             } else {
                 bean.setUserNo(rs.getString("user_no"));
                 bean.setUserName(rs.getString("user_name"));
@@ -67,6 +67,7 @@ public class LoginModel {
                 e.printStackTrace();
             }
         }
+
         return bean;
     }
 }
