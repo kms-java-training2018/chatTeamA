@@ -16,6 +16,7 @@ public class LoginBean {
 	/** 会員番号 */
 	private String userNo;
 
+
 	public String getUserId() {
 		return userId;
 	}
@@ -55,5 +56,4 @@ public class LoginBean {
 	public void setUserNo(String userNo) {
 		this.userNo = userNo;
 	}
-
 }
