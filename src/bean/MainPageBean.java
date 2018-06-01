@@ -22,6 +22,9 @@ public class MainPageBean {
     /** メッセージ */
     private String message;
 
+    /** 会員数 */
+    private int number;
+
 
     public String getUserId() {
         return userId;
@@ -76,4 +79,12 @@ public class MainPageBean {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    public int getNumber() {
+        return number;
+    }
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
 }

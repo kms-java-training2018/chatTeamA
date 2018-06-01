@@ -1,8 +1,7 @@
 package servlet;
 
 import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -23,59 +22,47 @@ public class MainPageServlet extends HttpServlet {
     * 初期表示
     */
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        // Beanの初期化
-        MainPageBean bean = new MainPageBean();
-        bean.setErrorMessage("");
-        bean.setUserId("");
-        bean.setPassword("");
+     // Beanの初期化
+        //MainPageBean bean = new MainPageBean();
+        //bean.setErrorMessage("");
+        //bean.setUserId("");
+        //bean.setPassword("");
 
-        req.setAttribute("mainPageBean", bean);
+        //req.setAttribute("mainPageBean", bean);
         req.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(req, res);
-    }
+        }
+
 
 
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+        // セッション情報取得
+                HttpSession session = req.getSession();
+                SessionBean sessionBean = new SessionBean();
         // 初期化
         MainPageBean bean = new MainPageBean();
         MainPageModel model = new MainPageModel();
         String direction = "/WEB-INF/jsp/main.jsp";
+        ArrayList<MainPageBean> list = new ArrayList<MainPageBean>();
+        //ArrayList<String> list2 = new ArrayList<String>();
 
-     // パラメータの取得
-        String userId = (String) req.getParameter("userId");
-        String password = (String) req.getParameter("password");
-        Pattern p = Pattern.compile("^[0-9a-zA-Z]+$");
-        Matcher mUserId = p.matcher(userId);
-
-        Matcher mPassword = p.matcher(password);
-
-     // パラメータの判定
-        if (userId.length() > 20 || password.length() > 20 || !mUserId.find() || !mPassword.find()) {
-            bean.setErrorMessage("入力された値は正しくありません");
-        } else {
-            bean.setUserId(userId);
-            bean.setPassword(password);
-
-         // 認証処理
-            try {
-                bean = model.authentication(bean);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
+        //modelの会員番号会員名処理をbean経由で取る
+        try {
+            list = model.authentication2(bean);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        req.setAttribute("MainPageBean", bean);
+        //jspに飛ばす
+        req.setAttribute("list", list);
+        req.getRequestDispatcher(direction).forward(req, res);
+
+
 
         // 取得に成功した場合セッション情報をセット
         if ("".equals(bean.getErrorMessage())) {
-            SessionBean sessionBean = new SessionBean();
             sessionBean.setUserName(bean.getUserName());
             sessionBean.setUserNo(bean.getUserNo());
-            HttpSession session = req.getSession();
             session.setAttribute("session", sessionBean);
-
-            // 行き先を次の画面に
-            direction = "/main";
         }
 
         req.getRequestDispatcher(direction).forward(req, res);
