@@ -83,11 +83,70 @@ public class DirectMessageModel {
     /*
      * 会話情報登録処理
      */
+
+ // 次の格納するメッセージの数字
+    public DirectMessageBean nextNumCheck(DirectMessageBean bean) {
+        // 初期化
+        StringBuilder sb = new StringBuilder();
+        //String userNo = bean.getUserNo();
+
+        Connection conn = null;
+        String url = "jdbc:oracle:thin:@192.168.51.67:1521:XE";
+        String user = "DEV_TEAM_A";
+        String dbPassword = "A_DEV_TEAM";
+        // JDBCドライバーのロード
+        try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+        } catch (ClassNotFoundException e) {
+            bean.setErrorMessage("エラーです");
+            e.printStackTrace();
+        }
+        // 接続作成
+        try {
+            conn = DriverManager.getConnection(url, user, dbPassword);
+
+            // SQL作成
+            sb.append("SELECT ");
+            sb.append("COUNT(*) ");
+            sb.append("FROM ");
+            sb.append("t_message_info");
+
+            // SQL実行
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sb.toString());
+
+            if (!rs.next()) {
+                bean.setErrorMessage("エラーです");
+            } else {
+                bean.setMessageNo(String.valueOf(rs.getInt(1)+1));
+                conn.close();
+
+            }
+
+            //conn.close();
+
+        } catch (SQLException e) {
+            bean.setErrorMessage("エラーです");
+            e.printStackTrace();
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return bean;
+    }
+
+
+
     //セッション情報の会員番号を条件に、内容を登録する。
     public DirectMessageBean authentication2(DirectMessageBean bean2) {
         // 初期化
         StringBuilder sb = new StringBuilder();
         String message = bean2.getMessage();
+        String messageNo = bean2.getMessageNo();
 
 
         Connection conn = null;
@@ -116,7 +175,7 @@ public class DirectMessageModel {
             sb.append(", delete_flag");
             sb.append(", regist_date)");
             sb.append("values (");
-            sb.append("10");
+            sb.append("'"+ messageNo +"'");
             sb.append(", 1");
             sb.append(", '" + message + "' ");
             sb.append(", 2");
@@ -127,6 +186,10 @@ public class DirectMessageModel {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sb.toString());
 
+            if (!rs.next()) {
+                bean2.setErrorMessage("メッセージの登録に失敗しました");
+
+            }
             conn.close();
 
         } catch (SQLException e) {
@@ -166,27 +229,28 @@ public class DirectMessageModel {
             // SQL作成
 
             //--会話情報テーブルの対象の会話のdelete_flagと更新日時を変更する--//
-            sb.append("");
-            sb.append("");
-            sb.append("");
-            sb.append("");
-            sb.append("");
-            sb.append("");
-            sb.append("");
-            sb.append("");
-            sb.append("");
-            sb.append("");
-            sb.append(",");
-            sb.append(",");
-            sb.append(",");
-            sb.append(", )");
+            sb.append("update ");
+            sb.append("t_message_info ");
+            sb.append("set ");
+            sb.append("delete_flag = 1");
+            sb.append(", update_date = sysdate ");
+            sb.append("where ");
+            sb.append("message_no = 10 ");
+            sb.append("and send_user_no = 1");
+
 
             // SQL実行
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sb.toString());
 
+            if (rs.next()) {
+                bean3.setErrorMessage("異常が発生しています");
+
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
+            bean3.setErrorMessage("削除に失敗しました");
         } finally {
             try {
                 conn.close();

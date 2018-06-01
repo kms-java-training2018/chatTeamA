@@ -6,8 +6,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import bean.DirectMessageBean;
+import bean.SessionBean;
 import model.DirectMessageModel;
 
 public class DirectMessageServlet extends HttpServlet {
@@ -19,10 +21,18 @@ public class DirectMessageServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
 
+        //文字コード設定
+        res.setContentType("text/html; charset=UTF-8");
+        req.setCharacterEncoding("UTF-8");
+
+
         // 初期化
+        SessionBean sessionBean = new SessionBean();
         DirectMessageBean bean = new DirectMessageBean();
         DirectMessageModel model = new DirectMessageModel();
         String direction = "/WEB-INF/jsp/directMessage.jsp";
+
+        HttpSession session = req.getSession(false);
 
         /**
          *
@@ -43,6 +53,11 @@ public class DirectMessageServlet extends HttpServlet {
         //if (session = null) {
         //direction = "/error";
         //}
+
+        sessionBean.setUserName("動けデブ");
+        sessionBean.setUserNo("25");
+
+        bean.setUserNo(sessionBean.getUserNo());
 
         // パラメータの取得
         String userId = (String) req.getParameter("userId");
@@ -119,15 +134,23 @@ public class DirectMessageServlet extends HttpServlet {
 
         //--(2)-1 セッション情報の会員番号を条件に、内容を登録する。--//
         try {
+
+            //会話番号をカウントし次の番号へ
+            bean = model.nextNumCheck(bean);
+
+            //登録処理へ
             bean = model.authentication2(bean);
 
             //--(2)-2 エラーメッセージがセットされていた場合はエラー画面へ--//
             if (bean.getErrorMessage() != null) {
                 direction = "/error";
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        //成功した場合、そのままメッセージ画面表示
 
         /**
         *
@@ -145,22 +168,27 @@ public class DirectMessageServlet extends HttpServlet {
         //確認ダイアログをJSで表示する
         //OKが押下された場合以下の処理へ進む
 
-        /*
-         * 会話情報論理削除処理
-         */
+        //String delete = req.getParameter("delete");
 
-        //セッション情報の会員番号を条件に会話情報を論理削除する
-        try {
-            bean = model.authentication3(bean);
+        if (req.getParameter("delete") != null) {
 
-          //レコードを論理削除できなかった場合
-            if (bean.getErrorMessage() != null) {
-                direction = "/error";
+            /*
+             * 会話情報論理削除処理
+             */
+
+            //セッション情報の会員番号を条件に会話情報を論理削除する
+            try {
+                bean = model.authentication3(bean);
+
+                //レコードを論理削除できなかった場合
+                if (bean.getErrorMessage() != null) {
+                    direction = "/error";
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
+        }
 
         req.getRequestDispatcher(direction).forward(req, res);
         return;

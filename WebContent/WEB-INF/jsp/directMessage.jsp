@@ -14,8 +14,9 @@
   <div
     style="padding: 10px; margin-bottom: 10px; border: 5px double #333333; border-radius: 10px;">
     あなた：メッセージのサンプルだよー（｀・ω・´）
-    <form action="/chat/directMessage" method="POST">
-      <input type="submit" value="削除" onClick="return confirm('削除しますか？')">
+    <form action="/chat/directMessage" method="POST"
+      onSubmit="return confirm('削除しますか？')">
+      <input type="submit" name="delete" value="削除">
     </form>
   </div>
 
