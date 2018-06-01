@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.swing.JOptionPane;
 
 import bean.GroupMessageBean;
 import bean.SessionBean;
@@ -82,25 +83,28 @@ public class GroupMessageServlet extends HttpServlet {
         }
 
         // メッセージ削除ボタンが押されたとき
-        /*if(req.getParameter("")) != null){
-
+        /*if(req.getParameter("")) != null) {
+            req.getParameter("");
+            bean = model.DeleteMessage(bean);
         }*/
 
         // 退会ボタンが押されたとき
-        /*if(req.getParameter("escape") != null) {
+        if(req.getParameter("escape") != null) {
             // ダイアログ表示
             int dialogButton = JOptionPane.YES_NO_OPTION;
             int dialogResult = JOptionPane.showConfirmDialog(null, "Your Message", "Title on Box", dialogButton);
             // Yes,Noの判定
             if(dialogResult == 0) {
+                bean.setGroupNo("12"); // せっしょんからグループ
               model.escapeGroup(bean);
             }
 
         }
-        */
+
         if (bean.isErrFlag()) {
-            direction = "/WEB-INF/jsp/login.jsp";
             bean.setErrFlag(false);
+            //direction = "/WEB-INF/jsp/error.jsp";
+            direction = "/error";
         }
 
         req.getRequestDispatcher(direction).forward(req, res);

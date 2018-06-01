@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import bean.ProfileBean;
 import bean.SessionBean;
-import bean.ShowProfileBean;
 import model.ShowProfileModel;
 
 public class ShowProfileServlet extends HttpServlet {
@@ -17,20 +17,20 @@ public class ShowProfileServlet extends HttpServlet {
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         // Beanの初期化
-        ShowProfileBean bean = new ShowProfileBean();
+        ProfileBean bean = new ProfileBean();
         bean.setUserNo("");
         bean.setErrorMessage("");
         bean.setUserName("");
         bean.setMyPageText("");
 
-        req.setAttribute("ShowProfileBean", bean);
+        req.setAttribute("ProfileBean", bean);
         req.getRequestDispatcher("/WEB-INF/jsp/showProfile.jsp").forward(req, res);
     }
 
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
 
         // 初期化
-        ShowProfileBean bean = new ShowProfileBean();
+        ProfileBean bean = new ProfileBean();
         ShowProfileModel model = new ShowProfileModel();
         String direction = "/WEB-INF/jsp/showProfile.jsp";
 
@@ -48,7 +48,7 @@ public class ShowProfileServlet extends HttpServlet {
 
         //対象ユーザーの会員番号をパラメータに保持しているかチェック
         if(userNo == null) {
-            bean.setErrorMessage("ユーザーを読み込めません。");
+            bean.setErrorMessage("ユーザー情報を取得できません。");
         }else {
             bean.setUserName(userName);
             bean.setMyPageText(myPageText);
@@ -60,7 +60,7 @@ public class ShowProfileServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        req.setAttribute("showProfileBean", bean);
+        req.setAttribute("ProfileBean", bean);
 
         // 取得に成功した場合セッション情報をセット
         if ("".equals(bean.getErrorMessage())) {
