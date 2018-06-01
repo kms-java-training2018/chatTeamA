@@ -6,10 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import bean.ShowProfileBean;
+import bean.ProfileBean;
 
 public class ShowProfileModel {
-    public ShowProfileBean authentication(ShowProfileBean bean) {
+    public ProfileBean authentication(ProfileBean bean) {
         // 初期化
         StringBuilder sb = new StringBuilder();
         String userNo = bean.getUserNo();
