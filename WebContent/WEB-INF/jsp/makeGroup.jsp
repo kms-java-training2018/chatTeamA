@@ -16,13 +16,13 @@ page import="java.util.ArrayList"%>
   <form action="/chat/makeGroup" method="POST">
     <p>グループの名前</p>
     <input type="text" name="groupName"value=''>
-    <p><font size="5" color="red">${error }</font></p>
+    <p><font size="5" color="red">${error}</font></p>
       <button type='submit' name='action' value="Make">選択したユーザーでグループを作成する</button>
     <table border="1">
-      <tr>
+      <tr align="center">
         <th>全ユーザーリスト</th>
       </tr>
-      <c:forEach var="obj" items="${groupBean.userName}" varStatus="status">
+      <c:forEach var="obj" items="${MakeGroupBean.userName}" varStatus="status">
         <tr>
           <td><input type="checkbox" name="userNo"
             value="${status.index}"> <c:out value="${obj}" /></td>
