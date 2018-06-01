@@ -41,7 +41,7 @@ public class MyPageModel {
             sb.append("FROM ");
             sb.append(" m_user ");
             sb.append("WHERE ");
-            sb.append(" user_no = 25");
+            sb.append(" user_no = 25 ");
 
             // SQL実行
             Statement stmt = conn.createStatement();

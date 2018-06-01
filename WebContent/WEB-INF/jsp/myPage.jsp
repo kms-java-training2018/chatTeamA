@@ -11,10 +11,10 @@
   <h1>チャット研修プログラム</h1>
   <h2>マイページ</h2>
   <p>表示名</p>
-  <input size="55" type="text" name="userName" value="${bean.userName}">
+  <input size="55" type="text" name="userName" value="${bean.UserName}">
   <br>
   <p>自己紹介</p>
-  <textarea name="myPageText" rows="4" cols="43" value="${bean.myPageText}"></textarea>
+  <textarea name="myPageText" rows="4" cols="43" value="${bean.MyPageText}"></textarea>
   <br>
   <br>
   <br>

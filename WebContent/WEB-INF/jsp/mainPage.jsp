@@ -5,26 +5,32 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>main page</title>
+<title>Insert title here</title>
 </head>
 <body>
+  <script src="./directMessage.js"></script>
   <h1>チャット研修プログラム</h1>
-  <h2>メインメニュー</h2>
-  <br>■会員一覧
-  <br>
-  <a href="/chat/directMessage">他会員名（メッセージへ）</a>
-  <br>■グループ一覧
-  <br>
-  <a href="/chat/groupMessage">グループ名（グループメッセージへ）</a>
-  <br>
-  <br>
-  <form action="/chat/makeGroup" method="POST">
-    <input type="submit" value="グループの作成">
-  </form>
-  <form action="/chat/myPage" method="GET">
-    <input type="submit" value="プロフィール画面へ">
-  </form>
+  <h2>メッセージ</h2>
+  <div
+    style="padding: 10px; margin-bottom: 10px; border: 5px double #333333; border-radius: 10px;">
+    あなた：メッセージのサンプルだよー（｀・ω・´）
+    <form action="/chat/directMessage" method="POST">
+      <input type="submit" value="削除" onClick="return confirm('削除しますか？')">
+    </form>
+  </div>
 
 
+  <br>
+  <a href="/chat/showProfile">あいて</a>：いえーい（｀・ω・´）
+  <br>
+  <br>
+
+  <form action="/chat/directMessage" method="POST">
+    <input type="text" name="message"> <input type="submit"
+      value="メッセージの送信">
+  </form>
+  <form action="/chat/main" method="POST">
+    <input type="submit" value="メインメニューへ戻る">
+  </form>
 </body>
 </html>

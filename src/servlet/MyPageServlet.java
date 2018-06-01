@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import bean.ProfileBean;
 import model.MyPageModel;
@@ -16,7 +17,7 @@ public class MyPageServlet extends HttpServlet {
 
         // Beanの初期化
         ProfileBean bean = new ProfileBean();
-        bean.setUserNo("");
+        bean.setUserNo("25");
         bean.setErrorMessage("");
         bean.setUserName("");
         bean.setMyPageText("");
@@ -29,19 +30,16 @@ public class MyPageServlet extends HttpServlet {
         String userName = (String) req.getParameter("userName");
         String myPageText = (String) req.getParameter("myPageText");
 
-        /**
-         * パラメータチェック(セッションの存在チェック)
+        //パラメータチェック(セッションの存在チェック)
         HttpSession session = req.getSession();
-        if(session != null) {}
-        */
 
-        bean.setUserNo("25");
-
-        //プロフィール情報をModelから取得
-        try{
-            bean = model.authentication(bean);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(session != null) {
+            //プロフィール情報をModelから取得
+            try{
+                bean = model.authentication(bean);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         req.setAttribute("ProfileBean", bean);
         req.getRequestDispatcher("/WEB-INF/jsp/myPage.jsp").forward(req, res);
