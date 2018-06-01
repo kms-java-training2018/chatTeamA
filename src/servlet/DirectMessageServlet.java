@@ -56,7 +56,7 @@ public class DirectMessageServlet extends HttpServlet {
         //送信対象者番号
         String toSendUserNo = "";
 
-        //存在しなければエラー画面へ遷移
+        //--存在しなければエラー画面へ遷移--//
         if (toSendUserNo.equals(null)) {
             direction = "/error";
         }
@@ -67,7 +67,7 @@ public class DirectMessageServlet extends HttpServlet {
 
         //--セッション情報の会員番号と、送信対象者の会員番号を条件に会話情報取得する処理--//
         try {
-            bean = model.authentication(bean);
+            bean = model.authentication1(bean);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -82,50 +82,86 @@ public class DirectMessageServlet extends HttpServlet {
         */
 
         /*
-         * パラメータチェック
+         * （1）パラメータチェック
          */
 
         //メッセージ画面で入力された情報を取得
-        String message = req.getParameter("name1");
+        String message = req.getParameter("message");
 
-        //--パラメータチェック--//
+        //--(1)-1 パラメータチェック--//
+        //--(1)-2 チェックでエラーが発生した場合,エラーメッセージを設定して、//
+        //メッセージ画面に遷移する。--//
+
         //未入力の場合
-        if(message == null) {
+        if (message == null) {
 
             //エラーメッセージ設定
             bean.setErrorMessage("メッセージを入力してください");
 
             //メッセージ画面へ遷移
 
-
-
-        //桁数チェック
-
-        } else if(message.length() > 1) {
+            //桁数チェック
+        } else if (message.length() > 100) {
 
             //エラーメッセージ設定
             bean.setErrorMessage("メッセージが長すぎます");
 
             //メッセージ画面へ遷移
 
-
         }
 
         //--パラメータチェック完了--//
+        bean.setMessage(message);
+
+        /*
+         * (2) 会話情報登録処理
+         */
+
+        //--(2)-1 セッション情報の会員番号を条件に、内容を登録する。--//
+        try {
+            bean = model.authentication2(bean);
+
+            //--(2)-2 エラーメッセージがセットされていた場合はエラー画面へ--//
+            if (bean.getErrorMessage() != null) {
+                direction = "/error";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        /**
+        *
+        *メッセージ削除処理
+        *【処理概要】
+        *メッセージ画面で削除ボタンを押したときに実行される処理。
+        *ダイアログで論理削除確認後、会話情報を論理削除する。
+        *
+        */
+
+        /*
+         * 確認ダイアログ表示処理
+         */
+
+        //確認ダイアログをJSで表示する
+        //OKが押下された場合以下の処理へ進む
+
+        /*
+         * 会話情報論理削除処理
+         */
+
+        //セッション情報の会員番号を条件に会話情報を論理削除する
+        try {
+            bean = model.authentication3(bean);
+
+          //レコードを論理削除できなかった場合
+            if (bean.getErrorMessage() != null) {
+                direction = "/error";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
-
-        //        // 取得に成功した場合セッション情報をセット
-        //        if ("".equals(bean.getErrorMessage())) {
-        //            SessionBean sessionBean = new SessionBean();
-        //            sessionBean.setUserName(bean.getUserName());
-        //            sessionBean.setUserNo(bean.getUserNo());
-        //            HttpSession session = req.getSession();
-        //            session.setAttribute("session", sessionBean);
-        //
-        //            // 行き先を次の画面に
-        //            direction = "/directMessage";
-        //        }
         req.getRequestDispatcher(direction).forward(req, res);
         return;
     }
