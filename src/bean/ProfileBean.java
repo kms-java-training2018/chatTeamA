@@ -1,6 +1,6 @@
 package bean;
 
-public class ShowProfileBean {
+public class ProfileBean {
 
     /** 会員番号 */
     private String userNo;

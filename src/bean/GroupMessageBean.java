@@ -19,9 +19,9 @@ public class GroupMessageBean {
     /** エラーフラグ */
     private boolean errFlag;
 
-    /** 次の数字 */
-    private String nextNo;
-    
+    /** メッセージ番号 */
+    private String messageNo;
+
     /** メッセージ*/
     private String message;
 
@@ -73,19 +73,19 @@ public class GroupMessageBean {
         this.errFlag = errFlag;
     }
 
-    public String getNextNo() {
-        return nextNo;
+    public String getMessageNo() {
+        return messageNo;
     }
 
-    public void setNextNo(String nextNo) {
-        this.nextNo = nextNo;
+    public void setMessageNo(String messageNo) {
+        this.messageNo = messageNo;
     }
 
-	public String getMessage() {
-		return message;
-	}
+    public String getMessage() {
+        return message;
+    }
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
+    public void setMessage(String message) {
+        this.message = message;
+    }
 }
