@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -27,12 +28,15 @@ public class DirectMessageServlet extends HttpServlet {
 
 
         // 初期化
-        SessionBean sessionBean = new SessionBean();
+
         DirectMessageBean bean = new DirectMessageBean();
         DirectMessageModel model = new DirectMessageModel();
         String direction = "/WEB-INF/jsp/directMessage.jsp";
+        ArrayList<DirectMessageBean> list = new ArrayList<DirectMessageBean>();
 
-        HttpSession session = req.getSession(false);
+        SessionBean sessionBean = new SessionBean();
+        HttpSession session = req.getSession();
+
 
         /**
          *
@@ -69,7 +73,7 @@ public class DirectMessageServlet extends HttpServlet {
         //--パラメータチェック--//
 
         //送信対象者番号
-        String toSendUserNo = "";
+        String toSendUserNo = "2";
 
         //--存在しなければエラー画面へ遷移--//
         if (toSendUserNo.equals(null)) {
@@ -82,10 +86,13 @@ public class DirectMessageServlet extends HttpServlet {
 
         //--セッション情報の会員番号と、送信対象者の会員番号を条件に会話情報取得する処理--//
         try {
-            bean = model.authentication1(bean);
+            list = model.authentication1(bean);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+      //jspに飛ばす
+        req.setAttribute("list", list);
 
         /**
         *
@@ -188,6 +195,14 @@ public class DirectMessageServlet extends HttpServlet {
                 e.printStackTrace();
             }
 
+        }
+
+
+     // 取得に成功した場合セッション情報をセット
+        if ("".equals(bean.getErrorMessage())) {
+            sessionBean.setUserName(bean.getUserName());
+            sessionBean.setUserNo(bean.getUserNo());
+            session.setAttribute("session", sessionBean);
         }
 
         req.getRequestDispatcher(direction).forward(req, res);
