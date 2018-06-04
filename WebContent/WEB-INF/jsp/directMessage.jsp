@@ -13,17 +13,24 @@
   <h2>メッセージ</h2>
   <div
     style="padding: 10px; margin-bottom: 10px; border: 5px double #333333; border-radius: 10px;">
-    <c:forEach var="bean" items="${list}" varStatus="status">
-    <c:out value="${bean.message}"/><br>
-    あなた：メッセージのサンプルだよー（｀・ω・´）
-    <form action="/chat/directMessage" method="POST"
-      onSubmit="return confirm('削除しますか？')">
-      <input type="submit" name="delete" value="削除">
-    </form>
-      </c:forEach>
+    <c:forEach var="bean" items="${messageList}" varStatus="status">
+      <c:if test="${!bean.myMessageFlag }">
+        <a href="/chat/showProfile">${bean.sendUserName }</a>
+      </c:if>
+      <c:if test="${bean.myMessageFlag }">
+        <c:out value="${bean.sendUserName }" />
+      </c:if>
+      <c:out value="${bean.message}" />
+      <br>
+      <c:if test="${!bean.myMessageFlag }">
+        <form action="/chat/directMessage" method="POST"
+          onSubmit="return confirm('削除しますか？')">
+          <input type="submit" name="delete" value="削除"> <input
+            type="hidden" name="messageNo" value="${bean.messageNo}">
+        </form>
+      </c:if>
+    </c:forEach>
   </div>
-
-
 
   <br>
   <a href="/chat/showProfile">あいて</a>：いえーい（｀・ω・´）

@@ -13,11 +13,11 @@ import bean.DirectMessageBean;
  * メッセージ画面ビジネスロジック
  */
 public class DirectMessageModel {
-    public ArrayList<DirectMessageBean> authentication1(DirectMessageBean bean1) {
+    public ArrayList<DirectMessageBean> getMessage(DirectMessageBean bean) {
         // 初期化
         StringBuilder sb = new StringBuilder();
-        //String userId = bean1.getUserId();
-        //String toSendUserNo = bean1.getPassword();
+        String toSendUserNo = bean.getToSendUserNo();
+        String userNo = bean.getUserNo();
 
         Connection conn = null;
         String url = "jdbc:oracle:thin:@192.168.51.67:1521:XE";
@@ -39,16 +39,18 @@ public class DirectMessageModel {
             //--会員番号と送信者番号、送信対象者番号を紐付けてメッセージ一覧取得--//
             //--該当する送信者と送信対象者の一覧のみを表示--//
             sb.append("SELECT");
-            sb.append(" message");
+            sb.append(" A.send_user_no ");
+            //sb.append(" ,message_no ");
+            sb.append(" ,message");
             sb.append(" FROM");
             sb.append(" t_message_info A");
-            //sb.append(" inner join m_user B");
-            //sb.append(" on A.send_user_no = B.user_no");
+            sb.append(" inner join m_user B");
+            sb.append(" on A.send_user_no = B.user_no");
             //sb.append(" inner join m_user B");
             //sb.append(" on A.to_send_user_no = B.user_no");
             sb.append(" WHERE");
-            sb.append(" to_send_user_no = 2 "); //'" + toSendUserNo + "'
-            sb.append(" AND send_user_no = 1 "); //'" + userId + "'
+            sb.append(" to_send_user_no = '" + toSendUserNo + "'");
+            sb.append(" AND send_user_no = '" + userNo + "'");
             sb.append(" AND delete_flag = 0");
 
             // SQL実行
@@ -57,16 +59,22 @@ public class DirectMessageModel {
 
             //--メッセージの分だけ取得--//
             if (!rs.next()) {
-                bean1.setErrorMessage("メッセージの取得に失敗しました");
+                bean.setErrorMessage("メッセージの取得に失敗しました");
 
             } else {
                 //bean型のlistにメッセージを格納
                 while (rs.next()) {
                     DirectMessageBean directMessage = new DirectMessageBean () ;
                     directMessage.setMessage(rs.getString("message"));
+
+                    if (rs.getString("A.send_user_no").equals(userNo)) {
+                        directMessage.setMyMessageFlag(true);
+                    } else {
+                        directMessage.setMyMessageFlag(false);
+                    }
                     list.add(directMessage);
                 }
-                bean1.setErrorMessage("");
+                bean.setErrorMessage("");
             }
 
             conn.close();
@@ -146,11 +154,13 @@ public class DirectMessageModel {
 
 
     //セッション情報の会員番号を条件に、内容を登録する。
-    public DirectMessageBean authentication2(DirectMessageBean bean2) {
+    public DirectMessageBean messageRegi(DirectMessageBean bean) {
         // 初期化
         StringBuilder sb = new StringBuilder();
-        String message = bean2.getMessage();
-        String messageNo = bean2.getMessageNo();
+        String message = bean.getMessage();
+        String messageNo = bean.getMessageNo();
+        String toSendUserNo = bean.getToSendUserNo();
+        String userNo = bean.getUserNo();
 
 
         Connection conn = null;
@@ -180,9 +190,9 @@ public class DirectMessageModel {
             sb.append(", regist_date)");
             sb.append("values (");
             sb.append("'"+ messageNo +"'");
-            sb.append(", 1");
+            sb.append(", '"+ userNo + "'");
             sb.append(", '" + message + "' ");
-            sb.append(", 2");
+            sb.append(", '"+ toSendUserNo + "'");
             sb.append(", 0");
             sb.append(", sysdate )");
 
@@ -191,7 +201,7 @@ public class DirectMessageModel {
             ResultSet rs = stmt.executeQuery(sb.toString());
 
             if (!rs.next()) {
-                bean2.setErrorMessage("メッセージの登録に失敗しました");
+                bean.setErrorMessage("メッセージの登録に失敗しました");
 
             }
             conn.close();
@@ -206,16 +216,17 @@ public class DirectMessageModel {
             }
         }
 
-        return bean2;
+        return bean;
     }
 
     /*
      * 会話情報論理削除処理
      */
 
-    public DirectMessageBean authentication3(DirectMessageBean bean3) {
+    public DirectMessageBean DeleteMessage(DirectMessageBean bean3 ,String deleteMessageNo) {
         // 初期化
         StringBuilder sb = new StringBuilder();
+
 
         Connection conn = null;
         String url = "jdbc:oracle:thin:@192.168.51.67:1521:XE";
@@ -239,18 +250,12 @@ public class DirectMessageModel {
             sb.append("delete_flag = 1");
             sb.append(", update_date = sysdate ");
             sb.append("where ");
-            sb.append("message_no = 10 ");
-            sb.append("and send_user_no = 1");
+            sb.append("message_no = " + deleteMessageNo);
 
 
             // SQL実行
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sb.toString());
-
-            if (rs.next()) {
-                bean3.setErrorMessage("異常が発生しています");
-
-            }
+            stmt.executeQuery(sb.toString());
 
         } catch (SQLException e) {
             e.printStackTrace();

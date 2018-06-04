@@ -25,6 +25,9 @@ public class DirectMessageBean {
     /** 次の数字 */
     private String messageNo;
 
+    /** 自分のメッセージかどうか */
+    private boolean myMessageFlag;
+
     public String getUserId() {
         return userId;
     }
@@ -87,6 +90,14 @@ public class DirectMessageBean {
 
     public void setMessageNo(String messageNo) {
         this.messageNo = messageNo;
+    }
+
+    public boolean isMyMessageFlag() {
+        return myMessageFlag;
+    }
+
+    public void setMyMessageFlag(boolean myMessageFlag) {
+        this.myMessageFlag = myMessageFlag;
     }
 
 }
