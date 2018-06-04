@@ -17,8 +17,69 @@ public class DirectMessageServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
 
+          /**
+        *
+        *パラメータチェック画面表示処理
+        *【処理概要】
+        *メインメニュー画面で対象ユーザーリンクを押したときに実行される処理。
+        *セッション情報チェック・会話情報取得処理が成功した場合、メッセージ画面に遷移する。
+        *
+        */
+
+        /*
+        * パラメータチェック
+        */
+
+        DirectMessageModel model = new DirectMessageModel();
+        ArrayList<DirectMessageBean> list = new ArrayList<DirectMessageBean>();
+
+        //--セッションの存在チェック--//
+
+        // セッション情報取得
+        HttpSession session = req.getSession();
+        SessionBean sessionBean = new SessionBean();
+        sessionBean = (SessionBean)session.getAttribute("session");
+
+
+
+
+        //--パラメータチェック--//
+        String toSendUserNo = req.getParameter("user_no");
+        String sendUserNo = sessionBean.getUserNo();
+
         DirectMessageBean bean = new DirectMessageBean();
-        req.setAttribute("directMessage", bean);
+        bean.setUserNo(sendUserNo);
+        bean.setToSendUserNo(toSendUserNo);
+
+        //--存在しなければエラー画面へ遷移--//
+        //if (bean,getToSendUserNo()).equals(null)) {
+        // direction = "/error";
+         //}
+
+        /*
+        * 会話情報取得処理
+        */
+
+        //--セッション情報の会員番号と、送信対象者の会員番号を条件に会話情報取得する処理--//
+        try {
+            list = model.getMessage(bean);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //jspに飛ばす
+        req.setAttribute("messageList", list);
+        //req.getRequestDispatcher(direction).forward(req, res);
+
+        // 取得に成功した場合セッション情報をセット
+        if ("".equals(bean.getErrorMessage())) {
+            sessionBean.setUserName(bean.getUserName());
+            sessionBean.setUserNo(bean.getUserNo());
+            session.setAttribute("session", sessionBean);
+        }
+
+        //DirectMessageBean bean = new DirectMessageBean();
+        //req.setAttribute("directMessage", bean);
         req.getRequestDispatcher("/WEB-INF/jsp/directMessage.jsp").forward(req, res);
     }
 
@@ -91,7 +152,7 @@ public class DirectMessageServlet extends HttpServlet {
             bean = model.nextNumCheck(bean);
 
             //登録処理へ
-            bean = model.authentication2(bean);
+            bean = model.messageRegi(bean);
 
             //--(2)-2 エラーメッセージがセットされていた場合はエラー画面へ--//
             if (bean.getErrorMessage() != null) {
@@ -132,7 +193,7 @@ public class DirectMessageServlet extends HttpServlet {
 
             //セッション情報の会員番号を条件に会話情報を論理削除する
             try {
-                bean = model.authentication3(bean, deleteMessageNo);
+                bean = model.DeleteMessage(bean, deleteMessageNo);
 
                 //レコードを論理削除できなかった場合
                 if (bean.getErrorMessage() != null) {
@@ -159,28 +220,23 @@ public class DirectMessageServlet extends HttpServlet {
 
         //--セッションの存在チェック--//
 
-        sessionBean.setUserName("動けデブ");
-        sessionBean.setUserNo("25");
+        //sessionBean.setUserName("動けデブ");
+        //sessionBean.setUserNo("25");
+        //sessionBean.setToSendUserNo("2");
 
-        bean.setUserNo(sessionBean.getUserNo());
-        bean.setToSendUserNo("2");
+        //bean.setUserNo(sessionBean.getUserNo());
+        //bean.setToSendUserNo(sessionBean.getToSendUserNo());
 
-        // パラメータの取得
-        //String userId = (String) req.getParameter("userId");
-        //String password = (String) req.getParameter("password");
 
-        // bean.setUserId(userId);
-        //bean.setPassword(password);
 
         //--パラメータチェック--//
 
-        //送信対象者番号
-        // String toSendUserNo = "2";
+
 
         //--存在しなければエラー画面へ遷移--//
-        // if (toSendUserNo.equals(null)) {
-        // direction = "/error";
-        // }
+        //if (bean,getToSendUserNo()).equals(null)) {
+         //direction = "/error";
+         //}
 
         /*
         * 会話情報取得処理
@@ -188,7 +244,7 @@ public class DirectMessageServlet extends HttpServlet {
 
         //--セッション情報の会員番号と、送信対象者の会員番号を条件に会話情報取得する処理--//
         try {
-            list = model.authentication1(bean);
+            list = model.getMessage(bean);
         } catch (Exception e) {
             e.printStackTrace();
         }
