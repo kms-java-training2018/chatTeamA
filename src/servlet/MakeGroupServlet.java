@@ -35,27 +35,27 @@ public class MakeGroupServlet extends HttpServlet {
         HttpSession session = req.getSession();
         SessionBean sessionBean = new SessionBean();
 
-        //グループビーン、モデルの設定(jspに送る用の空ビーン)
+        //グループビーン、モデルの設定
         MakeGroupBean makeGroupBean = new MakeGroupBean();
         MakeGroupModel groupMake = new MakeGroupModel();
 
-        //セッションに値があるかどうか
+        //セッション判定
         if (session.getAttribute("session") != null) {
 
-            //グループ作成画面から来たかどうかの判断if
+            //正しい画面遷移か
             if (req.getParameter("userNo") != null) {
 
                 //groupmakeにsessionのbean引き継がせる
                 groupMake.setMakeGroupBean((MakeGroupBean) session.getAttribute("MakeGroupBean"));
 
-                //指定されたグループ名をもらう
+                //グループ名をもらう
                 String name = new String(req.getParameter("groupName").getBytes("ISO-8859-1"));
 
-                //入力チェックの返答
+                //入力チェック
                 int bytecheck = 0;
                 bytecheck = makeGroupBean.stringLengthCheck(name);
                 if (bytecheck == 1) {
-                    String message = "文字数が多すぎます";
+                    String message = "文字数がオーバーしています";
 
                     req.setAttribute("error", message);
                     direction = "/WEB-INF/jsp/makeGroup.jsp";
@@ -67,9 +67,10 @@ public class MakeGroupServlet extends HttpServlet {
                     groupMake.setGroupName(name);
 
                     //グループへ登録
-                    String sucsess = groupMake.MakeGroup();
+                    String success = groupMake.MakeGroup();
+                    System.out.println(success);
 
-                    System.out.println(sucsess);
+
 
                     //選択されたユーザーをreqからもらう
 
@@ -79,6 +80,7 @@ public class MakeGroupServlet extends HttpServlet {
 
                     //抜き取った配列をMakeGroupBeanへ送ってグループ作成
                     String message = groupMake.ResistGroup(SelectNo);
+
 
                     direction = "/WEB-INF/jsp/main.jsp";
 

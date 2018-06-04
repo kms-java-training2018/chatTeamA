@@ -74,7 +74,7 @@ public class MakeGroupModel {
 
             while (rs.next()) {
 
-                /* 行からデータを取得 */
+                // 行からデータを取得
                 gb.setUserNo(rs.getString("user_no"));
                 gb.setUserName(rs.getString("user_name"));
                 gb.setErrorMessage("");
@@ -91,7 +91,7 @@ public class MakeGroupModel {
             }
         }
 
-        //受け取った作成者userNameをBeanに渡して処理
+        //受け取った作成者をBeanに渡して処理
         this.autherName = name;
 
         gb.setAuther(autherName);
@@ -130,7 +130,7 @@ public class MakeGroupModel {
             conn = DriverManager.getConnection(url, user, dbPassword);
             Statement stmt = conn.createStatement();
 
-         // 最大値取得
+            // 最大値取得
             sb.append("SELECT ");
             sb.append(" MAX(group_no) ");
             sb.append("FROM ");
@@ -138,7 +138,6 @@ public class MakeGroupModel {
             // SQL実行
             ResultSet rs = stmt.executeQuery(sb.toString());
             // 結果を代入
-            // ArrayList<Integer> maxGroupNoList = new ArrayList<>();
             int maxGroupNo = 0;
             while (rs.next()) {
                 // 値を取得、その次の番号に
@@ -146,7 +145,6 @@ public class MakeGroupModel {
             }
             // 初期化
             sb.delete(0, sb.length());
-
 
             // SQLから会員情報を取得
             sb.append("insert ");
@@ -157,8 +155,8 @@ public class MakeGroupModel {
             sb.append(", REGIST_USER_NO");
             sb.append(", REGIST_DATE");
             sb.append(")");
-            sb.append("values");
-            sb.append("(GROUP_SEQ.NEXTVAL");
+            sb.append("values(");
+            sb.append(" '" + maxGroupNo + "' ");
             sb.append(",'" + groupName + "'");
             sb.append("," + autherNo);
             sb.append(", sysdate)");
@@ -168,13 +166,13 @@ public class MakeGroupModel {
             int rs1 = stmt1.executeUpdate(sb.toString());
 
             if (rs1 == 1) {
-                makeCheck = "Make ok";
+                makeCheck = "作成完了";
             } else {
-                makeCheck = "Make no";
+                makeCheck = "作成失敗";
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            makeCheck = "Make no";
+            makeCheck = "何かしらのエラーにより作成失敗";
         } finally {
             try {
                 conn.close();
@@ -189,8 +187,9 @@ public class MakeGroupModel {
     public String ResistGroup(String[] list) {
         // 初期化
         StringBuilder sb = new StringBuilder();
+        int soloGroupFlag = 0;
 
-        //戻り値として渡す成否メッセージを定義
+        //戻り値として渡すメッセージの定義
         String message = "0";
 
         //受け取ったStringリストからを登録者Listに設定
@@ -260,33 +259,37 @@ public class MakeGroupModel {
             sb1.append(",0");
             sb1.append(", sysdate)");
 
+            rs = stmt.executeQuery(sb1.toString());
+
 
             // 会員登録を行う
 
-            for (int i = 0; i < memberNo.size(); i++) {
-                StringBuilder sb2 = new StringBuilder();
-                sb2.append("insert ");
-                sb2.append(" into ");
-                sb2.append(" T_GROUP_INFO( ");
-                sb2.append("GROUP_NO");
-                sb2.append(", USER_NO ");
-                sb2.append(", OUT_FLAG");
-                sb2.append(", REGIST_DATE");
-                sb2.append(")");
-                sb2.append(" values ");
-                sb2.append("(" + groupNo);
-                sb2.append("," + memberNo.get(i));
-                sb2.append(",0");
-                sb2.append(", sysdate)");
+            if (soloGroupFlag != 1) {
+                for (int i = 0; i < memberNo.size(); i++) {
+                    StringBuilder sb2 = new StringBuilder();
+                    sb2.append("insert ");
+                    sb2.append(" into ");
+                    sb2.append(" T_GROUP_INFO( ");
+                    sb2.append("GROUP_NO");
+                    sb2.append(", USER_NO ");
+                    sb2.append(", OUT_FLAG");
+                    sb2.append(", REGIST_DATE");
+                    sb2.append(")");
+                    sb2.append(" values ");
+                    sb2.append("(" + groupNo);
+                    sb2.append("," + memberNo.get(i));
+                    sb2.append(",0");
+                    sb2.append(", sysdate)");
 
+                    rs = stmt.executeQuery(sb2.toString());
+                }
 
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
-            message = "Resist no";
 
-            // sqlの接続の切断
+            // sqlの接続は絶対に切断
         } finally {
             try {
                 conn.close();
