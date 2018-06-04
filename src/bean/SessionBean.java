@@ -7,6 +7,12 @@ public class SessionBean {
     /** 表示名 */
     private String userName;
 
+    /** 自己紹介文 */
+    private String myPageText;
+
+    /** グループ番号 */
+    private String groupNo;
+
     public String getUserNo() {
         return userNo;
     }
@@ -21,6 +27,22 @@ public class SessionBean {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getMyPageText() {
+        return myPageText;
+    }
+
+    public void setMyPageText(String myPageText) {
+        this.myPageText = myPageText;
+    }
+
+    public String getGroupNo() {
+        return groupNo;
+    }
+
+    public void setGroupNo(String groupNo) {
+        this.groupNo = groupNo;
     }
 
 }

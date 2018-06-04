@@ -96,7 +96,7 @@ public class GroupMessageModel {
             sb.append("WHERE ");
             sb.append(" group_no = '" + groupNo + "'");
             sb.append(" AND user_no = '" + userNo + "'");
-            sb.append(" AND out_flag is null");
+            sb.append(" AND out_flag = 0");
 
             // SQL実行
             Statement stmt = conn.createStatement();
@@ -193,7 +193,7 @@ public class GroupMessageModel {
     /**
      * メッセージ削除
      */
-    public GroupMessageBean DeleteMessage(GroupMessageBean bean) {
+    public GroupMessageBean DeleteMessage(GroupMessageBean bean, String delMessageNo) {
         // 初期化
         StringBuilder sb = new StringBuilder();
         String groupNo = bean.getGroupNo();
@@ -220,11 +220,9 @@ public class GroupMessageModel {
             sb.append(" t_message_info ");
             sb.append("SET ");
             sb.append(" delete_flag = 1 ");
-            sb.append(" update_date = sysdate");
+            sb.append(" ,update_date = sysdate ");
             sb.append("WHERE ");
-            sb.append(" group_no = '" + groupNo + "'");
-            sb.append(" AND user_no = '" + userNo + "'");
-            sb.append(" AND message_no = '" + messageNo + "'");
+            sb.append(" message_no = '" + delMessageNo + "'");
 
             // SQL実行
             Statement stmt = conn.createStatement();
@@ -280,7 +278,7 @@ public class GroupMessageModel {
             sb.append("WHERE ");
             sb.append(" group_no = '" + groupNo + "'");
             sb.append(" AND user_no = '" + userNo + "'");
-            sb.append(" AND out_flag = 1");
+            sb.append(" AND out_flag = 0");
 
             // SQL実行
             Statement stmt = conn.createStatement();
@@ -302,7 +300,7 @@ public class GroupMessageModel {
         return bean;
     }
 
-    public ArrayList<GroupMessageBean> messageCheck(GroupMessageBean bean) {
+    public ArrayList<GroupMessageBean> messageCheck(GroupMessageBean bean, String myUserNo) {
 
         // 初期化
         StringBuilder sb = new StringBuilder();
@@ -325,7 +323,8 @@ public class GroupMessageModel {
 
             // 会員一覧取得処理SQL作成
             sb.append("SELECT ");
-            sb.append(" user_name ");
+            sb.append(" user_no ");
+            sb.append(" ,user_name ");
             sb.append(" ,message_no ");
             sb.append(" ,message ");
             sb.append("FROM ");
@@ -336,6 +335,7 @@ public class GroupMessageModel {
             sb.append(" t_message_info.send_user_no = m_user.user_no ");
             sb.append("WHERE ");
             sb.append(" to_send_group_no ='" + groupNo + "'");
+            sb.append(" AND delete_flag = 0");
 
             // SQL実行
             Statement stmt = conn.createStatement();
@@ -347,6 +347,12 @@ public class GroupMessageModel {
                 myMessage.setMessageNo(rs.getString("message_no"));
                 myMessage.setMessage(rs.getString("message"));
                 myMessage.setSendUserName(rs.getString("user_name"));
+
+                if (rs.getString("user_no").equals(myUserNo)) {
+                    myMessage.setMyMessageFlag(true);
+                } else {
+                    myMessage.setMyMessageFlag(false);
+                }
 
                 list.add(myMessage);
             }
