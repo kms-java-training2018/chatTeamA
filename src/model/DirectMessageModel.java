@@ -39,7 +39,7 @@ public class DirectMessageModel {
             //--会員番号と送信者番号、送信対象者番号を紐付けてメッセージ一覧取得--//
             //--該当する送信者と送信対象者の一覧のみを表示--//
             sb.append("SELECT");
-            sb.append(" A.send_user_no ");
+            sb.append(" A.send_user_no AS sendUserNo");
             //sb.append(" ,message_no ");
             sb.append(" ,message");
             sb.append(" FROM");
@@ -67,7 +67,7 @@ public class DirectMessageModel {
                     DirectMessageBean directMessage = new DirectMessageBean () ;
                     directMessage.setMessage(rs.getString("message"));
 
-                    if (rs.getString("A.send_user_no").equals(userNo)) {
+                    if (rs.getString("sendUserNo").equals(userNo)) {
                         directMessage.setMyMessageFlag(true);
                     } else {
                         directMessage.setMyMessageFlag(false);
@@ -189,16 +189,19 @@ public class DirectMessageModel {
             sb.append(", delete_flag");
             sb.append(", regist_date)");
             sb.append("values (");
-            sb.append("'"+ messageNo +"'");
-            sb.append(", '"+ userNo + "'");
+            sb.append(""+ Integer.valueOf(messageNo) +"");
+            sb.append(", "+ Integer.valueOf(userNo) + "");
             sb.append(", '" + message + "' ");
-            sb.append(", '"+ toSendUserNo + "'");
+            sb.append(", "+ Integer.valueOf(toSendUserNo) + "");
             sb.append(", 0");
             sb.append(", sysdate )");
+
+            System.out.println(sb.toString());
 
             // SQL実行
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sb.toString());
+
 
             if (!rs.next()) {
                 bean.setErrorMessage("メッセージの登録に失敗しました");

@@ -45,6 +45,8 @@ public class MainPageServlet extends HttpServlet {
         ArrayList<MainPageBean> list = new ArrayList<MainPageBean>();
         //ArrayList<String> list2 = new ArrayList<String>();
 
+        sessionBean = (SessionBean) session.getAttribute("session");
+
         //modelの会員番号会員名処理をbean経由で取る
         try {
             list = model.authentication2(bean);

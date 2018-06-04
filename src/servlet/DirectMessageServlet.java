@@ -51,6 +51,7 @@ public class DirectMessageServlet extends HttpServlet {
         bean.setUserNo(sendUserNo);
         bean.setToSendUserNo(toSendUserNo);
 
+
         //--存在しなければエラー画面へ遷移--//
         //if (bean,getToSendUserNo()).equals(null)) {
         // direction = "/error";
@@ -77,6 +78,7 @@ public class DirectMessageServlet extends HttpServlet {
             sessionBean.setUserNo(bean.getUserNo());
             session.setAttribute("session", sessionBean);
         }
+        req.setAttribute("toSendUserNo", toSendUserNo);
 
         //DirectMessageBean bean = new DirectMessageBean();
         //req.setAttribute("directMessage", bean);
@@ -98,6 +100,8 @@ public class DirectMessageServlet extends HttpServlet {
 
         SessionBean sessionBean = new SessionBean();
         HttpSession session = req.getSession();
+        sessionBean = (SessionBean)session.getAttribute("session");
+
 
         /**
         *
@@ -114,6 +118,8 @@ public class DirectMessageServlet extends HttpServlet {
 
         //メッセージ画面で入力された情報を取得
         String message = req.getParameter("message");
+        String toSendUserNo = req.getParameter("toSend");
+
 
         //--(1)-1 パラメータチェック--//
         //--(1)-2 チェックでエラーが発生した場合,エラーメッセージを設定して、//
@@ -139,7 +145,9 @@ public class DirectMessageServlet extends HttpServlet {
         }
 
         //--パラメータチェック完了--//
+        bean.setUserNo(sessionBean.getUserNo());
         bean.setMessage(message);
+        bean.setToSendUserNo(toSendUserNo);
 
         /*
          * (2) 会話情報登録処理
