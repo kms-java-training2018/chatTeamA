@@ -25,6 +25,9 @@ public class GroupMessageBean {
     /** メッセージ*/
     private String message;
 
+    /** 送ったユーザー名 */
+    private String sendUserName;
+
     public String getUserId() {
         return userId;
     }
@@ -87,5 +90,13 @@ public class GroupMessageBean {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getSendUserName() {
+        return sendUserName;
+    }
+
+    public void setSendUserName(String sendUserName) {
+        this.sendUserName = sendUserName;
     }
 }
