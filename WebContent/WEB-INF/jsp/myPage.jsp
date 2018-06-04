@@ -11,14 +11,14 @@
   <h1>チャット研修プログラム</h1>
   <h2>マイページ</h2>
   <p>表示名</p>
-  <input size="55" type="text" name="userName" value="${bean.UserName}">
+  <input size="55" type="text" name="userName" value="${ProfileBean.userName}">
   <br>
   <p>自己紹介</p>
-  <textarea name="myPageText" rows="4" cols="43" value="${bean.MyPageText}"></textarea>
+  <textarea name="myPageText" rows="4" cols="43" ><c:out value="${ProfileBean.myPageText}" /></textarea>
   <br>
   <br>
   <br>
-  <form action="/chat/myPage.jsp" method="POST">
+  <form action="/chat/myPage" method="POST">
     <P>${ProfileBean.errorMessage}</P>
     <input type="submit" value="プロフィールを更新">
   </form>
@@ -26,6 +26,5 @@
   <form action="/chat/main" method="POST">
     <input type="submit" value="メインメニューに戻る">
   </form>
-
 </body>
 </html>
