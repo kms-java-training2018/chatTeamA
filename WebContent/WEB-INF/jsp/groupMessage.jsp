@@ -10,16 +10,26 @@
 <body>
   <h1>チャット研修プログラム</h1>
   <h2>グループメッセージ</h2>
+  <input type="submit" name="escape" value="グループを脱退する">
+  <br>
+  <c:forEach var="bean" items="${list}" varStatus="status">
+    <c:if test="${!bean.myMessageFlag }">
+      <a href="/chat/showProfile">${bean.sendUserName }</a>
+    </c:if>
+    <c:if test="${bean.myMessageFlag }">
+      <c:out value="${bean.sendUserName }" />
+    </c:if>：<c:out value="${bean.message}" />
+    <c:if test="${bean.myMessageFlag}">
+      <form action="/chat/groupMessage" method="POST">
+        <input type="submit" name="delete" value="削除"> 
+        <input type="hidden" name="message_no" value="${bean.messageNo }">
+      </form>
+    </c:if>
+    <br>
+  </c:forEach>
+  <br>
+  <br>
   <form action="/chat/groupMessage" method="POST">
-    <input type="submit" name="escape" value="グループを脱退する">
-    <br>
-    <a href="/chat/showProfile">あいて</a>：グループメッセージのサンプルだよー（´・ω・｀）
-    <br>あなた：がっくし（´・ω・｀）
-    <c:forEach var="bean" items="${list}" varStatus="status">
-    <c:out value="${bean.sendUserName }"></c:out>：<c:out value="${bean.message}"/><br>
-    </c:forEach>
-    <br>
-    <br>
     <input type="text" name="message" value="${groupMessageBean.message}">
     <input type="submit" name="sendMessage" value="メッセージの送信">
   </form>

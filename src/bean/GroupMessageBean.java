@@ -28,6 +28,9 @@ public class GroupMessageBean {
     /** 送ったユーザー名 */
     private String sendUserName;
 
+    /** 表示フラグ */
+    private boolean myMessageFlag;
+
     public String getUserId() {
         return userId;
     }
@@ -98,5 +101,13 @@ public class GroupMessageBean {
 
     public void setSendUserName(String sendUserName) {
         this.sendUserName = sendUserName;
+    }
+
+    public boolean isMyMessageFlag() {
+        return myMessageFlag;
+    }
+
+    public void setMyMessageFlag(boolean myMessageFlag) {
+        this.myMessageFlag = myMessageFlag;
     }
 }
