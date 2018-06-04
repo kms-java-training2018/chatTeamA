@@ -39,7 +39,6 @@ public class MakeGroupModel {
         }
 
         public void checkinName(String name) {
-
         }
 
         //ユーザー一覧を出すメソッド
@@ -48,7 +47,7 @@ public class MakeGroupModel {
             StringBuilder sb = new StringBuilder();
 
             Connection conn = null;
-            String url = "jdbc:oracle:thin:@192.168.51.67";
+            String url = "jdbc:oracle:thin:@192.168.51.67:1521:XE";
             String user = "DEV_TEAM_A";
             String dbPassword = "A_DEV_TEAM";
 
@@ -116,7 +115,7 @@ public class MakeGroupModel {
 
             //DB接続
             Connection conn = null;
-            String url = "jdbc:oracle:thin:@192.168.51.67";
+            String url = "jdbc:oracle:thin:@192.168.51.67:1521:XE";
             String user = "DEV_TEAM_A";
             String dbPassword = "A_DEV_TEAM";
 
@@ -190,7 +189,7 @@ public class MakeGroupModel {
 
             //DB接続
             Connection conn = null;
-            String url = "jdbc:oracle:thin:@192.168.51.67";
+            String url = "jdbc:oracle:thin:@192.168.51.67:1521:XE";
             String user = "DEV_TEAM_A";
             String dbPassword = "A_DEV_TEAM";
 

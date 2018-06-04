@@ -45,7 +45,7 @@ public class MakeGroupServlet extends HttpServlet {
             //グループ作成画面から来たかどうかの判断if
             if (req.getParameter("userNo") != null) {
 
-                //groupcreateにsessionのbean引き継がせる
+                //groupmakeにsessionのbean引き継がせる
                 groupMake.setMakeGroupBean((MakeGroupBean) session.getAttribute("MakeGroupBean"));
 
                 //指定されたグループ名をもらう
