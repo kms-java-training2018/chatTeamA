@@ -1,13 +1,16 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import bean.DirectMessageBean;
+import bean.SessionBean;
 import model.DirectMessageModel;
 
 public class DirectMessageServlet extends HttpServlet {
@@ -19,10 +22,21 @@ public class DirectMessageServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
 
+        //文字コード設定
+        res.setContentType("text/html; charset=UTF-8");
+        req.setCharacterEncoding("UTF-8");
+
+
         // 初期化
+
         DirectMessageBean bean = new DirectMessageBean();
         DirectMessageModel model = new DirectMessageModel();
         String direction = "/WEB-INF/jsp/directMessage.jsp";
+        ArrayList<DirectMessageBean> list = new ArrayList<DirectMessageBean>();
+
+        SessionBean sessionBean = new SessionBean();
+        HttpSession session = req.getSession();
+
 
         /**
          *
@@ -44,6 +58,11 @@ public class DirectMessageServlet extends HttpServlet {
         //direction = "/error";
         //}
 
+        sessionBean.setUserName("動けデブ");
+        sessionBean.setUserNo("25");
+
+        bean.setUserNo(sessionBean.getUserNo());
+
         // パラメータの取得
         String userId = (String) req.getParameter("userId");
         String password = (String) req.getParameter("password");
@@ -54,7 +73,7 @@ public class DirectMessageServlet extends HttpServlet {
         //--パラメータチェック--//
 
         //送信対象者番号
-        String toSendUserNo = "";
+        String toSendUserNo = "2";
 
         //--存在しなければエラー画面へ遷移--//
         if (toSendUserNo.equals(null)) {
@@ -67,10 +86,13 @@ public class DirectMessageServlet extends HttpServlet {
 
         //--セッション情報の会員番号と、送信対象者の会員番号を条件に会話情報取得する処理--//
         try {
-            bean = model.authentication1(bean);
+            list = model.authentication1(bean);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+      //jspに飛ばす
+        req.setAttribute("list", list);
 
         /**
         *
@@ -119,15 +141,23 @@ public class DirectMessageServlet extends HttpServlet {
 
         //--(2)-1 セッション情報の会員番号を条件に、内容を登録する。--//
         try {
+
+            //会話番号をカウントし次の番号へ
+            bean = model.nextNumCheck(bean);
+
+            //登録処理へ
             bean = model.authentication2(bean);
 
             //--(2)-2 エラーメッセージがセットされていた場合はエラー画面へ--//
             if (bean.getErrorMessage() != null) {
                 direction = "/error";
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        //成功した場合、そのままメッセージ画面表示
 
         /**
         *
@@ -145,22 +175,35 @@ public class DirectMessageServlet extends HttpServlet {
         //確認ダイアログをJSで表示する
         //OKが押下された場合以下の処理へ進む
 
-        /*
-         * 会話情報論理削除処理
-         */
+        //String delete = req.getParameter("delete");
 
-        //セッション情報の会員番号を条件に会話情報を論理削除する
-        try {
-            bean = model.authentication3(bean);
+        if (req.getParameter("delete") != null) {
 
-          //レコードを論理削除できなかった場合
-            if (bean.getErrorMessage() != null) {
-                direction = "/error";
+            /*
+             * 会話情報論理削除処理
+             */
+
+            //セッション情報の会員番号を条件に会話情報を論理削除する
+            try {
+                bean = model.authentication3(bean);
+
+                //レコードを論理削除できなかった場合
+                if (bean.getErrorMessage() != null) {
+                    direction = "/error";
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+
         }
 
+
+     // 取得に成功した場合セッション情報をセット
+        if ("".equals(bean.getErrorMessage())) {
+            sessionBean.setUserName(bean.getUserName());
+            sessionBean.setUserNo(bean.getUserNo());
+            session.setAttribute("session", sessionBean);
+        }
 
         req.getRequestDispatcher(direction).forward(req, res);
         return;

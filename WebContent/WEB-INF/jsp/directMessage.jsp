@@ -13,11 +13,16 @@
   <h2>メッセージ</h2>
   <div
     style="padding: 10px; margin-bottom: 10px; border: 5px double #333333; border-radius: 10px;">
+    <c:forEach var="bean" items="${list}" varStatus="status">
+    <c:out value="${bean.message}"/><br>
     あなた：メッセージのサンプルだよー（｀・ω・´）
-    <form action="/chat/directMessage" method="POST">
-      <input type="submit" value="削除" onClick="return confirm('削除しますか？')">
+    <form action="/chat/directMessage" method="POST"
+      onSubmit="return confirm('削除しますか？')">
+      <input type="submit" name="delete" value="削除">
     </form>
+      </c:forEach>
   </div>
+
 
 
   <br>

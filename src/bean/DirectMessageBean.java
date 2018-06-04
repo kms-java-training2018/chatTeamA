@@ -22,6 +22,9 @@ public class DirectMessageBean {
     /**メッセージ内容 */
     private String message;
 
+    /** 次の数字 */
+    private String messageNo;
+
     public String getUserId() {
         return userId;
     }
@@ -76,6 +79,14 @@ public class DirectMessageBean {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getMessageNo() {
+        return messageNo;
+    }
+
+    public void setMessageNo(String messageNo) {
+        this.messageNo = messageNo;
     }
 
 }
