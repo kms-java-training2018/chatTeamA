@@ -191,8 +191,8 @@ public class MakeGroupModel {
             //DB接続
             Connection conn = null;
             String url = "jdbc:oracle:thin:@192.168.51.67";
-            String user = "DEV_TEAM_C";
-            String dbPassword = "C_DEV_TEAM";
+            String user = "DEV_TEAM_A";
+            String dbPassword = "A_DEV_TEAM";
 
             // JDBCドライバーのロード
             try {
