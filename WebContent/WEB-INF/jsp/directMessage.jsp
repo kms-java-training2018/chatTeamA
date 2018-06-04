@@ -11,19 +11,18 @@
   <script src="./directMessage.js"></script>
   <h1>チャット研修プログラム</h1>
   <h2>メッセージ</h2>
-  <div
+   <div
     style="padding: 10px; margin-bottom: 10px; border: 5px double #333333; border-radius: 10px;">
-    <c:forEach var="bean" items="${list}" varStatus="status">
+    <c:forEach var="bean" items="${messageList}" varStatus="status">
     <c:out value="${bean.message}"/><br>
     あなた：メッセージのサンプルだよー（｀・ω・´）
     <form action="/chat/directMessage" method="POST"
       onSubmit="return confirm('削除しますか？')">
       <input type="submit" name="delete" value="削除">
+      <input type="hidden" name="messageNo" value="${bean.messageNo}">
     </form>
       </c:forEach>
-  </div>
-
-
+   </div>
 
   <br>
   <a href="/chat/showProfile">あいて</a>：いえーい（｀・ω・´）

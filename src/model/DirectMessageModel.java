@@ -16,8 +16,6 @@ public class DirectMessageModel {
     public ArrayList<DirectMessageBean> authentication1(DirectMessageBean bean1) {
         // 初期化
         StringBuilder sb = new StringBuilder();
-        //String userId = bean1.getUserId();
-        //String toSendUserNo = bean1.getPassword();
 
         Connection conn = null;
         String url = "jdbc:oracle:thin:@192.168.51.67:1521:XE";
@@ -213,9 +211,10 @@ public class DirectMessageModel {
      * 会話情報論理削除処理
      */
 
-    public DirectMessageBean authentication3(DirectMessageBean bean3) {
+    public DirectMessageBean authentication3(DirectMessageBean bean3 ,String deleteMessageNo) {
         // 初期化
         StringBuilder sb = new StringBuilder();
+
 
         Connection conn = null;
         String url = "jdbc:oracle:thin:@192.168.51.67:1521:XE";
@@ -239,8 +238,8 @@ public class DirectMessageModel {
             sb.append("delete_flag = 1");
             sb.append(", update_date = sysdate ");
             sb.append("where ");
-            sb.append("message_no = 10 ");
-            sb.append("and send_user_no = 1");
+            sb.append("message_no = " + deleteMessageNo);
+            sb.append(" and send_user_no = 1");
 
 
             // SQL実行
