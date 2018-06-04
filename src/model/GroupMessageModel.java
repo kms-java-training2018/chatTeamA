@@ -300,6 +300,60 @@ public class GroupMessageModel {
         return bean;
     }
 
+    public GroupMessageBean registCheck(GroupMessageBean bean,String myUserNo) {
+
+        // 初期化
+        StringBuilder sb = new StringBuilder();
+        String groupNo = bean.getGroupNo();
+        String userNo = bean.getUserNo();
+
+        Connection conn = null;
+        String url = "jdbc:oracle:thin:@192.168.51.67:1521:XE";
+        String user = "DEV_TEAM_A";
+        String dbPassword = "A_DEV_TEAM";
+        // JDBCドライバーのロード
+        try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+        } catch (ClassNotFoundException e) {
+            bean.setErrFlag(true);
+            e.printStackTrace();
+        }
+        // 接続作成
+        try {
+            conn = DriverManager.getConnection(url, user, dbPassword);
+
+            // SQL作成
+            sb.append("SELECT ");
+            sb.append(" regist_user_no ");
+            sb.append("FROM ");
+            sb.append(" m_group ");
+            sb.append("WHERE ");
+            sb.append(" group_no = '" + groupNo + "'");
+
+            // SQL実行
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sb.toString());
+            rs.next();
+            if(rs.getString("regist_user_no").equals(myUserNo)) {
+                bean.setErrFlag(true);
+            }
+
+            conn.close();
+
+        } catch (SQLException e) {
+            bean.setErrFlag(true);
+            e.printStackTrace();
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return bean;
+    }
+
     public ArrayList<GroupMessageBean> messageCheck(GroupMessageBean bean, String myUserNo) {
 
         // 初期化
