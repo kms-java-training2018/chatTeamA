@@ -9,12 +9,14 @@ import java.sql.Statement;
 import bean.ProfileBean;
 
 public class MyPageModel {
-    public ProfileBean authentication(ProfileBean bean) {
+    public ProfileBean authentication(ProfileBean bean2) {
         // 初期化
+        //bean1 = SesstionBean, bean2 = ProfileBean
+//        SessionBean bean1 = new SessionBean();
         StringBuilder sb = new StringBuilder();
-        String userNo = bean.getUserNo();
-        String userName = bean.getUserName();
-        String myPageText = bean.getMyPageText();
+        String userNo = bean2.getUserNo();
+//        String userName;
+//        String myPageText;
 
         // DB
         Connection conn = null;
@@ -26,7 +28,7 @@ public class MyPageModel {
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
         } catch (ClassNotFoundException e) {
-            bean.setErrorMessage("データベースと接続出来ませんでした");
+            bean2.setErrorMessage("データベースと接続出来ませんでした");
             e.printStackTrace();
         }
 
@@ -49,15 +51,14 @@ public class MyPageModel {
 
             //取得したデータをbeanにセット
             if (!rs.next()) {
-                bean.setErrorMessage("ユーザーが存在しません。");
+                bean2.setErrorMessage("ユーザーが存在しません。");
             } else {
-                bean.setUserName(rs.getString("user_name"));
-                bean.setMyPageText(rs.getString("my_page_text"));
-                bean.setErrorMessage("");
-                conn.close();
+                bean2.setUserName(rs.getString("user_name"));
+                bean2.setMyPageText(rs.getString("my_page_text"));
+                bean2.setErrorMessage("");
             }
         } catch (SQLException e) {
-            bean.setErrorMessage("ユーザー情報を取得できません。");
+            bean2.setErrorMessage("ユーザー情報を取得できません。");
             e.printStackTrace();
         //処理終了後、接続を切断
         } finally {
@@ -67,16 +68,16 @@ public class MyPageModel {
                 e.printStackTrace();
             }
         }
-        return bean;
+        return bean2;
     }
 
-    public ProfileBean authentication2(ProfileBean bean) {
+    public ProfileBean authentication2(ProfileBean bean2) {
 
         // 初期化
         StringBuilder sb = new StringBuilder();
-        String userNo = bean.getUserNo();
-        String userName = bean.getUserName();
-        String myPageText = bean.getMyPageText();
+        String userNo = bean2.getUserNo();
+        String userName = bean2.getUserName();
+        String myPageText = bean2.getMyPageText();
 
         // DB
         Connection conn = null;
@@ -88,7 +89,7 @@ public class MyPageModel {
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
         } catch (ClassNotFoundException e) {
-            bean.setErrorMessage("データベースと接続出来ませんでした");
+            bean2.setErrorMessage("データベースと接続出来ませんでした");
             e.printStackTrace();
         }
 
@@ -110,15 +111,15 @@ public class MyPageModel {
             ResultSet rs = stmt.executeQuery(sb.toString());
 
             if (!rs.next()) {
-                bean.setErrorMessage("ユーザーが存在しません。");
+                bean2.setErrorMessage("ユーザーが存在しません。");
             } else {
-                bean.setUserName(rs.getString("user_name"));
-                bean.setMyPageText(rs.getString("my_page_text"));
-                bean.setErrorMessage("");
+                bean2.setUserName(rs.getString("user_name"));
+                bean2.setMyPageText(rs.getString("my_page_text"));
+                bean2.setErrorMessage("");
                 conn.close();
             }
         } catch (SQLException e) {
-            bean.setErrorMessage("プロフィールを更新できませんでした。");
+            bean2.setErrorMessage("プロフィールを更新できませんでした。");
             e.printStackTrace();
         } finally {
             try {
@@ -127,6 +128,6 @@ public class MyPageModel {
                 e.printStackTrace();
             }
         }
-        return bean;
+        return bean2;
     }
 }
