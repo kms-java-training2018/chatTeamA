@@ -29,7 +29,7 @@ public class GroupMessageServlet extends HttpServlet {
 
         bean.setUserNo(sessionBean.getUserNo());
         bean.setUserName(sessionBean.getUserName());
-        bean.setGroupNo("12");
+        bean.setGroupNo("17");
 
      // グループ番号チェック
         try {
@@ -83,7 +83,7 @@ public class GroupMessageServlet extends HttpServlet {
 
         bean.setUserNo(sessionBean.getUserNo());
         bean.setUserName(sessionBean.getUserName());
-        bean.setGroupNo("12");
+        bean.setGroupNo("17");
 
      // グループ番号チェック
         try {
@@ -113,7 +113,7 @@ public class GroupMessageServlet extends HttpServlet {
                 bean.setErrFlag(true);
             } else {
 
-                bean.setGroupNo("12"); // せっしょんからグループ
+                //bean.setGroupNo("12"); // せっしょんからグループ
 
                 /*try {
                     bean = model.groupCheck(bean);
@@ -161,7 +161,7 @@ public class GroupMessageServlet extends HttpServlet {
             }*/
             //bean.setGroupNo("12"); // せっしょんからグループ
             bean = model.escapeGroup(bean);
-            direction = "/WEB-INF/jsp/login.jsp";
+            direction = "/main";
         }
 
         if (bean.isErrFlag()) {
