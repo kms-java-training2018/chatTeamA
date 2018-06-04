@@ -36,7 +36,7 @@ public class MakeGroupServlet extends HttpServlet {
         SessionBean sessionBean = new SessionBean();
 
         //グループビーン、モデルの設定(jspに送る用の空ビーン)
-        MakeGroupBean MakeGroupBean = new MakeGroupBean();
+        MakeGroupBean makeGroupBean = new MakeGroupBean();
         MakeGroupModel groupMake = new MakeGroupModel();
 
         //セッションに値があるかどうか
@@ -53,7 +53,7 @@ public class MakeGroupServlet extends HttpServlet {
 
                 //入力チェックの返答
                 int bytecheck = 0;
-                bytecheck = MakeGroupBean.stringLengthCheck(name);
+                bytecheck = makeGroupBean.stringLengthCheck(name);
                 if (bytecheck == 1) {
                     String message = "文字数が多すぎます";
 
@@ -91,10 +91,10 @@ public class MakeGroupServlet extends HttpServlet {
                 String autherName = sessionBean.getUserName();
 
                 //空のビーンにつめる
-                MakeGroupBean = groupMake.authentication(autherName);
+                makeGroupBean = groupMake.authentication(autherName);
 
                 //jspに送る
-                session.setAttribute("MakeGroupBean", MakeGroupBean);
+                session.setAttribute("MakeGroupBean", makeGroupBean);
                 direction = "/WEB-INF/jsp/makeGroup.jsp";
             }
 
