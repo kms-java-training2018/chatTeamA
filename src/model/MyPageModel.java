@@ -28,7 +28,7 @@ public class MyPageModel {
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
         } catch (ClassNotFoundException e) {
-            bean2.setErrorMessage("データベースと接続出来ませんでした");
+            bean2.setErrorMessage("データベースに接続出来ませんでした");
             e.printStackTrace();
         }
 
@@ -55,7 +55,7 @@ public class MyPageModel {
             } else {
                 bean2.setUserName(rs.getString("user_name"));
                 bean2.setMyPageText(rs.getString("my_page_text"));
-                bean2.setErrorMessage("");
+
             }
         } catch (SQLException e) {
             bean2.setErrorMessage("ユーザー情報を取得できません。");
@@ -89,7 +89,7 @@ public class MyPageModel {
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
         } catch (ClassNotFoundException e) {
-            bean2.setErrorMessage("データベースと接続出来ませんでした");
+            bean2.setErrorMessage("データベースに接続出来ませんでした");
             e.printStackTrace();
         }
 
@@ -108,18 +108,14 @@ public class MyPageModel {
 
             // SQL実行
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sb.toString());
+            int resultCount = stmt.executeUpdate(sb.toString());
 
-            if (!rs.next()) {
-                bean2.setErrorMessage("ユーザーが存在しません。");
-            } else {
-                bean2.setUserName(rs.getString("user_name"));
-                bean2.setMyPageText(rs.getString("my_page_text"));
-                bean2.setErrorMessage("");
-                conn.close();
+
+            if (resultCount == 0) {
+                bean2.setErrorMessage("更新処理に失敗しました。"); // 処理に失敗のメッセージ
             }
         } catch (SQLException e) {
-            bean2.setErrorMessage("プロフィールを更新できませんでした。");
+            bean2.setErrorMessage("更新処理に失敗しました。");
             e.printStackTrace();
         } finally {
             try {

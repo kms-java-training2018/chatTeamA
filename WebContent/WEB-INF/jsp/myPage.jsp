@@ -11,6 +11,7 @@
   <h1>チャット研修プログラム</h1>
   <h2>マイページ</h2>
   <p>表示名</p>
+  <form action="/chat/myPage" method="POST">
   <input size="55" type="text" name="userName" value="${ProfileBean.userName}">
   <br>
   <p>自己紹介</p>
@@ -18,9 +19,9 @@
   <br>
   <br>
   <br>
-  <form action="/chat/myPage" method="POST">
     <P>${ProfileBean.errorMessage}</P>
     <input type="submit" value="プロフィールを更新">
+    <input type="hidden" name="userNo" value="${ProfileBean.userNo}">
   </form>
   <br>
   <form action="/chat/main" method="POST">

@@ -57,6 +57,10 @@ public class MyPageServlet extends HttpServlet {
 
     public void doPost (HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
 
+        //文字コード設定
+        res.setContentType("text/html; charset=UTF-8");
+        req.setCharacterEncoding("UTF-8");
+
         // 初期化
         SessionBean bean1 = new SessionBean();
         ProfileBean bean2 = new ProfileBean();
@@ -64,12 +68,12 @@ public class MyPageServlet extends HttpServlet {
         String direction = "/WEB-INF/jsp/myPage.jsp";
 
         // パラメータの取得
-//        String userNo = (String) req.getParameter("userNo");
+        String userNo = (String) req.getParameter("userNo");
         String userName = (String) req.getParameter("userName");
         String myPageText = (String) req.getParameter("myPageText");
         //Pattern p1 = Pattern.compile("^[0-9a-zA-Z]*$");    //半角英数or空白
         Pattern p = Pattern.compile("^[^-~｡-ﾟ]*$");    //全角
-        Matcher mUserName = p.matcher(userName);
+        Matcher mUserName = p.matcher(userName);    //←エラーここ
         Matcher mMyPageText = p.matcher(myPageText);
 
         //"プロフィールを更新"のリクエスト送信後、入力値チェック
@@ -84,24 +88,40 @@ public class MyPageServlet extends HttpServlet {
         } else {
             bean2.setUserName(userName);
             bean2.setMyPageText(myPageText);
+            bean2.setErrorMessage("");
         }
 
         // 認証処理
-        try {
-            bean2 = model.authentication(bean2);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            bean2 = model.authentication(bean2);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
-        // 取得に成功した場合セッション情報をセット
+        // プロフィール更新処理
+//      try {
+//          bean2 = model.authentication2(bean2);
+//      } catch (Exception e) {
+//          e.printStackTrace();
+//      }
+
+        // 更新処理が成功した場合セッションに情報をセット
+        bean2.setUserNo(userNo);
         if ("".equals(bean2.getErrorMessage())) {
+            try {
+                bean2 = model.authentication2(bean2);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             bean1.setUserName(bean2.getUserName());
             bean1.setMyPageText(bean2.getMyPageText());
             HttpSession session = req.getSession();
             session.setAttribute("session", bean1);
             direction = "/main";
+        }else {
+            bean2 = model.authentication(bean2);
+            req.setAttribute("ProfileBean", bean2);
         }
-
         req.setAttribute("Profile", bean1);
         req.getRequestDispatcher(direction).forward(req, res);
 
