@@ -31,6 +31,9 @@ public class GroupMessageBean {
     /** 表示フラグ */
     private boolean myMessageFlag;
 
+    /** グループアウトフラグ */
+    private boolean groupOutFlag;
+
     public String getUserId() {
         return userId;
     }
@@ -109,5 +112,13 @@ public class GroupMessageBean {
 
     public void setMyMessageFlag(boolean myMessageFlag) {
         this.myMessageFlag = myMessageFlag;
+    }
+
+    public boolean isGroupOutFlag() {
+        return groupOutFlag;
+    }
+
+    public void setGroupOutFlag(boolean groupOutFlag) {
+        this.groupOutFlag = groupOutFlag;
     }
 }

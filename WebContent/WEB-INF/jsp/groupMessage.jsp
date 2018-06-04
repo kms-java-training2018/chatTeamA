@@ -10,19 +10,27 @@
 <body>
   <h1>チャット研修プログラム</h1>
   <h2>グループメッセージ</h2>
-  <input type="submit" name="escape" value="グループを脱退する">
+  <form action="/chat/groupMessage" method="POST">
+    <input type="submit" name="escape" value="グループを脱退する">
+  </form>
   <br>
   <c:forEach var="bean" items="${list}" varStatus="status">
-    <c:if test="${!bean.myMessageFlag }">
-      <a href="/chat/showProfile">${bean.sendUserName }</a>
-    </c:if>
-    <c:if test="${bean.myMessageFlag }">
+    <c:if test="${bean.sendUserName == '送信者不明' }">
       <c:out value="${bean.sendUserName }" />
+    </c:if>
+    <c:if test="${bean.sendUserName != '送信者不明' }">
+      <c:if test="${!bean.myMessageFlag }">
+        <a href="/chat/showProfile">${bean.sendUserName }</a>
+      </c:if>
+
+      <c:if test="${bean.myMessageFlag }">
+        <c:out value="${bean.sendUserName }" />
+      </c:if>
     </c:if>：<c:out value="${bean.message}" />
     <c:if test="${bean.myMessageFlag}">
       <form action="/chat/groupMessage" method="POST">
-        <input type="submit" name="delete" value="削除"> 
-        <input type="hidden" name="message_no" value="${bean.messageNo }">
+        <input type="submit" name="delete" value="削除"> <input
+          type="hidden" name="message_no" value="${bean.messageNo }">
       </form>
     </c:if>
     <br>
