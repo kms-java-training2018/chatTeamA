@@ -1,8 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -11,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import bean.ProfileBean;
-import bean.SessionBean;
 import model.MyPageModel;
 
 public class MyPageServlet extends HttpServlet {
@@ -35,7 +32,6 @@ public class MyPageServlet extends HttpServlet {
 
         //パラメータチェック(セッションの存在チェック)
         HttpSession session = req.getSession();
-
         if(session != null) {
             //プロフィール情報をModelから取得
             try{
@@ -50,7 +46,7 @@ public class MyPageServlet extends HttpServlet {
     }
 
 
-    public void doPost (HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+    /**public void doPost (HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
 
         // 初期化
         ProfileBean bean = new ProfileBean();
@@ -97,5 +93,5 @@ public class MyPageServlet extends HttpServlet {
         req.setAttribute("Profile", bean);
         req.getRequestDispatcher("/WEB-INF/jsp/myPage.jsp").forward(req, res);
 
-    }
+    }**/
 }
