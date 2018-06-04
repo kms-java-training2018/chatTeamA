@@ -53,7 +53,7 @@ public class MakeGroupBean {
 
 
 
-    //作成者Nameの取得
+    //作成者の取得
     public String getAutherName() {
         return autherUserName;
     }
@@ -64,22 +64,22 @@ public class MakeGroupBean {
     }
 
 
-    //全ユーザー名の取得
+    //ユーザーの取得
     public ArrayList<String> getUserName() {
         return userNameList;
     }
 
-    //全ユーザー名の設定
+    //ユーザー名の設定
     public void setUserName(String userName) {
         userNameList.add(userName);
     }
 
-    //全会員番号の取得
+    //会員番号の取得
     public ArrayList<String> getUserNo() {
         return userNumList;
     }
 
-    //全会員番号の設定
+    //会員番号の設定
     public void setUserNo(String userNo) {
         userNumList.add(userNo);
     }

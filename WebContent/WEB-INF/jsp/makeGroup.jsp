@@ -8,21 +8,24 @@ page import="java.util.ArrayList"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>グループ作成</title>
 </head>
 <body>
   <h1>チャット研修プログラム</h1>
   <h2>グループ作成</h2>
   <form action="/chat/makeGroup" method="POST">
-    <p>グループの名前</p>
-    <input type="text" name="groupName"value=''>
-    <p><font size="5" color="red">${error}</font></p>
-      <button type='submit' name='action' value="Make">選択したユーザーでグループを作成する</button>
-    <table border="1">
-      <tr align="center">
+    <p>グループ名</p>
+    <input type="text" name="groupName" value=''>
+    <p>
+      <font size="5">${error}</font>
+    </p>
+    <button type='submit' name='action' value="Make">選択したユーザーでグループを作成する</button>
+    <table border="2">
+      <tr>
         <th>全ユーザーリスト</th>
       </tr>
-      <c:forEach var="obj" items="${MakeGroupBean.userName}" varStatus="status">
+      <c:forEach var="obj" items="${MakeGroupBean.userName}"
+        varStatus="status">
         <tr>
           <td><input type="checkbox" name="userNo"
             value="${status.index}"> <c:out value="${obj}" /></td>

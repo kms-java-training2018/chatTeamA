@@ -109,7 +109,7 @@ public class MakeGroupModel {
             StringBuilder sb = new StringBuilder();
 
             //戻り値として渡す成否メッセージを定義
-            String MakeCheck;
+            String makeCheck;
 
             //gbからautherNoを
             String autherNo = gb.getAutherNo();
@@ -151,13 +151,13 @@ public class MakeGroupModel {
                 int rs = stmt.executeUpdate(sb.toString());
 
                 if (rs == 1) {
-                    MakeCheck = "Make ok";
+                    makeCheck = "Make ok";
                 } else {
-                    MakeCheck = "Make no";
+                    makeCheck = "Make no";
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
-                MakeCheck = "Make no";
+                makeCheck = "Make no";
             } finally {
                 try {
                     conn.close();
@@ -165,7 +165,7 @@ public class MakeGroupModel {
                     e.printStackTrace();
                 }
             }
-            return MakeCheck;
+            return makeCheck;
         }
 
         //グループにメンバー登録を行うメソッド
@@ -198,7 +198,6 @@ public class MakeGroupModel {
             try {
                 Class.forName("oracle.jdbc.driver.OracleDriver");
             } catch (ClassNotFoundException e) {
-                // 入れなかった場合
                 e.printStackTrace();
             }
             // 接続作成
@@ -232,8 +231,7 @@ public class MakeGroupModel {
 
                 //作成者のメンバー登録を行う文
                 StringBuilder sb1 = new StringBuilder();
-                sb1.append("insert ");
-                sb1.append(" into ");
+                sb1.append("insert into");
                 sb1.append(" T_GROUP_INFO( ");
                 sb1.append("GROUP_NO");
                 sb1.append(", USER_NO ");
@@ -271,7 +269,7 @@ public class MakeGroupModel {
                 e.printStackTrace();
                 message = "Resist no";
 
-                // sqlの接続は絶対に切断
+                // sqlの接続の切断
             } finally {
                 try {
                     conn.close();
