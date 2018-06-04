@@ -30,9 +30,9 @@ public class MyPageServlet extends HttpServlet {
         MyPageModel model = new MyPageModel();
 
         // パラメータの取得
-        String userNo = (String) req.getParameter("userNo");
-        String userName = (String) req.getParameter("userName");
-        String myPageText = (String) req.getParameter("myPageText");
+//        String userNo = (String) req.getParameter("userNo");
+//        String userName = (String) req.getParameter("userName");
+//        String myPageText = (String) req.getParameter("myPageText");
 
         //セッション情報の取得
         HttpSession session = req.getSession();
@@ -61,14 +61,15 @@ public class MyPageServlet extends HttpServlet {
         SessionBean bean1 = new SessionBean();
         ProfileBean bean2 = new ProfileBean();
         MyPageModel model = new MyPageModel();
+        String direction = "/WEB-INF/jsp/myPage.jsp";
 
         // パラメータの取得
 //        String userNo = (String) req.getParameter("userNo");
         String userName = (String) req.getParameter("userName");
         String myPageText = (String) req.getParameter("myPageText");
-        Pattern p = Pattern.compile("^[0-9a-zA-Z]+$ || ^[^-~｡-ﾟ]*$ ");
+        //Pattern p1 = Pattern.compile("^[0-9a-zA-Z]*$");    //半角英数or空白
+        Pattern p = Pattern.compile("^[^-~｡-ﾟ]*$");    //全角
         Matcher mUserName = p.matcher(userName);
-        // ↑ここ変？
         Matcher mMyPageText = p.matcher(myPageText);
 
         //"プロフィールを更新"のリクエスト送信後、入力値チェック
@@ -95,13 +96,14 @@ public class MyPageServlet extends HttpServlet {
         // 取得に成功した場合セッション情報をセット
         if ("".equals(bean2.getErrorMessage())) {
             bean1.setUserName(bean2.getUserName());
-            bean1.setMyPageText(bean2.getMyPageText()); //てらっちにSessionBeanにmyPageTextを追加してもらう
+            bean1.setMyPageText(bean2.getMyPageText());
             HttpSession session = req.getSession();
             session.setAttribute("session", bean1);
+            direction = "/main";
         }
 
         req.setAttribute("Profile", bean1);
-        req.getRequestDispatcher("/WEB-INF/jsp/myPage.jsp").forward(req, res);
+        req.getRequestDispatcher(direction).forward(req, res);
 
     }
 }
