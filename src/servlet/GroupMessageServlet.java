@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -31,6 +32,8 @@ public class GroupMessageServlet extends HttpServlet {
         GroupMessageModel model = new GroupMessageModel();
         String direction = "/WEB-INF/jsp/groupMessage.jsp";
 
+        ArrayList<GroupMessageBean> list = new ArrayList<GroupMessageBean>();
+
         HttpSession session = req.getSession(false);
 
         // セッションがあるかどうか
@@ -43,11 +46,24 @@ public class GroupMessageServlet extends HttpServlet {
         sessionBean.setUserNo("25");
 
         bean.setUserNo(sessionBean.getUserNo());
+        bean.setGroupNo("12");
 
         // グループ番号チェック
         /*if("".equals(sessionBean.getGroupNo())) {
             req.getRequestDispatcher("/WEB-INF/jsp/Login.jsp").forward(req, res);
         }*/
+
+        //modelの会員番号会員名処理をbean経由で取る
+        try {
+            list = model.messageCheck(bean);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //jspに飛ばす
+        req.setAttribute("list", list);
+        //req.getRequestDispatcher(direction).forward(req, res);
+
 
         // メッセージ送信機能
         if (req.getParameter("sendMessage") != null) {

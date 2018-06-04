@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import bean.GroupMessageBean;
 
@@ -223,7 +224,7 @@ public class GroupMessageModel {
             sb.append("WHERE ");
             sb.append(" group_no = '" + groupNo + "'");
             sb.append(" AND user_no = '" + userNo + "'");
-            sb.append(" AND message_no = '" + messageNo +"'");
+            sb.append(" AND message_no = '" + messageNo + "'");
 
             // SQL実行
             Statement stmt = conn.createStatement();
@@ -299,5 +300,67 @@ public class GroupMessageModel {
         }
 
         return bean;
+    }
+
+    public ArrayList<GroupMessageBean> messageCheck(GroupMessageBean bean) {
+
+        // 初期化
+        StringBuilder sb = new StringBuilder();
+        String sendUserName = bean.getSendUserName();
+        String groupNo = bean.getGroupNo();
+        Connection conn = null;
+        String url = "jdbc:oracle:thin:@192.168.51.67:1521:XE";
+        String user = "DEV_TEAM_A";
+        String dbPassword = "A_DEV_TEAM";
+        // JDBCドライバーのロード
+        try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        // 接続作成
+        ArrayList<GroupMessageBean> list = new ArrayList<GroupMessageBean>();
+        try {
+            conn = DriverManager.getConnection(url, user, dbPassword);
+
+            // 会員一覧取得処理SQL作成
+            sb.append("SELECT ");
+            sb.append(" user_name ");
+            sb.append(" ,message_no ");
+            sb.append(" ,message ");
+            sb.append("FROM ");
+            sb.append(" t_message_info ");
+            sb.append("INNER JOIN ");
+            sb.append(" m_user ");
+            sb.append("ON ");
+            sb.append(" t_message_info.send_user_no = m_user.user_no ");
+            sb.append("WHERE ");
+            sb.append(" to_send_group_no ='" + groupNo + "'");
+
+            // SQL実行
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sb.toString());
+
+            while (rs.next()) {
+                GroupMessageBean myMessage = new GroupMessageBean();
+                // Listに追加
+                myMessage.setMessageNo(rs.getString("message_no"));
+                myMessage.setMessage(rs.getString("message"));
+                myMessage.setSendUserName(rs.getString("user_name"));
+
+                list.add(myMessage);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                //この場合エラー画面へ遷移
+            }
+        }
+
+        return list;
     }
 }

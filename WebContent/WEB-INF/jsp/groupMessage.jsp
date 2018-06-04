@@ -15,6 +15,9 @@
     <br>
     <a href="/chat/showProfile">あいて</a>：グループメッセージのサンプルだよー（´・ω・｀）
     <br>あなた：がっくし（´・ω・｀）
+    <c:forEach var="bean" items="${list}" varStatus="status">
+    <c:out value="${bean.sendUserName }"></c:out>：<c:out value="${bean.message}"/><br>
+    </c:forEach>
     <br>
     <br>
     <input type="text" name="message" value="${groupMessageBean.message}">
