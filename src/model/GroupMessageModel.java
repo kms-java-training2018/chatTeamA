@@ -132,7 +132,7 @@ public class GroupMessageModel {
     public GroupMessageBean sendMessage(GroupMessageBean bean) {
         // 初期化
         StringBuilder sb = new StringBuilder();
-        //String groupNo = bean.getGroupNo();
+        String groupNo = bean.getGroupNo();
         String userNo = bean.getUserNo();
         String nextNo = bean.getMessageNo();
         String message = bean.getMessage();
@@ -166,7 +166,7 @@ public class GroupMessageModel {
             sb.append("'" + nextNo + "'");
             sb.append(" ,'" + userNo + "'");
             sb.append(" ,'" + message + "'");
-            sb.append(" ,12");
+            sb.append(" ,'" + groupNo + "'");
             sb.append(" ,0");
             sb.append(" ,sysdate)");
 
@@ -300,6 +300,60 @@ public class GroupMessageModel {
         return bean;
     }
 
+    public GroupMessageBean registCheck(GroupMessageBean bean,String myUserNo) {
+
+        // 初期化
+        StringBuilder sb = new StringBuilder();
+        String groupNo = bean.getGroupNo();
+        String userNo = bean.getUserNo();
+
+        Connection conn = null;
+        String url = "jdbc:oracle:thin:@192.168.51.67:1521:XE";
+        String user = "DEV_TEAM_A";
+        String dbPassword = "A_DEV_TEAM";
+        // JDBCドライバーのロード
+        try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+        } catch (ClassNotFoundException e) {
+            bean.setErrFlag(true);
+            e.printStackTrace();
+        }
+        // 接続作成
+        try {
+            conn = DriverManager.getConnection(url, user, dbPassword);
+
+            // SQL作成
+            sb.append("SELECT ");
+            sb.append(" regist_user_no ");
+            sb.append("FROM ");
+            sb.append(" m_group ");
+            sb.append("WHERE ");
+            sb.append(" group_no = '" + groupNo + "'");
+
+            // SQL実行
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sb.toString());
+            rs.next();
+            if(rs.getString("regist_user_no").equals(myUserNo)) {
+                bean.setErrFlag(true);
+            }
+
+            conn.close();
+
+        } catch (SQLException e) {
+            bean.setErrFlag(true);
+            e.printStackTrace();
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return bean;
+    }
+
     public ArrayList<GroupMessageBean> messageCheck(GroupMessageBean bean, String myUserNo) {
 
         // 初期化
@@ -321,18 +375,24 @@ public class GroupMessageModel {
         try {
             conn = DriverManager.getConnection(url, user, dbPassword);
 
-            // 会員一覧取得処理SQL作成
+            // メッセージ一覧取得処理SQL作成
             sb.append("SELECT ");
-            sb.append(" user_no ");
-            sb.append(" ,user_name ");
+            sb.append(" m_user.user_no ");
+            sb.append(" ,m_user.user_name ");
             sb.append(" ,message_no ");
             sb.append(" ,message ");
+            sb.append(" ,t_group_info.out_flag ");
             sb.append("FROM ");
             sb.append(" t_message_info ");
             sb.append("INNER JOIN ");
             sb.append(" m_user ");
             sb.append("ON ");
             sb.append(" t_message_info.send_user_no = m_user.user_no ");
+            sb.append("INNER JOIN ");
+            sb.append(" t_group_info ");
+            sb.append("ON");
+            sb.append(" t_message_info.to_send_group_no = t_group_info.group_no ");
+            sb.append(" AND m_user.user_no = t_group_info.user_no ");
             sb.append("WHERE ");
             sb.append(" to_send_group_no ='" + groupNo + "'");
             sb.append(" AND delete_flag = 0");
@@ -352,6 +412,11 @@ public class GroupMessageModel {
                     myMessage.setMyMessageFlag(true);
                 } else {
                     myMessage.setMyMessageFlag(false);
+                }
+
+                if(rs.getString("out_flag").equals("1")) {
+                    myMessage.setSendUserName("送信者不明");
+                    //myMessage.setMyMessageFlag(true);
                 }
 
                 list.add(myMessage);
