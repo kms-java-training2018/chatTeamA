@@ -13,6 +13,9 @@ public class DirectMessageBean {
     /** 表示名 */
     private String userName;
 
+    /** 送ったユーザー名 */
+    private String sendUserName;
+
     /** 会員番号 */
     private String userNo;
 
@@ -110,6 +113,14 @@ public class DirectMessageBean {
     public void setDeleteMessageNo(String deleteMessageNo) {
         this.deleteMessageNo = deleteMessageNo;
     }
+
+	public String getSendUserName() {
+		return sendUserName;
+	}
+
+	public void setSendUserName(String sendUserName) {
+		this.sendUserName = sendUserName;
+	}
 
 }
 

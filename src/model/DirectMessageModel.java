@@ -40,6 +40,7 @@ public class DirectMessageModel {
             //--該当する送信者と送信対象者の一覧のみを表示--//
             sb.append("SELECT");
             sb.append(" A.send_user_no AS sendUserNo");
+            sb.append(" ,B.user_name AS sendUserName");
             sb.append(" ,message_no ");
             sb.append(" ,message");
             sb.append(" FROM");
@@ -67,6 +68,7 @@ public class DirectMessageModel {
                     DirectMessageBean directMessage = new DirectMessageBean () ;
                     directMessage.setMessage(rs.getString("message"));
                     directMessage.setMessageNo(rs.getString("message_no"));
+                    directMessage.setSendUserName(rs.getString("sendUserName"));
 
                     if (rs.getString("sendUserNo").equals(userNo)) {
                         directMessage.setMyMessageFlag(true);

@@ -15,10 +15,10 @@
     style="padding: 10px; margin-bottom: 10px; border: 5px double #333333; border-radius: 10px;">
     <c:forEach var="bean" items="${messageList}" varStatus="status">
       <c:if test="${!bean.myMessageFlag }">
-        <a href="/chat/showProfile">${bean.userName }</a>
+        <a href="/chat/showProfile?user_no=${bean.userNo}"><c:out value="${bean.sendUserName}"/></a>
       </c:if>
       <c:if test="${bean.myMessageFlag }">
-        <c:out value="${bean.userName }" />
+        <c:out value="${bean.sendUserName }" />
       </c:if>
       <c:out value="${bean.message}" />
       <br>
@@ -40,7 +40,7 @@
   <form action="/chat/directMessage" method="POST">
     <input type="text" name="message">
     <input type="hidden" name="toSend" value="${toSendUserNo}">
-    <input type="submit"
+    <input type="submit" name="send"
       value="メッセージの送信">
   </form>
   <form action="/chat/main" method="POST">

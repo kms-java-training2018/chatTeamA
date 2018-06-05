@@ -107,6 +107,9 @@ public class DirectMessageServlet extends HttpServlet {
         HttpSession session = req.getSession();
         sessionBean = (SessionBean)session.getAttribute("session");
 
+        bean.setUserNo(sessionBean.getUserNo());
+        bean.setToSendUserNo(sessionBean.getToSendUserNo());
+
 
         /**
         *
@@ -117,15 +120,18 @@ public class DirectMessageServlet extends HttpServlet {
         *
         */
 
+
+        if (req.getParameter("send") != null) {
+
         /*
          * （1）パラメータチェック
          */
 
         //メッセージ画面で入力された情報を取得
-        String message = req.getParameter("message");
+
         //String toSendUserNo = req.getParameter("toSend");
 
-
+        	String message = req.getParameter("message");
         //--(1)-1 パラメータチェック--//
         //--(1)-2 チェックでエラーが発生した場合,エラーメッセージを設定して、//
         //メッセージ画面に遷移する。--//
@@ -150,9 +156,9 @@ public class DirectMessageServlet extends HttpServlet {
         }
 
         //--パラメータチェック完了--//
-        bean.setUserNo(sessionBean.getUserNo());
+        //bean.setUserNo(sessionBean.getUserNo());
         bean.setMessage(message);
-        bean.setToSendUserNo(sessionBean.getToSendUserNo());
+        //bean.setToSendUserNo(sessionBean.getToSendUserNo());
 
         /*
          * (2) 会話情報登録処理
@@ -176,7 +182,7 @@ public class DirectMessageServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-
+        }
         //成功した場合、そのままメッセージ画面表示
 
         /**
