@@ -48,11 +48,13 @@ public class GroupMessageServlet extends HttpServlet {
         if (bean.isErrFlag()) {
             direction = "/error";
         }
+        bean = model.getGroupName(bean);
 
         session.setAttribute("session", sessionBean);
 
         //jspに飛ばす
         req.setAttribute("list", list);
+        req.setAttribute("group_name", bean.getGroupName());
 
         req.getRequestDispatcher(direction).forward(req, res);
     }
@@ -142,8 +144,11 @@ public class GroupMessageServlet extends HttpServlet {
             e.printStackTrace();
         }
 
+        bean = model.getGroupName(bean);
+
         //jspに飛ばす
         req.setAttribute("list", list);
+        req.setAttribute("group_name", bean.getGroupName());
 
         // 退会ボタンが押されたとき
         if (req.getParameter("escape") != null) {

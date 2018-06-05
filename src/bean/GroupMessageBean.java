@@ -16,6 +16,9 @@ public class GroupMessageBean {
     /** グループ番号 */
     private String groupNo;
 
+    /** グループの名前 */
+    private String groupName;
+
     /** エラーフラグ */
     private boolean errFlag;
 
@@ -121,4 +124,12 @@ public class GroupMessageBean {
     public void setGroupOutFlag(boolean groupOutFlag) {
         this.groupOutFlag = groupOutFlag;
     }
+
+	public String getGroupName() {
+		return groupName;
+	}
+
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
 }

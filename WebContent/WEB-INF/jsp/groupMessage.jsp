@@ -12,6 +12,7 @@
 	<h1>チャット研修プログラム</h1>
 	<h2>グループメッセージ</h2>
 	<form action="/chat/groupMessage" method="POST">
+	<h3>${group_name }</h3>
 		<input type="submit" name="escape" value="グループを脱退する">
 	</form>
 	<br>

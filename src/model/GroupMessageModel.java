@@ -435,4 +435,56 @@ public class GroupMessageModel {
 
         return list;
     }
+
+    public GroupMessageBean getGroupName(GroupMessageBean bean) {
+
+        // 初期化
+        StringBuilder sb = new StringBuilder();
+        String groupNo = bean.getGroupNo();
+        String userNo = bean.getUserNo();
+
+        Connection conn = null;
+        String url = "jdbc:oracle:thin:@192.168.51.67:1521:XE";
+        String user = "DEV_TEAM_A";
+        String dbPassword = "A_DEV_TEAM";
+        // JDBCドライバーのロード
+        try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+        } catch (ClassNotFoundException e) {
+            bean.setErrFlag(true);
+            e.printStackTrace();
+        }
+        // 接続作成
+        try {
+            conn = DriverManager.getConnection(url, user, dbPassword);
+
+            // SQL作成
+            sb.append("SELECT ");
+            sb.append(" group_name ");
+            sb.append("FROM ");
+            sb.append(" m_group ");
+            sb.append("WHERE ");
+            sb.append(" group_no = '" + groupNo + "'");
+
+            // SQL実行
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sb.toString());
+            rs.next();
+            bean.setGroupName(rs.getString("group_name"));
+
+            conn.close();
+
+        } catch (SQLException e) {
+            bean.setErrFlag(true);
+            e.printStackTrace();
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return bean;
+    }
 }
