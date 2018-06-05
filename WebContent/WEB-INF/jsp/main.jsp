@@ -12,15 +12,9 @@
   <h2>メインメニュー</h2>
   <br><div>■会員一覧</div>
   <c:forEach var="bean" items="${list}" varStatus="status">
-    <c:out value="${bean.userNo}"/>
-    <c:out value="${bean.userName}"/><br>
-  </c:forEach>
-
-  <br>■会話一覧
-
-
-    <c:forEach var="bean" items="${list2}"varStatus="status">
-    <c:out value="${bean.userName}"/>
+    <form action="/chat/directMessage" method="GET">
+    <a href="/chat/directMessage?user_no=${bean.userNo}"><c:out value="${bean.userName}"/></a><br>
+     </form>
     <c:out value="${bean.message}"/><br>
     </c:forEach>
 
