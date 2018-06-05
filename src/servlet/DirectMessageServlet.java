@@ -77,12 +77,12 @@ public class DirectMessageServlet extends HttpServlet {
 
         req.setAttribute("toSendUserNo", toSendUserNo);
         // 取得に成功した場合セッション情報をセット
-        if ("".equals(bean.getErrorMessage())) {
+        //if ("".equals(bean.getErrorMessage())) {
             sessionBean.setUserName(bean.getUserName());
             sessionBean.setUserNo(bean.getUserNo());
             sessionBean.setToSendUserNo(toSendUserNo);
             session.setAttribute("session", sessionBean);
-        }
+        //}
 
 
         //DirectMessageBean bean = new DirectMessageBean();
