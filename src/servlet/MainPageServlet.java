@@ -38,14 +38,19 @@ public class MainPageServlet extends HttpServlet {
         // セッション情報取得
                 HttpSession session = req.getSession();
                 SessionBean sessionBean = new SessionBean();
+                sessionBean = (SessionBean) session.getAttribute("session");
+
         // 初期化
         MainPageBean bean = new MainPageBean();
         MainPageModel model = new MainPageModel();
         String direction = "/WEB-INF/jsp/main.jsp";
+        String userNo = sessionBean.getUserNo();
+        bean.setUserNo(userNo);
         ArrayList<MainPageBean> list = new ArrayList<MainPageBean>();
-        //ArrayList<String> list2 = new ArrayList<String>();
+        ArrayList<MainPageBean> list2 = new ArrayList<MainPageBean>();
+        ArrayList<MainPageBean> list3 = new ArrayList<MainPageBean>();
 
-        sessionBean = (SessionBean) session.getAttribute("session");
+
 
         //modelの会員番号会員名処理をbean経由で取る
         try {
@@ -56,6 +61,28 @@ public class MainPageServlet extends HttpServlet {
 
         //jspに飛ばす
         req.setAttribute("list", list);
+        //req.getRequestDispatcher(direction).forward(req, res);
+
+        //1対1最新会話情報取得
+        try {
+            list2 = model.authentication3(bean);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+      //jspに飛ばす
+        req.setAttribute("list2", list2);
+        //req.getRequestDispatcher(direction).forward(req, res);
+
+      //グループ最新会話情報取得
+        try {
+            list3 = model.authentication4(bean);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+      //jspに飛ばす
+        req.setAttribute("list3", list3);
         req.getRequestDispatcher(direction).forward(req, res);
 
 

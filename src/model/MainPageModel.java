@@ -84,7 +84,8 @@ public class MainPageModel {
             sb.append("FROM ");
             sb.append(" m_user ");
             sb.append("WHERE ");
-            sb.append(" user_no <> 99");
+            sb.append(" user_no <> '" + userNo + "' ");
+
 
             // SQL実行
             Statement stmt = conn.createStatement();
@@ -115,11 +116,10 @@ public class MainPageModel {
     }
 
     //最新メッセージ取得
-    public MainPageBean authentication3(MainPageBean bean) {
+    public ArrayList<MainPageBean> authentication3(MainPageBean bean) {
         // 初期化
         StringBuilder sb = new StringBuilder();
-        String userId = bean.getUserId();
-
+        String userNo = bean.getUserNo();
         Connection conn = null;
         String url = "jdbc:oracle:thin:@192.168.51.67:1521:XE";
         String user = "DEV_TEAM_A";
@@ -131,6 +131,7 @@ public class MainPageModel {
             e.printStackTrace();
         }
         // 接続作成
+        ArrayList<MainPageBean> list2 = new ArrayList<MainPageBean>();
         try {
             conn = DriverManager.getConnection(url, user, dbPassword);
 
@@ -150,23 +151,22 @@ public class MainPageModel {
             sb.append("inner join t_message_info");
             sb.append("on m_user.user_no = t_message_info.to_send_user_no");
             sb.append("WHERE");
-            sb.append("user_id = '" + userId + "'");
-            sb.append("AND user_id not in ('" + userId + "')");
+            sb.append("user_no = '" + userNo + "'");
+            sb.append("AND user_no not in ('" + userNo + "')");
+
+
 
             // SQL実行
             Statement stmt2 = conn.createStatement();
             ResultSet rs2 = stmt2.executeQuery(sb.toString());
 
-            if (!rs2.next()) {
-                bean.setErrorMessage("レコードが取得できませんでした。");
-                //この場合エラー画面へ遷移
-            } else {
-                bean.setMessage(rs2.getString("message"));
-                bean.setUserName(rs2.getString("user_name"));
-                bean.setErrorMessage("");
-                conn.close();
+            while (rs2.next()) {
+                MainPageBean myTalk = new MainPageBean () ;
+                // Listに追加
+                myTalk.setUserName(rs2.getString("user_name"));
+                myTalk.setMessage(rs2.getString("t_message_info.message"));
+                list2.add(myTalk);
             }
-            //}
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -177,15 +177,17 @@ public class MainPageModel {
                 //この場合エラー画面へ遷移
             }
         }
-        return bean;
+
+
+
+        return list2;
     }
 
     //グループ最新メッセージ取得
-    public MainPageBean authentication4(MainPageBean bean) {
+    public ArrayList<MainPageBean> authentication4(MainPageBean bean) {
         // 初期化
         StringBuilder sb = new StringBuilder();
-        String userId = bean.getUserId();
-
+        //String userNo = bean.getUserNo();
         Connection conn = null;
         String url = "jdbc:oracle:thin:@192.168.51.67:1521:XE";
         String user = "DEV_TEAM_A";
@@ -197,39 +199,48 @@ public class MainPageModel {
             e.printStackTrace();
         }
         // 接続作成
+        ArrayList<MainPageBean> list3 = new ArrayList<MainPageBean>();
         try {
             conn = DriverManager.getConnection(url, user, dbPassword);
             /**グループ一覧取得処理
               自分の会員IDを条件に、参加しているグループと
               そのグループ内での最新メッセージを取得する
               */
-            sb.append("SELECT message , group_name");
-            sb.append("from t_group_info");
-            sb.append("inner join t_message_no on t_group_info.user_no =");
-            sb.append("t_message_no.send_user_no");
-            sb.append("inner join t_message_no on t_group_info.user_no =");
-            sb.append("t_message_no.to_send_user_no");
-            sb.append("inner join m_group on t_group_info.group_no =");
-            sb.append("m_group.group_no");
-            sb.append("inner join m_user on t_group_info.user_no =");
-            sb.append("m_user.user_no");
-            sb.append("WHERE");
-            sb.append("user_id = '" + userId + "'");
+            sb.append("select");
+            sb.append(" info.to_send_group_no");
+            sb.append(" , a.md");
+            sb.append(" , info.MESSAGE");
+            sb.append(" , gn.group_name");
+            sb.append(" from");
+            sb.append(" t_message_info info");
+            sb.append(" , (");
+            sb.append(" select");
+            sb.append(" max(regist_date) as md ");
+            sb.append(" from");
+            sb.append(" t_message_info");
+            sb.append(" group by");
+            sb.append(" to_send_group_no");
+            sb.append("  ) a");
+            sb.append("  , (select group_name, group_no from m_group) gn");
+            sb.append(" where");
+            sb.append("  info.REGIST_DATE = a.md");
+            sb.append(" and info.to_send_group_no is not null ");
+            sb.append(" and info.TO_SEND_GROUP_NO = gn.group_no");
+            sb.append(" order by");
+            sb.append(" a.md desc;");
 
-            // SQL実行
+         // SQL実行
             Statement stmt3 = conn.createStatement();
             ResultSet rs3 = stmt3.executeQuery(sb.toString());
 
-            if (!rs3.next()) {
-                bean.setErrorMessage("レコードが取得できませんでした。");
-                //この場合エラー画面へ遷移
-            } else {
-                bean.setMessage(rs3.getString("message"));
-                bean.setGroupName(rs3.getString("group_name"));
-                bean.setErrorMessage("");
-                conn.close();
+            while (rs3.next()) {
+                MainPageBean groupTalk = new MainPageBean () ;
+                // Listに追加
+                groupTalk.setUserNo(rs3.getString("info.to_send_group_no"));
+                groupTalk.setMessage(rs3.getString("info.MESSAGE"));
+                groupTalk.setGroupName(rs3.getString("gn.group_name"));
+                list3.add(groupTalk);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -240,8 +251,9 @@ public class MainPageModel {
                 //この場合エラー画面へ遷移
             }
         }
-        return bean;
 
+
+
+        return list3;
     }
-
 }
