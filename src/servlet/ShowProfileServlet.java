@@ -52,4 +52,5 @@ public class ShowProfileServlet extends HttpServlet {
         req.setAttribute("ProfileBean", bean);
         req.getRequestDispatcher(direction).forward(req, res);
     }
+
 }

@@ -28,7 +28,8 @@ public class GroupMessageServlet extends HttpServlet {
 
         bean.setUserNo(sessionBean.getUserNo());
         bean.setUserName(sessionBean.getUserName());
-        bean.setGroupNo("17");
+        bean.setGroupNo(req.getParameter("group_no"));
+        sessionBean.setGroupNo(bean.getGroupNo());
 
         // グループ番号チェック
         try {
@@ -47,6 +48,8 @@ public class GroupMessageServlet extends HttpServlet {
         if (bean.isErrFlag()) {
             direction = "/error";
         }
+
+        session.setAttribute("session", sessionBean);
 
         //jspに飛ばす
         req.setAttribute("list", list);
@@ -80,7 +83,7 @@ public class GroupMessageServlet extends HttpServlet {
 
         bean.setUserNo(sessionBean.getUserNo());
         bean.setUserName(sessionBean.getUserName());
-        bean.setGroupNo("17");
+        bean.setGroupNo(sessionBean.getGroupNo());
 
         // グループ番号チェック
         try {

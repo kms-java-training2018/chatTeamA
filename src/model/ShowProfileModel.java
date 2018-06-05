@@ -9,8 +9,10 @@ import java.sql.Statement;
 import bean.ProfileBean;
 
 public class ShowProfileModel {
+
     public ProfileBean authentication(ProfileBean bean) {
-        // 初期化
+
+    	// 初期化
         StringBuilder sb = new StringBuilder();
         String userNo = bean.getUserNo();
 

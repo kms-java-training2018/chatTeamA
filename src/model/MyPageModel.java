@@ -9,14 +9,12 @@ import java.sql.Statement;
 import bean.ProfileBean;
 
 public class MyPageModel {
-    public ProfileBean authentication(ProfileBean bean2) {
-        // 初期化
-        //bean1 = SesstionBean, bean2 = ProfileBean
-//        SessionBean bean1 = new SessionBean();
+
+	public ProfileBean authentication(ProfileBean bean2) {
+
+    	// 初期化
         StringBuilder sb = new StringBuilder();
         String userNo = bean2.getUserNo();
-//        String userName;
-//        String myPageText;
 
         // DB
         Connection conn = null;
@@ -28,7 +26,6 @@ public class MyPageModel {
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
         } catch (ClassNotFoundException e) {
-//            bean2.setErrorMessage("データベースに接続出来ませんでした");
             bean2.setErrFlag(true);
             e.printStackTrace();
         }
@@ -52,7 +49,6 @@ public class MyPageModel {
 
             //取得したデータをbeanにセット
             if (!rs.next()) {
-//                bean2.setErrorMessage("ユーザーが存在しません。");
                 bean2.setErrFlag(true);
             } else {
                 bean2.setUserName(rs.getString("user_name"));
@@ -60,7 +56,6 @@ public class MyPageModel {
 
             }
         } catch (SQLException e) {
-//            bean2.setErrorMessage("ユーザー情報を取得できません。");
             bean2.setErrFlag(true);
             e.printStackTrace();
         //処理終了後、接続を切断
@@ -73,6 +68,7 @@ public class MyPageModel {
         }
         return bean2;
     }
+
 
     public ProfileBean authentication2(ProfileBean bean2) {
 
@@ -92,7 +88,6 @@ public class MyPageModel {
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
         } catch (ClassNotFoundException e) {
-//            bean2.setErrorMessage("データベースに接続出来ませんでした");
             bean2.setErrFlag(true);
             e.printStackTrace();
         }
@@ -116,11 +111,9 @@ public class MyPageModel {
 
             //更新に失敗した場合
             if (resultCount == 0) {
-//                bean2.setErrorMessage("更新処理に失敗しました。");
                 bean2.setErrFlag(true);
             }
         } catch (SQLException e) {
-//            bean2.setErrorMessage("更新処理に失敗しました。");
             bean2.setErrFlag(true);
             e.printStackTrace();
         } finally {
@@ -133,4 +126,5 @@ public class MyPageModel {
         }
         return bean2;
     }
+
 }

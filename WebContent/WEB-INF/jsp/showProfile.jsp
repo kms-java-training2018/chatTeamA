@@ -12,10 +12,10 @@
   <h2>プロフィール確認</h2>
   <form action="/showProfile" method="POST">
     <br>
-    表示名：<c:out value="${ProfileBean.userName}" />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;表示名：&nbsp;&nbsp;&nbsp;&nbsp;<c:out value="${ProfileBean.userName}" />
     <br>
     <br>
-    自己紹介文：<c:out value="${ProfileBean.myPageText}" />
+    自己紹介文：&nbsp;&nbsp;&nbsp;&nbsp;<c:out value="${ProfileBean.myPageText}" />
     <br>
     <br>
     <input type="submit" value="閉じる" onclick="window.close();">
