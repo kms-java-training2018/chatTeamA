@@ -28,7 +28,8 @@ public class MyPageModel {
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
         } catch (ClassNotFoundException e) {
-            bean2.setErrorMessage("データベースに接続出来ませんでした");
+//            bean2.setErrorMessage("データベースに接続出来ませんでした");
+            bean2.setErrFlag(true);
             e.printStackTrace();
         }
 
@@ -51,14 +52,16 @@ public class MyPageModel {
 
             //取得したデータをbeanにセット
             if (!rs.next()) {
-                bean2.setErrorMessage("ユーザーが存在しません。");
+//                bean2.setErrorMessage("ユーザーが存在しません。");
+                bean2.setErrFlag(true);
             } else {
                 bean2.setUserName(rs.getString("user_name"));
                 bean2.setMyPageText(rs.getString("my_page_text"));
 
             }
         } catch (SQLException e) {
-            bean2.setErrorMessage("ユーザー情報を取得できません。");
+//            bean2.setErrorMessage("ユーザー情報を取得できません。");
+            bean2.setErrFlag(true);
             e.printStackTrace();
         //処理終了後、接続を切断
         } finally {
@@ -89,7 +92,8 @@ public class MyPageModel {
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
         } catch (ClassNotFoundException e) {
-            bean2.setErrorMessage("データベースに接続出来ませんでした");
+//            bean2.setErrorMessage("データベースに接続出来ませんでした");
+            bean2.setErrFlag(true);
             e.printStackTrace();
         }
 
@@ -110,17 +114,20 @@ public class MyPageModel {
             Statement stmt = conn.createStatement();
             int resultCount = stmt.executeUpdate(sb.toString());
 
-
+            //更新に失敗した場合
             if (resultCount == 0) {
-                bean2.setErrorMessage("更新処理に失敗しました。"); // 処理に失敗のメッセージ
+//                bean2.setErrorMessage("更新処理に失敗しました。");
+                bean2.setErrFlag(true);
             }
         } catch (SQLException e) {
-            bean2.setErrorMessage("更新処理に失敗しました。");
+//            bean2.setErrorMessage("更新処理に失敗しました。");
+            bean2.setErrFlag(true);
             e.printStackTrace();
         } finally {
             try {
                 conn.close();
             } catch (SQLException e) {
+                bean2.setErrFlag(true);
                 e.printStackTrace();
             }
         }

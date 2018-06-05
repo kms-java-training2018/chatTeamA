@@ -5,7 +5,7 @@ public class ProfileBean {
     /** 会員番号 */
     private String userNo;
 
-    /** エラーメッセージ */
+    /** エラーメッセージ() */
     private String errorMessage;
 
     /** 表示名 */
@@ -13,6 +13,12 @@ public class ProfileBean {
 
     /** 自己紹介文 */
     private String myPageText;
+
+    /** エラーフラグ */
+    private boolean errFlag;
+
+    /** エラーメッセージ */
+    private String inputErrorMessage;
 
 
     public String getUserNo() {
@@ -45,6 +51,14 @@ public class ProfileBean {
 
     public void setMyPageText(String myPageText) {
         this.myPageText = myPageText;
+    }
+
+    public boolean isErrFlag() {
+        return errFlag;
+    }
+
+    public void setErrFlag(boolean errFlag) {
+        this.errFlag = errFlag;
     }
 
 }

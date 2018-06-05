@@ -13,8 +13,6 @@ public class ShowProfileModel {
         // 初期化
         StringBuilder sb = new StringBuilder();
         String userNo = bean.getUserNo();
-        String userName = bean.getUserName();
-        String myPageText = bean.getMyPageText();
 
         // DB
         Connection conn = null;
@@ -26,7 +24,7 @@ public class ShowProfileModel {
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
         } catch (ClassNotFoundException e) {
-            bean.setErrorMessage("データベースと接続出来ませんでした");
+            bean.setErrFlag(true);
             e.printStackTrace();
         }
 
@@ -37,7 +35,7 @@ public class ShowProfileModel {
             // SQL作成
             sb.append("SELECT ");
             sb.append(" user_name");
-            sb.append(" , my_page_text");
+            sb.append(" , my_page_text ");
             sb.append("FROM ");
             sb.append(" m_user ");
             sb.append("WHERE ");
@@ -48,24 +46,24 @@ public class ShowProfileModel {
             ResultSet rs = stmt.executeQuery(sb.toString());
 
             if (!rs.next()) {
-                bean.setErrorMessage("ユーザーが存在しません。");
+            	bean.setErrFlag(true);
             } else {
-                bean.setUserName(rs.getString("user_name"));
+            	bean.setUserName(rs.getString("user_name"));
                 bean.setMyPageText(rs.getString("my_page_text"));
                 bean.setErrorMessage("");
                 conn.close();
             }
         } catch (SQLException e) {
-            bean.setErrorMessage("データがありませんでした。");
+            bean.setErrFlag(true);
             e.printStackTrace();
         } finally {
             try {
                 conn.close();
             } catch (SQLException e) {
+                bean.setErrFlag(true);
                 e.printStackTrace();
             }
         }
-
         return bean;
     }
 
