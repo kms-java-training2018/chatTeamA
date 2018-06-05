@@ -190,10 +190,10 @@ public class DirectMessageModel {
             sb.append(", delete_flag");
             sb.append(", regist_date)");
             sb.append("values (");
-            sb.append(""+ Integer.valueOf(messageNo) +"");
-            sb.append(", "+ Integer.valueOf(userNo) + "");
+            sb.append("'"+ messageNo +"'");
+            sb.append(", '"+ userNo + "'");
             sb.append(", '" + message + "' ");
-            sb.append(", "+ Integer.valueOf(toSendUserNo) + "");
+            sb.append(", '"+ toSendUserNo+ "'");
             sb.append(", 0");
             sb.append(", sysdate )");
 

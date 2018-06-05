@@ -13,6 +13,9 @@ public class SessionBean {
     /** グループ番号 */
     private String groupNo;
 
+    /** 送信対象者番号 */
+    private String toSendUserNo;
+
     public String getUserNo() {
         return userNo;
     }
@@ -44,5 +47,13 @@ public class SessionBean {
     public void setGroupNo(String groupNo) {
         this.groupNo = groupNo;
     }
+
+	public String getToSendUserNo() {
+		return toSendUserNo;
+	}
+
+	public void setToSendUserNo(String toSendUserNo) {
+		this.toSendUserNo = toSendUserNo;
+	}
 
 }
