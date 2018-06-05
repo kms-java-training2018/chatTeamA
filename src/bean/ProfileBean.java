@@ -1,8 +1,12 @@
 package bean;
 
-public class SessionBean {
+public class ProfileBean {
+
     /** 会員番号 */
     private String userNo;
+
+    /** エラーメッセージ */
+    private String errorMessage;
 
     /** 表示名 */
     private String userName;
@@ -10,8 +14,6 @@ public class SessionBean {
     /** 自己紹介文 */
     private String myPageText;
 
-    /** グループ番号 */
-    private String groupNo;
 
     public String getUserNo() {
         return userNo;
@@ -19,6 +21,14 @@ public class SessionBean {
 
     public void setUserNo(String userNo) {
         this.userNo = userNo;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 
     public String getUserName() {
@@ -37,12 +47,5 @@ public class SessionBean {
         this.myPageText = myPageText;
     }
 
-    public String getGroupNo() {
-        return groupNo;
-    }
-
-    public void setGroupNo(String groupNo) {
-        this.groupNo = groupNo;
-    }
-
 }
+
