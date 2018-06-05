@@ -31,7 +31,7 @@
 
 <c:forEach var="bean" items="${list3}" varStatus="status">
 <p>グループNO</p><c:out value="${bean.userNo}"/><br>
-<p>グループ名</p><a href="/chat/groupMessage?group_name=${bean.groupName}"><c:out value="${bean.groupName}"/></a>
+<p>グループ名</p><a href="/chat/groupMessage?group_no=${bean.userNo}"><c:out value="${bean.groupName}"/></a>
 <p>最新グループトーク</p><c:out value="${bean.message}"/><br>
     </c:forEach>
 
