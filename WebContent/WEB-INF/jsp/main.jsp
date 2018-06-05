@@ -12,14 +12,38 @@
   <h2>メインメニュー</h2>
   <br><div>■会員一覧</div>
   <c:forEach var="bean" items="${list}" varStatus="status">
-    <c:out value="${bean.userNo}"/><br>
+    <c:out value="${bean.userNo}"/>
+    <c:out value="${bean.userName}"/><br>
   </c:forEach>
-  <br>
+
+  <br>■会話一覧
+
+
+    <c:forEach var="bean" items="${list2}"varStatus="status">
+    <c:out value="${bean.userName}"/>
+    <c:out value="${bean.message}"/><br>
+    </c:forEach>
+
+
   <a href="/chat/directMessage">他会員名（メッセージへ）</a>
+
   <br>■グループ一覧
   <br>
   <a href="/chat/groupMessage">グループ名（グループメッセージへ）</a>
   <br>
+
+
+  <table border="1">
+    <c:forEach var="list" items="${MainPageBean.getGrowp()}"
+      varStatus="status">
+      <tr align="center">
+        <td><br> <a href="/chat/groupMessage?toGroupNo=${list.get(0)}">${list.get(1)}</a>
+          <p>${list.get(2)}</p></td>
+      </tr>
+    </c:forEach>
+  </table>
+
+
   <br>
   <form action="/chat/makeGroup" method="POST">
     <input type="submit" value="グループの作成">

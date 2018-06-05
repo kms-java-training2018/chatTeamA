@@ -43,7 +43,7 @@ public class MainPageServlet extends HttpServlet {
         MainPageModel model = new MainPageModel();
         String direction = "/WEB-INF/jsp/main.jsp";
         ArrayList<MainPageBean> list = new ArrayList<MainPageBean>();
-        //ArrayList<String> list2 = new ArrayList<String>();
+        ArrayList<MainPageBean> list2 = new ArrayList<MainPageBean>();
 
         //modelの会員番号会員名処理をbean経由で取る
         try {
@@ -54,6 +54,17 @@ public class MainPageServlet extends HttpServlet {
 
         //jspに飛ばす
         req.setAttribute("list", list);
+        req.getRequestDispatcher(direction).forward(req, res);
+
+        //最新会話情報取得
+        try {
+            list2 = model.authentication3(bean);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+      //jspに飛ばす
+        req.setAttribute("list2", list2);
         req.getRequestDispatcher(direction).forward(req, res);
 
 

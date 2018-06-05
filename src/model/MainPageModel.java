@@ -61,7 +61,7 @@ public class MainPageModel {
     public ArrayList<MainPageBean> authentication2(MainPageBean bean) {
         // 初期化
         StringBuilder sb = new StringBuilder();
-        String userNo = bean.getUserNo();
+        String userId = bean.getUserId();
         Connection conn = null;
         String url = "jdbc:oracle:thin:@192.168.51.67:1521:XE";
         String user = "DEV_TEAM_A";
@@ -84,7 +84,7 @@ public class MainPageModel {
             sb.append("FROM ");
             sb.append(" m_user ");
             sb.append("WHERE ");
-            sb.append(" user_no <> 99");
+            sb.append(" user_id <> '" + userId + "' ");
 
             // SQL実行
             Statement stmt = conn.createStatement();
@@ -115,7 +115,7 @@ public class MainPageModel {
     }
 
     //最新メッセージ取得
-    public MainPageBean authentication3(MainPageBean bean) {
+    public ArrayList<MainPageBean> authentication3(MainPageBean bean) {
         // 初期化
         StringBuilder sb = new StringBuilder();
         String userId = bean.getUserId();
@@ -131,6 +131,7 @@ public class MainPageModel {
             e.printStackTrace();
         }
         // 接続作成
+        ArrayList<MainPageBean> list2 = new ArrayList<MainPageBean>();
         try {
             conn = DriverManager.getConnection(url, user, dbPassword);
 
@@ -153,20 +154,19 @@ public class MainPageModel {
             sb.append("user_id = '" + userId + "'");
             sb.append("AND user_id not in ('" + userId + "')");
 
+
+
             // SQL実行
             Statement stmt2 = conn.createStatement();
             ResultSet rs2 = stmt2.executeQuery(sb.toString());
 
-            if (!rs2.next()) {
-                bean.setErrorMessage("レコードが取得できませんでした。");
-                //この場合エラー画面へ遷移
-            } else {
-                bean.setMessage(rs2.getString("message"));
-                bean.setUserName(rs2.getString("user_name"));
-                bean.setErrorMessage("");
-                conn.close();
+            while (rs2.next()) {
+                MainPageBean myTalk = new MainPageBean () ;
+                // Listに追加
+                myTalk.setUserName(rs2.getString("user_name"));
+                myTalk.setMessage(rs2.getString("t_message_info.message"));
+                list2.add(myTalk);
             }
-            //}
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -177,7 +177,10 @@ public class MainPageModel {
                 //この場合エラー画面へ遷移
             }
         }
-        return bean;
+
+
+
+        return list2;
     }
 
     //グループ最新メッセージ取得
