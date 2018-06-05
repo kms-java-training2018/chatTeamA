@@ -123,7 +123,7 @@ public class DirectMessageServlet extends HttpServlet {
 
         //メッセージ画面で入力された情報を取得
         String message = req.getParameter("message");
-        String toSendUserNo = req.getParameter("toSend");
+        //String toSendUserNo = req.getParameter("toSend");
 
 
         //--(1)-1 パラメータチェック--//
@@ -152,7 +152,7 @@ public class DirectMessageServlet extends HttpServlet {
         //--パラメータチェック完了--//
         bean.setUserNo(sessionBean.getUserNo());
         bean.setMessage(message);
-        bean.setToSendUserNo(toSendUserNo);
+        bean.setToSendUserNo(sessionBean.getToSendUserNo());
 
         /*
          * (2) 会話情報登録処理
