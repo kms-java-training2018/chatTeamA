@@ -144,16 +144,19 @@ public class MainPageModel {
             //while (num.next()) {
 
             //最新メッセージ取得処理
-            sb.append("SELECT user_name , t_message_info.message");
-            sb.append("FROM m_user");
-            sb.append("inner join t_message_info");
-            sb.append("on m_user.user_no = t_message_info.send_user_no");
-            sb.append("inner join t_message_info");
-            sb.append("on m_user.user_no = t_message_info.to_send_user_no");
-            sb.append("WHERE");
-            sb.append("user_no = '" + userNo + "'");
-            sb.append("AND user_no not in ('" + userNo + "')");
-
+            sb.append("SELECT ");
+			sb.append("message ");
+			sb.append("FROM ");
+			sb.append("t_message_info ");
+			sb.append("WHERE ");
+			sb.append("(regist_date = (");
+			sb.append("SELECT ");
+			sb.append("MAX(regist_date) ");
+			sb.append("FROM ");
+			sb.append("t_message_info ");
+			sb.append("WHERE ");
+			sb.append("(send_user_no = " + userNo );
+			sb.append("OR (to_send_user_no = " + userNo + "))))" );
 
 
             // SQL実行
@@ -163,8 +166,8 @@ public class MainPageModel {
             while (rs2.next()) {
                 MainPageBean myTalk = new MainPageBean () ;
                 // Listに追加
-                myTalk.setUserName(rs2.getString("user_name"));
-                myTalk.setMessage(rs2.getString("t_message_info.message"));
+                //myTalk.setUserName(rs2.getString("user_name"));
+                myTalk.setMessage(rs2.getString("message"));
                 list2.add(myTalk);
             }
         } catch (SQLException e) {
@@ -227,7 +230,7 @@ public class MainPageModel {
             sb.append(" and info.to_send_group_no is not null ");
             sb.append(" and info.TO_SEND_GROUP_NO = gn.group_no");
             sb.append(" order by");
-            sb.append(" a.md desc;");
+            sb.append(" a.md desc");
 
          // SQL実行
             Statement stmt3 = conn.createStatement();
@@ -236,9 +239,9 @@ public class MainPageModel {
             while (rs3.next()) {
                 MainPageBean groupTalk = new MainPageBean () ;
                 // Listに追加
-                groupTalk.setUserNo(rs3.getString("info.to_send_group_no"));
-                groupTalk.setMessage(rs3.getString("info.MESSAGE"));
-                groupTalk.setGroupName(rs3.getString("gn.group_name"));
+                groupTalk.setUserNo(rs3.getString("to_send_group_no"));
+                groupTalk.setGroupName(rs3.getString("group_name"));
+                groupTalk.setMessage(rs3.getString("MESSAGE"));
                 list3.add(groupTalk);
             }
         } catch (SQLException e) {

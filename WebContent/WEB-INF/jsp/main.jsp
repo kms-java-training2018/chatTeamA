@@ -30,13 +30,13 @@
   <br>
 
 <c:forEach var="bean" items="${list3}" varStatus="status">
-<c:out value="${bean.userNo}"/><br>
-<c:out value="${bean.message}"/><br>
-<c:out value="${bean.groupName}"/><br>
+<p>グループNO</p><c:out value="${bean.userNo}"/><br>
+<p>グループ名</p><a href="/chat/groupMessage?group_name=${bean.groupName}"><c:out value="${bean.groupName}"/></a>
+<p>最新グループトーク</p><c:out value="${bean.message}"/><br>
     </c:forEach>
 
   <br>
-  <form action="/chat/makeGroup" method="GET">
+  <form action="/chat/makeGroup" method="POST">
     <input type="submit" value="グループの作成">
   </form>
   <form action="/chat/myPage" method="GET">

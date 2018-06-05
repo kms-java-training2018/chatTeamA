@@ -32,7 +32,7 @@ public class MainPageServlet extends HttpServlet {
         req.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(req, res);
         }
 
-
+//direction = "/error";
 
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
         // セッション情報取得
@@ -61,7 +61,7 @@ public class MainPageServlet extends HttpServlet {
 
         //jspに飛ばす
         req.setAttribute("list", list);
-        //req.getRequestDispatcher(direction).forward(req, res);
+
 
         //1対1最新会話情報取得
         try {
@@ -72,7 +72,7 @@ public class MainPageServlet extends HttpServlet {
 
       //jspに飛ばす
         req.setAttribute("list2", list2);
-        //req.getRequestDispatcher(direction).forward(req, res);
+
 
       //グループ最新会話情報取得
         try {
@@ -83,7 +83,7 @@ public class MainPageServlet extends HttpServlet {
 
       //jspに飛ばす
         req.setAttribute("list3", list3);
-        req.getRequestDispatcher(direction).forward(req, res);
+
 
 
 
