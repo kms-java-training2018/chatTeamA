@@ -407,6 +407,7 @@ public class GroupMessageModel {
                 myMessage.setMessageNo(rs.getString("message_no"));
                 myMessage.setMessage(rs.getString("message"));
                 myMessage.setSendUserName(rs.getString("user_name"));
+                myMessage.setUserNo(rs.getString("user_no"));
 
                 if (rs.getString("user_no").equals(myUserNo)) {
                     myMessage.setMyMessageFlag(true);

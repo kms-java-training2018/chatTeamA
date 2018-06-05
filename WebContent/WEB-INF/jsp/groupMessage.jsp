@@ -20,7 +20,8 @@
     </c:if>
     <c:if test="${bean.sendUserName != '送信者不明' }">
       <c:if test="${!bean.myMessageFlag }">
-        <a href="/chat/showProfile">${bean.sendUserName }</a>
+        <a href="/chat/showProfile" target="_blank">${bean.sendUserName }</a>
+        <input type="hidden" name="user_no" value="${bean.userNo }">
       </c:if>
 
       <c:if test="${bean.myMessageFlag }">
