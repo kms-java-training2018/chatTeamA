@@ -17,6 +17,9 @@ import model.MyPageModel;
 public class MyPageServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+        /**
+         * プロフィール情報の取得
+         */
 
         // Beanの初期化
         SessionBean bean1 = new SessionBean();
@@ -28,6 +31,7 @@ public class MyPageServlet extends HttpServlet {
 
         // 初期化
         MyPageModel model = new MyPageModel();
+        String direction = "/WEB-INF/jsp/myPage.jsp";
 
         // パラメータの取得
 //        String userNo = (String) req.getParameter("userNo");
@@ -40,22 +44,28 @@ public class MyPageServlet extends HttpServlet {
         bean1 = (SessionBean) session.getAttribute("session");
         bean2.setUserNo(bean1.getUserNo());
 
-        //パラメータチェック(セッションの存在チェック)
+        /**
+         * パラメータチェック
+         *   ・セッションが存在する場合→Modelでプロフィール情報を取得
+         *   ・セッションが存在しない場合→エラー画面へ
+         */
         if(session != null) {
-            //プロフィール情報をModelで取得
             try{
                 bean2 = model.authentication(bean2);
             } catch (Exception e) {
                 e.printStackTrace();
+                direction = "/error";
             }
         }
         req.setAttribute("ProfileBean", bean2);
-        req.getRequestDispatcher("/WEB-INF/jsp/myPage.jsp").forward(req, res);
-
+        req.getRequestDispatcher(direction).forward(req, res);
     }
 
 
     public void doPost (HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+        /**
+         * プロフィール情報の変更・更新
+         */
 
         //文字コード設定
         res.setContentType("text/html; charset=UTF-8");
@@ -78,7 +88,15 @@ public class MyPageServlet extends HttpServlet {
 
         //"プロフィールを更新"のリクエスト送信後、入力値チェック
         if (userName.length() > 30 ) {
-            bean2.setErrorMessage("表示名は30文字以下で入力してください。");
+            if(myPageText.length() > 100) {
+                if(!mUserName.find()) {
+                    if(!mMyPageText.find()) {
+                        bean2.setErrorMessage("表示名は30文字以下、自己紹介は100文字以下の全角で入力してください。");
+                    }
+                }
+                bean2.setErrorMessage("表示名は30文字以下で入力してください。");
+            }
+
         }else if (myPageText.length() > 100) {
             bean2.setErrorMessage("自己紹介は100文字以下で入力してください。");
         } else if (!mUserName.find()) {
@@ -119,10 +137,11 @@ public class MyPageServlet extends HttpServlet {
             session.setAttribute("session", bean1);
             direction = "/main";
         }else {
+            //更新に失敗した場合→プロフィール情報を再度DBから取得
             bean2 = model.authentication(bean2);
             req.setAttribute("ProfileBean", bean2);
         }
-        req.setAttribute("Profile", bean1);
+        req.setAttribute("session", bean1);
         req.getRequestDispatcher(direction).forward(req, res);
 
     }

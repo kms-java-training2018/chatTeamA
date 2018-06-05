@@ -11,9 +11,13 @@
   <h1>チャット研修プログラム</h1>
   <h2>プロフィール確認</h2>
   <form action="/showProfile" method="POST">
-    <p>${userName}</p>
     <br>
-    <p>${myPageText}</p>
+    表示名：<c:out value="${ProfileBean.userName}" />
+    <br>
+    <br>
+    自己紹介文：<c:out value="${ProfileBean.myPageText}" />
+    <br>
+    <br>
     <input type="submit" value="閉じる" onclick="window.close();">
   </form>
 </body>
