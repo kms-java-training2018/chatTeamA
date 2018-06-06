@@ -18,7 +18,8 @@
     自己紹介文：&nbsp;&nbsp;&nbsp;&nbsp;<c:out value="${ProfileBean.myPageText}" />
     <br>
     <br>
-    <input type="submit" value="閉じる" onclick="window.close();">
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="閉じる" onclick="window.close();">
   </form>
 </body>
 </html>
