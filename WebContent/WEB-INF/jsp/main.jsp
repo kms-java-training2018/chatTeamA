@@ -13,7 +13,7 @@
   <br><div>■会員一覧</div>
   <c:forEach var="bean" items="${list}" varStatus="status">
     <form action="/chat/directMessage" method="GET">
-    <a href="/chat/directMessage?user_no=${bean.userNo}"><c:out value="${bean.userNo}"/><c:out value="${bean.userName}"/></a><br>
+    <a href="/chat/directMessage?user_no=${bean.userNo}&user_name=${bean.userName}"><c:out value="${bean.userNo}"/><c:out value="${bean.userName}"/></a><br>
      </form>
     </c:forEach>
 

@@ -22,6 +22,9 @@ public class DirectMessageBean {
     /** 送信対象者番号 */
     private String toSendUserNo;
 
+    /** 送信者番号 */
+    private String sendUserNo;
+
     /**メッセージ内容 */
     private String message;
 
@@ -30,6 +33,9 @@ public class DirectMessageBean {
 
     /** 自分のメッセージかどうか */
     private boolean myMessageFlag;
+
+    /** 自分の名前かどうか */
+    private boolean myNameFlag;
 
     /** 削除する会話番号 */
     private String deleteMessageNo;
@@ -120,6 +126,22 @@ public class DirectMessageBean {
 
 	public void setSendUserName(String sendUserName) {
 		this.sendUserName = sendUserName;
+	}
+
+	public String getSendUserNo() {
+		return sendUserNo;
+	}
+
+	public void setSendUserNo(String sendUserNo) {
+		this.sendUserNo = sendUserNo;
+	}
+
+	public boolean isMyNameFlag() {
+		return myNameFlag;
+	}
+
+	public void setMyNameFlag(boolean myNameFlag) {
+		this.myNameFlag = myNameFlag;
 	}
 
 }

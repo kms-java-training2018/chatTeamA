@@ -10,12 +10,13 @@
 <body>
   <script src="./directMessage.js"></script>
   <h1>チャット研修プログラム</h1>
-  <h2>メッセージ</h2>
+
+  <h2><a href="/chat/showProfile?user_no=${toSendUserNo}" target="_blank">${toSendUserName}</a></h2>
   <div
     style="padding: 10px; margin-bottom: 10px; border: 5px double #333333; border-radius: 10px;">
     <c:forEach var="bean" items="${messageList}" varStatus="status">
       <c:if test="${!bean.myMessageFlag }">
-        <a href="/chat/showProfile?user_no=${bean.userNo}"><c:out value="${bean.sendUserName}"/></a>
+        <a href="/chat/showProfile?user_no=${bean.sendUserNo}" target="_blank"><c:out value="${bean.sendUserName}"/><c:out value="${bean.sendUserNo}"/></a>
       </c:if>
       <c:if test="${bean.myMessageFlag }">
         <c:out value="${bean.sendUserName }" />
@@ -40,6 +41,7 @@
   <form action="/chat/directMessage" method="POST">
     <input type="text" name="message">
     <input type="hidden" name="toSend" value="${toSendUserNo}">
+    <input type="hidden" name="toSendUserName" value="${toSendUserName}">
     <input type="submit" name="send"
       value="メッセージの送信">
   </form>

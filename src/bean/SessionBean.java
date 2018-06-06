@@ -16,6 +16,9 @@ public class SessionBean {
     /** 送信対象者番号 */
     private String toSendUserNo;
 
+    /** 送信対象者名前 */
+    private String toSendUserName;
+
     public String getUserNo() {
         return userNo;
     }
@@ -54,6 +57,14 @@ public class SessionBean {
 
 	public void setToSendUserNo(String toSendUserNo) {
 		this.toSendUserNo = toSendUserNo;
+	}
+
+	public String getToSendUserName() {
+		return toSendUserName;
+	}
+
+	public void setToSendUserName(String toSendUserName) {
+		this.toSendUserName = toSendUserName;
 	}
 
 }
