@@ -18,6 +18,7 @@ public class DirectMessageModel {
         StringBuilder sb = new StringBuilder();
         String toSendUserNo = bean.getToSendUserNo();
         String userNo = bean.getUserNo();
+        String userName = bean.getUserName();
 
         Connection conn = null;
         String url = "jdbc:oracle:thin:@192.168.51.67:1521:XE";
@@ -50,8 +51,10 @@ public class DirectMessageModel {
             //sb.append(" inner join m_user B");
             //sb.append(" on A.to_send_user_no = B.user_no");
             sb.append(" WHERE");
-            sb.append(" to_send_user_no = '" + toSendUserNo + "'");
-            sb.append(" AND send_user_no = '" + userNo + "'");
+            sb.append(" (to_send_user_no = '" + toSendUserNo + "'");
+            sb.append(" AND send_user_no = '" + userNo + "')");
+            sb.append(" OR (to_send_user_no = '" + userNo + "'");
+            sb.append(" AND send_user_no = '" + toSendUserNo + "')");
             sb.append(" AND delete_flag = 0");
 
             // SQL実行
@@ -69,13 +72,24 @@ public class DirectMessageModel {
                     directMessage.setMessage(rs.getString("message"));
                     directMessage.setMessageNo(rs.getString("message_no"));
                     directMessage.setSendUserName(rs.getString("sendUserName"));
+                    directMessage.setSendUserNo(rs.getString("sendUserNo"));
 
                     if (rs.getString("sendUserNo").equals(userNo)) {
                         directMessage.setMyMessageFlag(true);
                     } else {
                         directMessage.setMyMessageFlag(false);
                     }
+
                     list.add(directMessage);
+
+                    if (!rs.getString("sendUserName").equals(userName)) {
+                    	directMessage.setMyNameFlag(true);
+                    } else {
+                        directMessage.setMyNameFlag(false);
+                    }
+
+
+
                 }
                 bean.setErrorMessage("");
             }
