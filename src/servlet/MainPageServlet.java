@@ -32,7 +32,6 @@ public class MainPageServlet extends HttpServlet {
         req.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(req, res);
         }
 
-//direction = "/error";
 
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
         // セッション情報取得
@@ -47,16 +46,17 @@ public class MainPageServlet extends HttpServlet {
         String userNo = sessionBean.getUserNo();
         bean.setUserNo(userNo);
         ArrayList<MainPageBean> list = new ArrayList<MainPageBean>();
-        ArrayList<MainPageBean> list2 = new ArrayList<MainPageBean>();
-        ArrayList<MainPageBean> list3 = new ArrayList<MainPageBean>();
+        ArrayList<MainPageBean> talkD = new ArrayList<MainPageBean>();
+        ArrayList<MainPageBean> talkG = new ArrayList<MainPageBean>();
 
 
 
         //modelの会員番号会員名処理をbean経由で取る
         try {
-            list = model.authentication2(bean);
+            list = model.member(bean);
         } catch (Exception e) {
             e.printStackTrace();
+            direction = "/error";
         }
 
         //jspに飛ばす
@@ -65,24 +65,26 @@ public class MainPageServlet extends HttpServlet {
 
         //1対1最新会話情報取得
         try {
-            list2 = model.authentication3(bean);
+        	talkD = model.latestMyTalk(bean);
         } catch (Exception e) {
             e.printStackTrace();
+            direction = "/error";
         }
 
       //jspに飛ばす
-        req.setAttribute("list2", list2);
+        req.setAttribute("talkD", talkD);
 
 
       //グループ最新会話情報取得
         try {
-            list3 = model.authentication4(bean);
+        	talkG = model.latestGroupTalk(bean);
         } catch (Exception e) {
             e.printStackTrace();
+            direction = "/error";
         }
 
       //jspに飛ばす
-        req.setAttribute("list3", list3);
+        req.setAttribute("talkG", talkG);
 
 
 

@@ -12,7 +12,7 @@ import bean.MainPageBean;
 public class MainPageModel {
 
     //会員数取得
-    public MainPageBean authentication(MainPageBean bean) {
+    public MainPageBean membership(MainPageBean bean) {
         // 初期化
         StringBuilder sb = new StringBuilder();
         Connection conn = null;
@@ -36,9 +36,7 @@ public class MainPageModel {
             ResultSet num = stmtx.executeQuery(sb.toString());
             if (!num.next()) {
                 bean.setErrorMessage("会員が取得できませんでした。");
-                //この場合エラー画面へ遷移
             } else {
-                //bean.setNumber(Integer.parseInt(num.getString("count (*)")));
                 bean.setNumber(num.getInt(1));
                 bean.setErrorMessage("");
                 conn.close();
@@ -50,7 +48,6 @@ public class MainPageModel {
                 conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
-                //この場合エラー画面へ遷移
             }
         }
         return bean;
@@ -58,7 +55,7 @@ public class MainPageModel {
     }
 
     //会員名会員ナンバー取得
-    public ArrayList<MainPageBean> authentication2(MainPageBean bean) {
+    public ArrayList<MainPageBean> member(MainPageBean bean) {
         // 初期化
         StringBuilder sb = new StringBuilder();
         String userNo = bean.getUserNo();
@@ -106,7 +103,6 @@ public class MainPageModel {
                 conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
-                //この場合エラー画面へ遷移
             }
         }
 
@@ -116,7 +112,7 @@ public class MainPageModel {
     }
 
     //最新メッセージ取得
-    public ArrayList<MainPageBean> authentication3(MainPageBean bean) {
+    public ArrayList<MainPageBean> latestMyTalk(MainPageBean bean) {
         // 初期化
         StringBuilder sb = new StringBuilder();
         String userNo = bean.getUserNo();
@@ -131,7 +127,7 @@ public class MainPageModel {
             e.printStackTrace();
         }
         // 接続作成
-        ArrayList<MainPageBean> list2 = new ArrayList<MainPageBean>();
+        ArrayList<MainPageBean> talkD = new ArrayList<MainPageBean>();
         try {
             conn = DriverManager.getConnection(url, user, dbPassword);
 
@@ -140,8 +136,6 @@ public class MainPageModel {
               会話情報テーブルから二者間の最新メッセージを取得する
               この処理を人数分繰り返す
               */
-            //会員の人数分回処理を繰り返す
-            //while (num.next()) {
 
             //最新メッセージ取得処理
             sb.append("SELECT ");
@@ -166,9 +160,8 @@ public class MainPageModel {
             while (rs2.next()) {
                 MainPageBean myTalk = new MainPageBean () ;
                 // Listに追加
-                //myTalk.setUserName(rs2.getString("user_name"));
                 myTalk.setMessage(rs2.getString("message"));
-                list2.add(myTalk);
+                talkD.add(myTalk);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -177,20 +170,18 @@ public class MainPageModel {
                 conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
-                //この場合エラー画面へ遷移
             }
         }
 
 
 
-        return list2;
+        return talkD;
     }
 
     //グループ最新メッセージ取得
-    public ArrayList<MainPageBean> authentication4(MainPageBean bean) {
+    public ArrayList<MainPageBean> latestGroupTalk(MainPageBean bean) {
         // 初期化
         StringBuilder sb = new StringBuilder();
-        //String userNo = bean.getUserNo();
         Connection conn = null;
         String url = "jdbc:oracle:thin:@192.168.51.67:1521:XE";
         String user = "DEV_TEAM_A";
@@ -202,7 +193,7 @@ public class MainPageModel {
             e.printStackTrace();
         }
         // 接続作成
-        ArrayList<MainPageBean> list3 = new ArrayList<MainPageBean>();
+        ArrayList<MainPageBean> talkG = new ArrayList<MainPageBean>();
         try {
             conn = DriverManager.getConnection(url, user, dbPassword);
             /**グループ一覧取得処理
@@ -242,7 +233,7 @@ public class MainPageModel {
                 groupTalk.setUserNo(rs3.getString("to_send_group_no"));
                 groupTalk.setGroupName(rs3.getString("group_name"));
                 groupTalk.setMessage(rs3.getString("MESSAGE"));
-                list3.add(groupTalk);
+                talkG.add(groupTalk);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -251,12 +242,11 @@ public class MainPageModel {
                 conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
-                //この場合エラー画面へ遷移
             }
         }
 
 
 
-        return list3;
+        return talkG;
     }
 }
