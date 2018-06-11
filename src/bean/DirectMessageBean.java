@@ -22,6 +22,9 @@ public class DirectMessageBean {
     /** 送信対象者番号 */
     private String toSendUserNo;
 
+    /** 送信対象者名 */
+    private String toSendUserName;
+
     /** 送信者番号 */
     private String sendUserNo;
 
@@ -142,6 +145,14 @@ public class DirectMessageBean {
 
 	public void setMyNameFlag(boolean myNameFlag) {
 		this.myNameFlag = myNameFlag;
+	}
+
+	public String getToSendUserName() {
+		return toSendUserName;
+	}
+
+	public void setToSendUserName(String toSendUserName) {
+		this.toSendUserName = toSendUserName;
 	}
 
 }
