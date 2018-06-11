@@ -34,7 +34,7 @@ public class GroupMessageModel {
 
             // SQL作成
             sb.append("SELECT ");
-            sb.append("COUNT(*) ");
+            sb.append("MAX(message_no) ");
             sb.append("FROM ");
             sb.append("t_message_info");
 
