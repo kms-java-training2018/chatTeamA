@@ -107,7 +107,8 @@ public class DirectMessageServlet extends HttpServlet {
 		bean.setUserNo(sessionBean.getUserNo());
 		bean.setToSendUserNo(sessionBean.getToSendUserNo());
 		bean.setToSendUserName(sessionBean.getToSendUserName());
-		req.setAttribute("toSendUserName", req.getParameter("toSendUserName"));
+
+		//req.setAttribute("toSendUserName", req.getParameter("toSendUserName"));
 
 		/**
 		*
@@ -253,6 +254,8 @@ public class DirectMessageServlet extends HttpServlet {
 
 		//jspに飛ばす
 		req.setAttribute("messageList", list);
+		req.setAttribute("toSendUserName", bean.getToSendUserName());
+
 		//req.getRequestDispatcher(direction).forward(req, res);
 
 		// 取得に成功した場合セッション情報をセット
