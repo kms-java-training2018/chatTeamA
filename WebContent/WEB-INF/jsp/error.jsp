@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>エラーやで</title>
+<title>エラー画面</title>
 </head>
 <body>
   <h1>エラーです。すぐにパワプロを買ってください！！<br>
