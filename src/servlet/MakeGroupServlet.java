@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -8,101 +9,136 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import bean.LoginBean;
 import bean.MakeGroupBean;
 import bean.SessionBean;
+import bean.UserListBean;
 import model.MakeGroupModel;
+import model.UserListModel;
 
 public class MakeGroupServlet extends HttpServlet {
 
-    public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+	public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+		// グループ作成ページに移動する処理
+		// 初期化
 
-        req.getRequestDispatcher("/WEB-INF/jsp/makeGroup.jsp").forward(req, res);
-        LoginBean bean = new LoginBean();
-        bean.setErrorMessage("");
-        bean.setUserId("");
-        bean.setPassword("");
+		UserListModel model = new UserListModel();
+		SessionBean sessionBean = new SessionBean();
+		ArrayList<UserListBean> userListBeanList = new ArrayList<>();
+		String direction = "/WEB-INF/jsp/makeGroup.jsp";
 
-        req.setAttribute("loginBean", bean);
-        req.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, res);
-    }
+		/** パラメータチェック */
+		HttpSession session = req.getSession();
+		sessionBean = (SessionBean) session.getAttribute("session");
+		String authorUserNo = sessionBean.getUserNo();
 
-    public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+		if (authorUserNo == null) {
 
-        String direction = "/WEB-INF/jsp/login.jsp";
+			// セッションチェック
 
-        //セッション設定
-        HttpSession session = req.getSession();
-        SessionBean sessionBean = new SessionBean();
+			direction = "/error";
+			req.setAttribute("errorMessage", "セッションがありません");
+		} else {
 
-        //グループビーン、モデルの設定
-        MakeGroupBean makeGroupBean = new MakeGroupBean();
-        MakeGroupModel groupMake = new MakeGroupModel();
+			/** 会員一覧取得処理 */
+			try {
+				userListBeanList = model.getUserList(authorUserNo);
+			} catch (Exception e) {
+				e.printStackTrace();
+				userListBeanList.clear();
 
-        //セッション判定
-        if (session.getAttribute("session") != null) {
+				// エラー情報入れたbeanだけセット
+				UserListBean ulBean = new UserListBean();
+				ulBean.setErrorFlag(1);
+				userListBeanList.add(ulBean);
+			}
+			if (userListBeanList.isEmpty() || userListBeanList.get(0).getErrorFlag() == 1) {
+				//エラーページに遷移
+				direction = "/error";
+			} else {
+				// 正常に一覧取得できた場合、リクエストに送る
+				req.setAttribute("bean", userListBeanList);
+			}
+		}
+		req.getRequestDispatcher(direction).forward(req, res);
 
-            //正しい画面遷移か
-            if (req.getParameter("userNo") != null) {
+	}
 
-                //groupmakeにsessionのbean引き継がせる
-                groupMake.setMakeGroupBean((MakeGroupBean) session.getAttribute("MakeGroupBean"));
+	public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+		// グループ作成を行いメインページに移動する処理
+		// 初期化
+		MakeGroupBean bean = new MakeGroupBean();
+		MakeGroupModel model = new MakeGroupModel();
+		String direction = "/WEB-INF/jsp/makeGroup.jsp";
 
-                //グループ名をもらう
-                String name = new String(req.getParameter("groupName").getBytes("ISO-8859-1"));
+		/** パラメータチェック */
+		req.setCharacterEncoding("UTF-8");
 
-                //入力チェック
-                int bytecheck = 0;
-                bytecheck = makeGroupBean.stringLengthCheck(name);
-                if (bytecheck == 1) {
-                    String message = "文字数がオーバーしています";
+		// セッション情報確認
+		HttpSession session = req.getSession();
+		// 入力値を変数に渡す
+		String groupName = req.getParameter("groupName");
+		String[] groupMemberNo = req.getParameterValues("userNo");
 
-                    req.setAttribute("error", message);
-                    direction = "/WEB-INF/jsp/makeGroup.jsp";
+		if (session == null) {
 
-                    req.getRequestDispatcher(direction).forward(req, res);
-                } else {
+			// セッション情報なしの場合
+			direction = "/error";
+			req.setAttribute("errorMessage", "セッションがありません");
+		} else {
+			// それ以外の場合処理続ける
+			// ログインユーザー情報をセッションから取得
+			SessionBean sessionBean = (SessionBean) session.getAttribute("session");
+			String authorUserNo = sessionBean.getUserNo();
 
-                    //モデルにセット
-                    groupMake.setGroupName(name);
+			try {
+				/** グループ登録処理とグループ会員登録処理 */
+				bean = model.makeGroup(groupName, groupMemberNo, authorUserNo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			if (bean.getErrorFlag() == 1) {
+				// SQLでのエラー
+				req.setAttribute("errorMessage", bean.getErrorMessage());
+				direction = "/error";
+				req.setAttribute("bean", bean);
+			} else if (bean.getErrorFlag() == 2) {
 
-                    //グループへ登録
-                    String success = groupMake.MakeGroup();
-                    System.out.println(success);
+				// グループ名が不正だった場合
+				/** 会員一覧取得処理 */
+				UserListModel ulModel = new UserListModel();
+				ArrayList<UserListBean> userListBeanList = new ArrayList<>();
+				try {
+					userListBeanList = ulModel.getUserList(authorUserNo);
+				} catch (Exception e) {
+					e.printStackTrace();
 
+					// エラーはいてるのでuserListBeanList初期化してエラー情報入れる
+					userListBeanList.clear();
+					// エラー情報入れたbeanだけセット
+					UserListBean ulBean = new UserListBean();
+					ulBean.setErrorFlag(1);
+					userListBeanList.add(ulBean);
+				}
+				if (userListBeanList.isEmpty() || userListBeanList.get(0).getErrorFlag() == 1) {
+					// 途中でエラーはいている場合
+					direction = "/error";
+				} else {
+					// 正常に一覧取得できた場合
+					req.setAttribute("bean", userListBeanList);
+					// 行き先をグループ作成ページに
+					direction = "/WEB-INF/jsp/makeGroup.jsp";
+				}
 
+			} else {
+				// 正常にグループ作成できた場合
+				// 行き先をメインページに
+				direction = "/main";
+				req.setAttribute("bean", bean);
+			}
 
-                    //選択されたユーザーをreqからもらう
+			req.setAttribute("errorMessage", bean.getErrorMessage());
+			req.getRequestDispatcher(direction).forward(req, res);
 
-                    String SelectNo[];
-
-                    SelectNo = req.getParameterValues("userNo");
-
-                    //抜き取った配列をMakeGroupBeanへ送ってグループ作成
-                    String message = groupMake.ResistGroup(SelectNo);
-
-
-                    direction = "/WEB-INF/jsp/main.jsp";
-
-                }
-
-            } else {
-
-                // ログインデータ取得
-                sessionBean = (SessionBean) session.getAttribute("session");
-                String autherName = sessionBean.getUserName();
-
-                //空のビーンにつめる
-                makeGroupBean = groupMake.authentication(autherName);
-
-                //jspに送る
-                session.setAttribute("MakeGroupBean", makeGroupBean);
-                direction = "/WEB-INF/jsp/makeGroup.jsp";
-            }
-
-        }
-        req.getRequestDispatcher(direction).forward(req, res);
-
-    }
-
+		}
+	}
 }
