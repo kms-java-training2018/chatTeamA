@@ -144,9 +144,6 @@ public class DirectMessageServlet extends HttpServlet {
 				bean.setErrorMessage("メッセージは100桁以内にしてください");
 			}
 
-			//メッセージ画面へ遷移
-			req.getRequestDispatcher(direction).forward(req, res);
-
 			//--パラメータチェック完了--//
 			bean.setMessage(message);
 
