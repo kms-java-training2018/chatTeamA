@@ -5,20 +5,17 @@ public class ProfileBean {
     /** 会員番号 */
     private String userNo;
 
-    /** エラーメッセージ() */
-    private String errorMessage;
-
     /** 表示名 */
     private String userName;
 
     /** 自己紹介文 */
     private String myPageText;
 
+    /** エラーメッセージ() */
+    private String errorMessage;
+
     /** エラーフラグ */
     private boolean errFlag;
-
-    /** エラーメッセージ */
-    private String inputErrorMessage;
 
 
     public String getUserNo() {
@@ -27,14 +24,6 @@ public class ProfileBean {
 
     public void setUserNo(String userNo) {
         this.userNo = userNo;
-    }
-
-    public String getErrorMessage() {
-        return errorMessage;
-    }
-
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
     }
 
     public String getUserName() {
@@ -51,6 +40,14 @@ public class ProfileBean {
 
     public void setMyPageText(String myPageText) {
         this.myPageText = myPageText;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 
     public boolean isErrFlag() {
