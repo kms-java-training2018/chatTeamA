@@ -5,13 +5,30 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>新規グループ作成</title>
 </head>
 <body>
 	<h1>チャット研修プログラム</h1>
 	<h2>グループ作成</h2>
-	<form action="/chat/main" method="POST">
-		<input type="submit" value="グループを作成する">
+	<p>${errorMessage}</p>
+	<form action="/chat/makeGroup" method="POST">
+		グループ名(最大30字)<input type="text" name="groupName" value="" size="30">
+		<br>
+		<table>
+			<tr>
+				<c:forEach var="obj" items="${bean}" varStatus="status">
+					<c:if test="${status.index % 3 == 0}">
+			</tr>
+			<tr>
+				</c:if>
+				<td><input type="checkbox" name="userNo"
+					value="${bean[status.index].userNo}">${bean[status.index].userName}
+				</td>
+				</c:forEach>
+			</tr>
+		</table>
+		<br> <input type="submit" value="グループを作成する">
+
 	</form>
 
 	<form action="/chat/main" method="POST">

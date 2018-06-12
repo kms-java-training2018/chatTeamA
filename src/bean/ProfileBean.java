@@ -1,6 +1,7 @@
 package bean;
 
-public class SessionBean {
+public class ProfileBean {
+
     /** 会員番号 */
     private String userNo;
 
@@ -10,14 +11,12 @@ public class SessionBean {
     /** 自己紹介文 */
     private String myPageText;
 
-    /** グループ番号 */
-    private String groupNo;
+    /** エラーメッセージ() */
+    private String errorMessage;
 
-    /** 送信対象者番号 */
-    private String toSendUserNo;
+    /** エラーフラグ */
+    private boolean errFlag;
 
-    /** 送信対象者名前 */
-    private String toSendUserName;
 
     public String getUserNo() {
         return userNo;
@@ -43,28 +42,21 @@ public class SessionBean {
         this.myPageText = myPageText;
     }
 
-    public String getGroupNo() {
-        return groupNo;
+    public String getErrorMessage() {
+        return errorMessage;
     }
 
-    public void setGroupNo(String groupNo) {
-        this.groupNo = groupNo;
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 
-	public String getToSendUserNo() {
-		return toSendUserNo;
-	}
+    public boolean isErrFlag() {
+        return errFlag;
+    }
 
-	public void setToSendUserNo(String toSendUserNo) {
-		this.toSendUserNo = toSendUserNo;
-	}
-
-	public String getToSendUserName() {
-		return toSendUserName;
-	}
-
-	public void setToSendUserName(String toSendUserName) {
-		this.toSendUserName = toSendUserName;
-	}
+    public void setErrFlag(boolean errFlag) {
+        this.errFlag = errFlag;
+    }
 
 }
+
