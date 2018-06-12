@@ -35,9 +35,8 @@ public class UserListModel {
 			conn = DriverManager.getConnection(url, user, dbPassword);
 			Statement stmt = conn.createStatement();
 			// SQL作成
-			/*
-			 * ユーザ一覧取得
-			 */
+
+			// ユーザ一覧取得
 			sb.append("SELECT ");
 			sb.append(" user_no ");
 			sb.append(", user_id ");
