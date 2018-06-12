@@ -14,8 +14,6 @@ public class GroupMessageModel {
     public GroupMessageBean nextNumCheck(GroupMessageBean bean) {
         // 初期化
         StringBuilder sb = new StringBuilder();
-        String groupNo = bean.getGroupNo();
-        String userNo = bean.getUserNo();
 
         Connection conn = null;
         String url = "jdbc:oracle:thin:@192.168.51.67:1521:XE";
