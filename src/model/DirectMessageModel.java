@@ -53,10 +53,11 @@ public class DirectMessageModel {
 			//sb.append(" on A.to_send_user_no = B.user_no");
 			sb.append(" WHERE");
 			sb.append(" (to_send_user_no = '" + toSendUserNo + "'");
-			sb.append(" AND send_user_no = '" + userNo + "')");
+			sb.append(" AND send_user_no = '" + userNo + "'");
+			sb.append(" AND delete_flag = 0)");
 			sb.append(" OR (to_send_user_no = '" + userNo + "'");
-			sb.append(" AND send_user_no = '" + toSendUserNo + "')");
-			sb.append(" AND delete_flag = 0");
+			sb.append(" AND send_user_no = '" + toSendUserNo + "'");
+			sb.append(" AND delete_flag = 0)");
 
 			// SQL実行
 			Statement stmt = conn.createStatement();
