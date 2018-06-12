@@ -126,9 +126,6 @@ public class DirectMessageServlet extends HttpServlet {
 			 */
 
 			//メッセージ画面で入力された情報を取得
-
-			//String toSendUserNo = req.getParameter("toSend");
-
 			String message = req.getParameter("message");
 			//--(1)-1 パラメータチェック--//
 			//--(1)-2 チェックでエラーが発生した場合,エラーメッセージを設定して、//
@@ -144,12 +141,11 @@ public class DirectMessageServlet extends HttpServlet {
 			} else if (message.length() > 100) {
 
 				//エラーメッセージ設定
-				bean.setErrorMessage("メッセージが長すぎます");
-
-				//メッセージ画面へ遷移
-				req.getRequestDispatcher(direction).forward(req, res);
-
+				bean.setErrorMessage("メッセージは100桁以内にしてください");
 			}
+
+			//メッセージ画面へ遷移
+			req.getRequestDispatcher(direction).forward(req, res);
 
 			//--パラメータチェック完了--//
 			bean.setMessage(message);
@@ -237,9 +233,6 @@ public class DirectMessageServlet extends HttpServlet {
 		//--パラメータチェック--//
 
 		//--存在しなければエラー画面へ遷移--//
-		//if (bean,getToSendUserNo()).equals(null)) {
-		//direction = "/error";
-		//}
 
 		/*
 		* 会話情報取得処理
