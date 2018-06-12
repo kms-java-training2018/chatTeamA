@@ -8,6 +8,14 @@
 <title>メインメニュー</title>
 </head>
 <body>
+	<div align="right">
+		${session.getUserName() }さん <br>
+		<form name="log_out" action="/chat/logout" method="POST">
+			<input type="button" value="ログアウト"
+				onClick="if(confirm ('本当にログアウトしますか？')){submit();}">
+		</form>
+	</div>
+	<hr>
   <h1>チャット研修プログラム</h1>
   <h2>メインメニュー</h2>
   <br><div>■会員一覧</div>
