@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>${ProfileBean.userName}さんのプロフィール</title>
 </head>
 <body>
   <h1>チャット研修プログラム</h1>
@@ -15,7 +15,7 @@
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;表示名：&nbsp;&nbsp;&nbsp;&nbsp;<c:out value="${ProfileBean.userName}" />
     <br>
     <br>
-    自己紹介文：&nbsp;&nbsp;&nbsp;&nbsp;<c:out value="${ProfileBean.myPageText}" />
+    &nbsp;&nbsp;自己紹介文：&nbsp;&nbsp;&nbsp;&nbsp;<c:out value="${ProfileBean.myPageText}" />
     <br>
     <br>
     <br>
