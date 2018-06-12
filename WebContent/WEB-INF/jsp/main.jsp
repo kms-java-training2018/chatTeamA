@@ -24,13 +24,12 @@
 
 
   <br>■グループ一覧
-  <br>
-  <a href="/chat/groupMessage">グループ名（グループメッセージへ）</a>
+
   <br>
 
 <c:forEach var="bean" items="${talkG}" varStatus="status">
-<p>グループ名</p><a href="/chat/groupMessage?group_no=${bean.userNo}"><c:out value="${bean.groupName}"/></a>
-<p>最新グループトーク</p><c:out value="${bean.message}"/><br>
+<a href="/chat/groupMessage?group_no=${bean.userNo}"><c:out value="${bean.groupName}"/></a>
+<c:out value="${bean.message}"/><br>
     </c:forEach>
 
   <br>
