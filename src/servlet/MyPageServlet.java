@@ -79,12 +79,13 @@ public class MyPageServlet extends HttpServlet {
         	bean2.setErrorMessage("表示名は30文字以下、自己紹介文は100文字以下で入力してください。");
         } else {
             bean2.setUserName(userName);
+            bean2.setUserNo(userNo);
             bean2.setMyPageText(myPageText);
             bean2.setErrorMessage("");
         }
 
         // 更新処理が成功した場合セッションに情報をセット
-        bean2.setUserNo(userNo);
+        bean1.setUserNo(userNo);
         if ("".equals(bean2.getErrorMessage())) {
             try {
                 bean2 = model.authentication2(bean2);
