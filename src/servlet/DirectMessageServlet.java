@@ -132,7 +132,7 @@ public class DirectMessageServlet extends HttpServlet {
 			//メッセージ画面に遷移する。--//
 
 			//未入力の場合
-			if (message == null) {
+			if (message.equals("")) {
 
 				//エラーメッセージ設定
 				bean.setErrorMessage("メッセージを入力してください");
@@ -146,6 +146,10 @@ public class DirectMessageServlet extends HttpServlet {
 
 			//--パラメータチェック完了--//
 			bean.setMessage(message);
+
+			//エラーメッセージを表示させる
+			req.setAttribute("errorMessage", bean.getErrorMessage());
+
 
 			/*
 			 * (2) 会話情報登録処理
@@ -161,9 +165,9 @@ public class DirectMessageServlet extends HttpServlet {
 				bean = model.messageRegi(bean);
 
 				//--(2)-2 エラーメッセージがセットされていた場合はエラー画面へ--//
-				if (bean.getErrorMessage() != null) {
-					direction = "/error";
-				}
+//				if (bean.getErrorMessage() != null) {
+//					direction = "/error";
+//				}
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -243,17 +247,11 @@ public class DirectMessageServlet extends HttpServlet {
 		}
 
 		//jspに飛ばす
+
 		req.setAttribute("messageList", list);
 		req.setAttribute("toSendUserName", bean.getToSendUserName());
 
-		//req.getRequestDispatcher(direction).forward(req, res);
 
-		// 取得に成功した場合セッション情報をセット
-		//        if ("".equals(bean.getErrorMessage())) {
-		//            sessionBean.setUserName(bean.getUserName());
-		//            sessionBean.setUserNo(bean.getUserNo());
-		//            session.setAttribute("session", sessionBean);
-		//        }
 
 		req.getRequestDispatcher(direction).forward(req, res);
 

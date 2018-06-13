@@ -1,12 +1,6 @@
 package bean;
 
 public class DirectMessageBean {
-    /** 会員ID */
-    private String userId;
-
-    /** パスワード */
-    private String password;
-
     /** エラーメッセージ */
     private String errorMessage;
 
@@ -43,21 +37,6 @@ public class DirectMessageBean {
     /** 削除する会話番号 */
     private String deleteMessageNo;
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public String getErrorMessage() {
         return errorMessage;
