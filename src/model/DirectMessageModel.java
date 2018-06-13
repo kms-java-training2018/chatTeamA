@@ -64,39 +64,36 @@ public class DirectMessageModel {
 			ResultSet rs = stmt.executeQuery(sb.toString());
 
 			//--メッセージの分だけ取得--//
-			if (!rs.next()) {
-				bean.setErrorMessage("メッセージの取得に失敗しました");
 
-			} else {
-				//bean型のlistにメッセージを格納
-				while (rs.next()) {
-					DirectMessageBean directMessage = new DirectMessageBean();
-					directMessage.setMessage(rs.getString("message"));
-					directMessage.setMessageNo(rs.getString("message_no"));
-					directMessage.setSendUserName(rs.getString("sendUserName"));
-					directMessage.setSendUserNo(rs.getString("sendUserNo"));
+			//bean型のlistにメッセージを格納
+			while (rs.next()) {
+				DirectMessageBean directMessage = new DirectMessageBean();
+				directMessage.setMessage(rs.getString("message"));
+				directMessage.setMessageNo(rs.getString("message_no"));
+				directMessage.setSendUserName(rs.getString("sendUserName"));
+				directMessage.setSendUserNo(rs.getString("sendUserNo"));
 
-					if (rs.getString("sendUserNo").equals(userNo)) {
-						directMessage.setMyMessageFlag(true);
-					} else {
-						directMessage.setMyMessageFlag(false);
-					}
-
-					list.add(directMessage);
-
-					if (!rs.getString("sendUserName").equals(userName)) {
-						directMessage.setMyNameFlag(true);
-					} else {
-						directMessage.setMyNameFlag(false);
-					}
-
+				if (rs.getString("sendUserNo").equals(userNo)) {
+					directMessage.setMyMessageFlag(true);
+				} else {
+					directMessage.setMyMessageFlag(false);
 				}
-				bean.setErrorMessage("");
+
+				list.add(directMessage);
+
+				if (!rs.getString("sendUserName").equals(userName)) {
+					directMessage.setMyNameFlag(true);
+				} else {
+					directMessage.setMyNameFlag(false);
+				}
+
 			}
+			bean.setErrorMessage("");
 
 			conn.close();
 
 		} catch (SQLException e) {
+			bean.setErrorMessage("メッセージの取得に失敗しました");
 			e.printStackTrace();
 		} finally {
 			try {
@@ -136,7 +133,7 @@ public class DirectMessageModel {
 
 			// SQL作成
 			sb.append("SELECT ");
-			sb.append("COUNT(*) ");
+			sb.append("MAX(message_no) ");
 			sb.append("FROM ");
 			sb.append("t_message_info");
 

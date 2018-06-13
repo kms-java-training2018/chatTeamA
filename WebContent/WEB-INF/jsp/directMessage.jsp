@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>ダイレクトメッセージ</title>
+<title>${toSendUserName}さんとの会話</title>
 </head>
 <body>
 	<div align="right">
@@ -48,7 +48,9 @@
 			name="toSend" value="${toSendUserNo}"> <input type="hidden"
 			name="toSendUserName" value="${toSendUserName}"> <input
 			type="submit" name="send" value="メッセージの送信">
+			<P>${errorMessage}</P>
 	</form>
+
 	<form action="/chat/main" method="POST">
 		<input type="submit" value="メインメニューへ戻る">
 	</form>
