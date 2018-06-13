@@ -88,7 +88,7 @@ public class UserListModel {
 		return beanList;
 	}
 
-	public ArrayList<UserListBean> getUserLatestMessage(ArrayList<UserListBean> beanList, String authorUserNo) {
+/**	public ArrayList<UserListBean> getLatestMessage(ArrayList<UserListBean> beanList, String authorUserNo) {
 		StringBuilder sb = new StringBuilder();
 
 		// DB
@@ -164,5 +164,5 @@ public class UserListModel {
 
 		return beanList;
 	}
-
+*/
 }
