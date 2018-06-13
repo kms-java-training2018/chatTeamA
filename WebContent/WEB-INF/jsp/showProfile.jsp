@@ -8,7 +8,7 @@
 <title>${ProfileBean.userName}さんのプロフィール</title>
 </head>
 <body>
-  <h1>チャット研修プログラム</h1>
+  <h1>チームAのチャット</h1>
   <h2>プロフィール確認</h2>
   <form action="/showProfile" method="POST">
     <br>

@@ -16,8 +16,9 @@
 		</form>
 	</div>
 	<hr>
-  <h1>チャット研修プログラム</h1>
+  <h1>チームAのチャット</h1>
   <h2>マイページ</h2>
+
   <p>表示名</p>
   <form action="/chat/myPage" method="POST">
   <input size="55" type="text" name="userName" value="${ProfileBean.userName}">

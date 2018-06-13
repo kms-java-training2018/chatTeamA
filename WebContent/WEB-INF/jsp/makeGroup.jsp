@@ -16,7 +16,7 @@
 		</form>
 	</div>
 	<hr>
-	<h1>チャット研修プログラム</h1>
+	<h1>チームAのチャット</h1>
 	<h2>グループ作成</h2>
 	<p>${errorMessage}</p>
 	<form action="/chat/makeGroup" method="POST">
@@ -38,7 +38,7 @@
 		<br> <input type="submit" value="グループを作成する">
 
 	</form>
-
+<br>
 	<form action="/chat/main" method="POST">
 		<input type="submit" value="メインメニューに戻る">
 	</form>
