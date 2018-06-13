@@ -92,7 +92,6 @@ public class MyPageServlet extends HttpServlet {
         }
 
         // 更新処理が成功した場合セッションに情報をセット
-        //sessionBean.setUserNo(userNo);
         if ("".equals(bean.getErrorMessage())) {
             try {
                 bean = model.authentication2(bean);
@@ -100,8 +99,7 @@ public class MyPageServlet extends HttpServlet {
                 e.printStackTrace();
             }
             sessionBean.setUserNo(userNo);
-            //sessionBean.setUserName(bean.getUserName());
-            //sessionBean.setMyPageText(bean.getMyPageText());
+            sessionBean.setUserName(bean.getUserName());
             HttpSession session = req.getSession();
             session.setAttribute("session", sessionBean);
             direction = "/main";

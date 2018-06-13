@@ -102,6 +102,7 @@ public class MyPageModel {
             sb.append("SET");
             sb.append(" user_name='"+ userName + "' ");
             sb.append(" , my_page_text='"+ myPageText + "' ");
+            sb.append(" , update_date = sysdate ");
             sb.append("WHERE ");
             sb.append(" user_no = '" + userNo + "' ");
 
