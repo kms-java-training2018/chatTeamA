@@ -18,84 +18,83 @@ import model.MainPageModel;
  */
 
 public class MainPageServlet extends HttpServlet {
-    /**
-    * 初期表示
-    */
-    public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-     // Beanの初期化
-        //MainPageBean bean = new MainPageBean();
-        //bean.setErrorMessage("");
-        //bean.setUserId("");
-        //bean.setPassword("");
+	/**
+	* 初期表示
+	*/
+	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
-        //req.setAttribute("mainPageBean", bean);
-        req.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(req, res);
-        }
+		// セッションチェック
+		HttpSession session = req.getSession();
+		SessionBean sessionBean = new SessionBean();
+		sessionBean = (SessionBean) session.getAttribute("session");
+		if (sessionBean == null) {
+			// エラーサーブレットへ
+			req.getRequestDispatcher("/error").forward(req, res);
+			return;
+		}
 
+		req.getRequestDispatcher("/WEB-INF/jsp/main.jsp").forward(req, res);
+	}
 
-    public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
-        // セッション情報取得
-                HttpSession session = req.getSession();
-                SessionBean sessionBean = new SessionBean();
-                sessionBean = (SessionBean) session.getAttribute("session");
+	public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+		// セッション情報取得
+		HttpSession session = req.getSession();
+		SessionBean sessionBean = new SessionBean();
+		sessionBean = (SessionBean) session.getAttribute("session");
 
-        // 初期化
-        MainPageBean bean = new MainPageBean();
-        MainPageModel model = new MainPageModel();
-        String direction = "/WEB-INF/jsp/main.jsp";
-        String userNo = sessionBean.getUserNo();
+		// 初期化
+		MainPageBean bean = new MainPageBean();
+		MainPageModel model = new MainPageModel();
+		String direction = "/WEB-INF/jsp/main.jsp";
+		String userNo = sessionBean.getUserNo();
 
-        bean.setUserNo(userNo);
-        ArrayList<MainPageBean> list = new ArrayList<MainPageBean>();
-        ArrayList<MainPageBean> talkD = new ArrayList<MainPageBean>();
-        ArrayList<MainPageBean> talkG = new ArrayList<MainPageBean>();
+		bean.setUserNo(userNo);
+		ArrayList<MainPageBean> list = new ArrayList<MainPageBean>();
+		ArrayList<MainPageBean> talkD = new ArrayList<MainPageBean>();
+		ArrayList<MainPageBean> talkG = new ArrayList<MainPageBean>();
 
-        //modelの会員番号会員名処理をbean経由で取る
-        try {
-            list = model.member(bean);
-        } catch (Exception e) {
-            e.printStackTrace();
-            direction = "/error";
-        }
+		//modelの会員番号会員名処理をbean経由で取る
+		try {
+			list = model.member(bean);
+		} catch (Exception e) {
+			e.printStackTrace();
+			direction = "/error";
+		}
 
-        //jspに飛ばす
-        req.setAttribute("list", list);
+		//jspに飛ばす
+		req.setAttribute("list", list);
 
+		//1対1最新会話情報取得
+		try {
+			talkD = model.latestMyTalk(bean);
+		} catch (Exception e) {
+			e.printStackTrace();
+			direction = "/error";
+		}
 
-        //1対1最新会話情報取得
-        try {
-        	talkD = model.latestMyTalk(bean);
-        } catch (Exception e) {
-            e.printStackTrace();
-            direction = "/error";
-        }
+		//jspに飛ばす
+		req.setAttribute("talkD", talkD);
 
-      //jspに飛ばす
-        req.setAttribute("talkD", talkD);
+		//グループ一覧情報取得
+		try {
+			talkG = model.latestGroupTalk(bean);
+		} catch (Exception e) {
+			e.printStackTrace();
+			direction = "/error";
+		}
 
+		//jspに飛ばす
+		req.setAttribute("talkG", talkG);
 
-      //グループ一覧情報取得
-        try {
-        	talkG = model.latestGroupTalk(bean);
-        } catch (Exception e) {
-            e.printStackTrace();
-            direction = "/error";
-        }
+		// 取得に成功した場合セッション情報をセット
+		if ("".equals(bean.getErrorMessage())) {
+			sessionBean.setUserName(bean.getUserName());
+			sessionBean.setUserNo(bean.getUserNo());
+			session.setAttribute("session", sessionBean);
+		}
 
-      //jspに飛ばす
-        req.setAttribute("talkG", talkG);
+		req.getRequestDispatcher(direction).forward(req, res);
 
-
-
-        // 取得に成功した場合セッション情報をセット
-        if ("".equals(bean.getErrorMessage())) {
-            sessionBean.setUserName(bean.getUserName());
-            sessionBean.setUserNo(bean.getUserNo());
-            session.setAttribute("session", sessionBean);
-        }
-
-        req.getRequestDispatcher(direction).forward(req, res);
-
-    }
+	}
 
 }

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import bean.ProfileBean;
+import bean.SessionBean;
 import model.ShowProfileModel;
 
 public class ShowProfileServlet extends HttpServlet {
@@ -27,6 +28,15 @@ public class ShowProfileServlet extends HttpServlet {
 
         //セッションの存在チェック
         HttpSession session = req.getSession();
+
+        SessionBean sessionBean = new SessionBean();
+        sessionBean = (SessionBean) session.getAttribute("session");
+
+        if(sessionBean == null) {
+			req.getRequestDispatcher("/error").forward(req, res);
+			return;
+		}
+
         if(session != null) {
             /**
              * 対象ユーザーの会員番号をパラメータに保持しているかチェック

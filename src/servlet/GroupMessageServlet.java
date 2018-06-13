@@ -29,6 +29,7 @@ public class GroupMessageServlet extends HttpServlet {
 
         if(sessionBean == null) {
         	req.getRequestDispatcher("/error").forward(req, res);
+        	return;
         }
 
 

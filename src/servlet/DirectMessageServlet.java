@@ -42,6 +42,7 @@ public class DirectMessageServlet extends HttpServlet {
 
 		if(sessionBean == null) {
 			req.getRequestDispatcher("/error").forward(req, res);
+			return;
 		}
 
 		//--パラメータチェック--//
@@ -84,6 +85,7 @@ public class DirectMessageServlet extends HttpServlet {
 		//DirectMessageBean bean = new DirectMessageBean();
 		//req.setAttribute("directMessage", bean);
 		req.getRequestDispatcher("/WEB-INF/jsp/directMessage.jsp").forward(req, res);
+		return;
 	}
 
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {

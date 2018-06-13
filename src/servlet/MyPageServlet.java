@@ -34,6 +34,13 @@ public class MyPageServlet extends HttpServlet {
         //セッション情報の取得
         HttpSession session = req.getSession();
         sessionBean = (SessionBean) session.getAttribute("session");
+
+        // セッションチェック
+        if(sessionBean == null) {
+			req.getRequestDispatcher("/error").forward(req, res);
+			return;
+		}
+
         bean.setUserNo(sessionBean.getUserNo());
 
         /**

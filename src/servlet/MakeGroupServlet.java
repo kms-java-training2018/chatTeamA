@@ -29,15 +29,14 @@ public class MakeGroupServlet extends HttpServlet {
 		/** パラメータチェック */
 		HttpSession session = req.getSession();
 		sessionBean = (SessionBean) session.getAttribute("session");
+
+		// セッションチェック
+		if(sessionBean == null) {
+			req.getRequestDispatcher("/error").forward(req, res);
+			return;
+		}
+
 		String authorUserNo = sessionBean.getUserNo();
-
-		if (authorUserNo == null) {
-
-			// セッションチェック
-
-			direction = "/error";
-			req.setAttribute("errorMessage", "セッションがありません");
-		} else {
 
 			/** 会員一覧取得処理 */
 			try {
@@ -58,7 +57,6 @@ public class MakeGroupServlet extends HttpServlet {
 				// 正常に一覧取得できた場合、リクエストに送る
 				req.setAttribute("bean", userListBeanList);
 			}
-		}
 		req.getRequestDispatcher(direction).forward(req, res);
 
 	}
