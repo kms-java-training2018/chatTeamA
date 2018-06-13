@@ -44,12 +44,11 @@ public class MainPageServlet extends HttpServlet {
         MainPageModel model = new MainPageModel();
         String direction = "/WEB-INF/jsp/main.jsp";
         String userNo = sessionBean.getUserNo();
+
         bean.setUserNo(userNo);
         ArrayList<MainPageBean> list = new ArrayList<MainPageBean>();
         ArrayList<MainPageBean> talkD = new ArrayList<MainPageBean>();
         ArrayList<MainPageBean> talkG = new ArrayList<MainPageBean>();
-
-
 
         //modelの会員番号会員名処理をbean経由で取る
         try {
@@ -75,7 +74,7 @@ public class MainPageServlet extends HttpServlet {
         req.setAttribute("talkD", talkD);
 
 
-      //グループ最新会話情報取得
+      //グループ一覧情報取得
         try {
         	talkG = model.latestGroupTalk(bean);
         } catch (Exception e) {
@@ -85,7 +84,6 @@ public class MainPageServlet extends HttpServlet {
 
       //jspに飛ばす
         req.setAttribute("talkG", talkG);
-
 
 
 
