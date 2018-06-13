@@ -4,10 +4,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet"type="text/css"href="./css/login.css" media="all">
 <title>ログイン</title>
 </head>
-<body>
+<body id="bgcolor">
 	<h1>チームAのチャット</h1>
+	<div align="center">
 	<h2>ログイン</h2>
 	<form action="/chat/login" method="POST">
 		<p>会員ID</p>
@@ -18,5 +20,6 @@
 		<P>${loginBean.errorMessage}</P>
 		<input type="submit" value="ログイン">
 	</form>
+	</div>
 </body>
 </html>
