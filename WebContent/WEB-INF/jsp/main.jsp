@@ -33,7 +33,7 @@
 
     <form action="/chat/directMessage" method="GET">
      <td>
-    <a href="/chat/directMessage?user_no=${bean.userNo}&user_name=${bean.userName}"><c:out value="${bean.userName}"/>
+    <a href="/chat/directMessage?user_no=${bean.userNo}"><c:out value="${bean.userName}"/>
     </a></td>
 
     <td colspan="3"><c:out value="${bean.message}"/></td>

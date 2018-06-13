@@ -49,7 +49,10 @@ public class DirectMessageServlet extends HttpServlet {
 		//main.jspから送信対象者番号取得
 		//ログイン情報から送信者番号(ログイン)取得
 		String toSendUserNo = req.getParameter("user_no");
-		String toSendUserName = req.getParameter("user_name");
+		//String toSendUserName = req.getParameter("user_name");
+		// ユーザー名取得処理
+		String toSendUserName = model.getToSendUserName(toSendUserNo);
+
 		String sendUserNo = sessionBean.getUserNo();
 		String sendUserName = sessionBean.getUserName();
 
