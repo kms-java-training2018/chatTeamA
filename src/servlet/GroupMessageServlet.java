@@ -23,8 +23,14 @@ public class GroupMessageServlet extends HttpServlet {
         SessionBean sessionBean = new SessionBean();
         GroupMessageModel model = new GroupMessageModel();
         ArrayList<GroupMessageBean> list = new ArrayList<GroupMessageBean>();
+
         HttpSession session = req.getSession();
         sessionBean = (SessionBean) session.getAttribute("session");
+
+        if(sessionBean == null) {
+        	req.getRequestDispatcher("/error").forward(req, res);
+        }
+
 
         bean.setUserNo(sessionBean.getUserNo());
         bean.setUserName(sessionBean.getUserName());
