@@ -58,6 +58,7 @@ public class DirectMessageModel {
 			sb.append(" OR (to_send_user_no = '" + userNo + "'");
 			sb.append(" AND send_user_no = '" + toSendUserNo + "'");
 			sb.append(" AND delete_flag = 0)");
+			sb.append(" order by message_no");
 
 			// SQL実行
 			Statement stmt = conn.createStatement();

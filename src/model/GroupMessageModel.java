@@ -395,6 +395,7 @@ public class GroupMessageModel {
             sb.append("WHERE ");
             sb.append(" to_send_group_no ='" + groupNo + "'");
             sb.append(" AND delete_flag = 0");
+            sb.append(" order by message_no");
 
             // SQL実行
             Statement stmt = conn.createStatement();
