@@ -16,13 +16,13 @@
 		</form>
 	</div>
 	<hr>
-  <h1>チャット研修プログラム</h1>
+  <h1>チームAのチャット</h1>
   <h2>メインメニュー</h2>
   <br><div>■会員一覧</div>
   <c:forEach var="bean" items="${list}" varStatus="status">
     <form action="/chat/directMessage" method="GET">
-    <a href="/chat/directMessage?user_no=${bean.userNo}&user_name=${bean.userName}"><c:out value="${bean.userNo}"/><c:out value="${bean.userName}"/></a>
-    <c:out value="${bean.message}"/><br>
+    <a href="/chat/directMessage?user_no=${bean.userNo}&user_name=${bean.userName}"><c:out value="${bean.userName}"/></a>
+    &nbsp;<c:out value="${bean.message}"/><br>
      </form>
     </c:forEach>
 
@@ -33,12 +33,13 @@
 
 <c:forEach var="bean" items="${talkG}" varStatus="status">
 <a href="/chat/groupMessage?group_no=${bean.groupNo}"><c:out value="${bean.groupName}"/></a>
-<c:out value="${bean.message}"/><br>
+&nbsp;<c:out value="${bean.message}"/><br>
     </c:forEach>
   <br>
   <form action="/chat/makeGroup" method="GET">
     <input type="submit" value="グループの作成">
   </form>
+  <br>
   <form action="/chat/myPage" method="GET">
     <input type="submit" value="プロフィール画面へ">
   </form>

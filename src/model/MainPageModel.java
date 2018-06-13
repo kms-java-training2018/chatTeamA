@@ -86,6 +86,8 @@ public class MainPageModel {
 			sb.append(" m_user ");
 			sb.append("WHERE ");
 			sb.append(" user_no <> '" + userNo + "' ");
+			sb.append(" ORDER BY ");
+			sb.append(" user_no ");
 
 			// SQL実行
 			ResultSet rs = stmt.executeQuery(sb.toString());
@@ -119,9 +121,9 @@ public class MainPageModel {
 				// SQL実行
 				ResultSet directMessage = stmt2.executeQuery(sb2.toString());
 
-				if(directMessage.next()) {
+				if (directMessage.next()) {
 					myName.setMessage(directMessage.getString(1));
-				}else {
+				} else {
 					// Listに追加
 					myName.setMessage("会話を始めましょう!");
 				}
@@ -133,7 +135,6 @@ public class MainPageModel {
 
 				stmt2.close();
 			}
-
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -251,6 +252,8 @@ public class MainPageModel {
 			sb.append("WHERE");
 			sb.append(" A.user_no = '" + userNo + "'");
 			sb.append(" and A.out_flag = 0");
+			sb.append(" ORDER BY ");
+			sb.append(" group_no DESC");
 
 			// SQL実行
 			ResultSet rs3 = stmt.executeQuery(sb.toString());
@@ -280,10 +283,9 @@ public class MainPageModel {
 				// SQL実行
 				ResultSet groupMessage = stmt2.executeQuery(sb2.toString());
 
-
-				if(groupMessage.next()) {
+				if (groupMessage.next()) {
 					groupList.setMessage(groupMessage.getString(1));
-				}else {
+				} else {
 					// Listに追加
 					groupList.setMessage("会話を始めましょう!");
 				}
@@ -295,9 +297,6 @@ public class MainPageModel {
 				stmt2.close();
 			}
 			// 初期化
-
-
-
 
 			/*sb.delete(0, sb.length());
 
