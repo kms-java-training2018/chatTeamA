@@ -40,6 +40,10 @@ public class DirectMessageServlet extends HttpServlet {
 		SessionBean sessionBean = new SessionBean();
 		sessionBean = (SessionBean) session.getAttribute("session");
 
+		if(sessionBean == null) {
+			req.getRequestDispatcher("/error").forward(req, res);
+		}
+
 		//--パラメータチェック--//
 		//main.jspから送信対象者番号取得
 		//ログイン情報から送信者番号(ログイン)取得
@@ -52,11 +56,6 @@ public class DirectMessageServlet extends HttpServlet {
 		bean.setUserNo(sendUserNo);
 		bean.setUserName(sendUserName);
 		bean.setToSendUserNo(toSendUserNo);
-
-		//--存在しなければエラー画面へ遷移--//
-		//if (bean,getToSendUserNo()).equals(null)) {
-		// direction = "/error";
-		//}
 
 		/*
 		* 会話情報取得処理

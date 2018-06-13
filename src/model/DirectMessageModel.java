@@ -211,12 +211,12 @@ public class DirectMessageModel {
 
 			// SQL実行
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(sb.toString());
+			stmt.executeUpdate(sb.toString());
 
-			if (!rs.next()) {
+			/*if (!rs.next()) {
 				bean.setErrorMessage("メッセージの登録に失敗しました");
 
-			}
+			}*/
 			conn.close();
 
 		} catch (SQLException e) {
@@ -270,7 +270,7 @@ public class DirectMessageModel {
 
 			// SQL実行
 			Statement stmt = conn.createStatement();
-			stmt.executeQuery(sb.toString());
+			stmt.executeUpdate(sb.toString());
 
 		} catch (SQLException e) {
 			e.printStackTrace();
