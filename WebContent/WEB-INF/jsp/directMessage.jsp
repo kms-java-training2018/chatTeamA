@@ -17,9 +17,10 @@
 	</div>
 	<hr>
 	<script src="./directMessage.js"></script>
-	<h1>チャット研修プログラム</h1>
+	<h1>チームAのチャット</h1>
 		<h2>
 			<a href="/chat/showProfile?user_no=${toSendUserNo}" target="_blank">${toSendUserName}</a>
+			さんとの会話
 		</h2>
 	<div
 		style="padding: 10px; margin-bottom: 10px; border: 5px double #333333; border-radius: 10px;">

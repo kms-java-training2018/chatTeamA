@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>グループメッセージ</title>
 </head>
 <body>
 	<div align="right">
@@ -17,10 +17,10 @@
 	</div>
 	<hr>
 	<script src="./directMessage.js"></script>
-	<h1>チャット研修プログラム</h1>
-	<h2>グループメッセージ</h2>
+	<h1>チームAのチャット</h1>
+	<h2></h2>
 	<form action="/chat/groupMessage" method="POST">
-	<h3>${group_name }</h3>
+	<h3>「${group_name }」の会話</h3>
 		<input type="submit" name="escape" value="グループを脱退する">
 	</form>
 	<br>
