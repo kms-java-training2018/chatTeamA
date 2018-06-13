@@ -17,6 +17,7 @@
 	</div>
 	<hr>
   <h1>チームAのチャット</h1>
+  <div align="center">
   <h2>マイページ</h2>
 
   <p>表示名</p>
@@ -36,5 +37,6 @@
   <form action="/chat/main" method="POST">
     <input type="submit" value="メインメニューに戻る">
   </form>
+  </div>
 </body>
 </html>

@@ -25,6 +25,7 @@
    <c:out value="${ProfileBean.myPageText}" /></td>
    </tr>
    </table>
+   <br>
    <input type="submit" value="閉じる" onclick="window.close();">
   </form>
   </div>
