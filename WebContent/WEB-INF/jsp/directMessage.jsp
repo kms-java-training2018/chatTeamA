@@ -31,7 +31,7 @@
 			</c:if>
 			<c:if test="${bean.myMessageFlag }">
 				<c:out value="${bean.sendUserName }" />
-			</c:if>
+			</c:if>：
 			<c:out value="${bean.message}" />
 			<br>
 			<c:if test="${bean.myMessageFlag }">
