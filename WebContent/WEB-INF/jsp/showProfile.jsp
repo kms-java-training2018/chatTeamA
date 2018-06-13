@@ -9,17 +9,24 @@
 </head>
 <body>
   <h1>チームAのチャット</h1>
+  <div align="center">
   <h2>プロフィール確認</h2>
+  <table class ="menu" border ="3" style="table-layout:fixed;">
+   <tr align ="center">
+   <td class="name">名前</td>
+   <td colspan ="3" class ="message">自己紹介文</td>
+   </tr>
   <form action="/showProfile" method="POST">
-    <br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;表示名：&nbsp;&nbsp;&nbsp;&nbsp;<c:out value="${ProfileBean.userName}" />
-    <br>
-    <br>
-    &nbsp;&nbsp;自己紹介文：&nbsp;&nbsp;&nbsp;&nbsp;<c:out value="${ProfileBean.myPageText}" />
-    <br>
-    <br>
-    <br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="閉じる" onclick="window.close();">
+    <br><tr align ="center">
+<td>
+   <c:out value="${ProfileBean.userName}" /></td>
+
+    <td colspan="3">
+   <c:out value="${ProfileBean.myPageText}" /></td>
+   </tr>
+   </table>
+   <input type="submit" value="閉じる" onclick="window.close();">
   </form>
+  </div>
 </body>
 </html>
