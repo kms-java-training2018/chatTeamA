@@ -74,14 +74,7 @@ public class GroupMessageServlet extends HttpServlet {
 
         HttpSession session = req.getSession();
 
-        // セッションがあるかどうか
-        /*if(session.getAttribute("session") == null) {
-            req.getRequestDispatcher("/WEB-INF/jsp/Login.jsp").forward(req, res);
-        }*/
-
         sessionBean = (SessionBean) session.getAttribute("session");
-        //sessionBean.setUserName("動けデブ");
-        //sessionBean.setUserNo("25");
 
         bean.setUserNo(sessionBean.getUserNo());
         bean.setUserName(sessionBean.getUserName());
@@ -94,14 +87,10 @@ public class GroupMessageServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        /*if("".equals(sessionBean.getGroupNo())) {
-            req.getRequestDispatcher("/WEB-INF/jsp/Login.jsp").forward(req, res);
-        }*/
-
         // メッセージ削除ボタンが押されたとき
         if (req.getParameter("delete") != null) {
             String deleteMessageNo = req.getParameter("message_no");
-            bean = model.DeleteMessage(bean, deleteMessageNo);
+            bean.setErrFlag(model.DeleteMessage(bean.isErrFlag(), deleteMessageNo));
         }
 
         // メッセージ送信機能
@@ -113,14 +102,6 @@ public class GroupMessageServlet extends HttpServlet {
                 bean.setErrFlag(true);
             } else {
 
-                //bean.setGroupNo("12"); // せっしょんからグループ
-
-                /*try {
-                    bean = model.groupCheck(bean);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }*/
-
                 try {
                     bean = model.nextNumCheck(bean);
                 } catch (Exception e) {
@@ -129,7 +110,6 @@ public class GroupMessageServlet extends HttpServlet {
 
                 // 認証処理
                 try {
-
                     bean = model.sendMessage(bean);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -152,15 +132,7 @@ public class GroupMessageServlet extends HttpServlet {
 
         // 退会ボタンが押されたとき
         if (req.getParameter("escape") != null) {
-            // ダイアログ表示
-            /*int dialogButton = JOptionPane.YES_NO_OPTION;
-            int dialogResult = JOptionPane.showConfirmDialog(null, "Your Message", "Title on Box", dialogButton);
-            // Yes,Noの判定
-            /*if (dialogResult == 0) {
-                bean.setGroupNo("12"); // せっしょんからグループ
-                model.escapeGroup(bean);
-            }*/
-            //bean.setGroupNo("12"); // せっしょんからグループ
+
             bean = model.registCheck(bean, sessionBean.getUserNo());
             if (!bean.isErrFlag()) {
                 bean = model.escapeGroup(bean);
@@ -170,7 +142,7 @@ public class GroupMessageServlet extends HttpServlet {
 
         if (bean.isErrFlag()) {
             bean.setErrFlag(false);
-            //direction = "/WEB-INF/jsp/error.jsp";
+
             direction = "/error";
         }
 
