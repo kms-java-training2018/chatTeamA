@@ -26,9 +26,8 @@ public class ShowProfileServlet extends HttpServlet {
         ShowProfileModel model = new ShowProfileModel();
         String direction = "/WEB-INF/jsp/showProfile.jsp";
 
-        //セッションの存在チェック
+        //セッション情報の取得
         HttpSession session = req.getSession();
-
         SessionBean sessionBean = new SessionBean();
         sessionBean = (SessionBean) session.getAttribute("session");
 
@@ -39,12 +38,12 @@ public class ShowProfileServlet extends HttpServlet {
 
         if(session != null) {
             /**
-             * 対象ユーザーの会員番号をパラメータに保持しているかチェック
+             * パラメータチェック
+             * 対象ユーザーの会員番号をパラメータに、
              *   ・保持している場合→Modelでプロフィール情報を取得
              *   ・保持していない場合→エラー画面へ
              */
             if(userNo != null) {
-            	//プロフィール取得処理
                 try{
                     bean = model.authentication(bean);
                 } catch (Exception e) {

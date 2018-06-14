@@ -35,7 +35,6 @@ public class MyPageServlet extends HttpServlet {
         HttpSession session = req.getSession();
         sessionBean = (SessionBean) session.getAttribute("session");
 
-        // セッションチェック
         if(sessionBean == null) {
 			req.getRequestDispatcher("/error").forward(req, res);
 			return;
@@ -45,8 +44,9 @@ public class MyPageServlet extends HttpServlet {
 
         /**
          * パラメータチェック
-         *   ・セッションが存在する場合→Modelでプロフィール情報を取得
-         *   ・セッションが存在しない場合→エラー画面へ
+         *   ログインユーザーの会員番号をパラメータに、
+         *   ・保持している場合→Modelでプロフィール情報を取得
+         *   ・保持していない場合→エラー画面へ
          */
         if(session != null) {
             try{
@@ -91,7 +91,7 @@ public class MyPageServlet extends HttpServlet {
             bean.setErrorMessage("");
         }
 
-        // 更新処理が成功した場合セッションに情報をセット
+        // 更新処理が成功した場合→セッションに情報をセット
         if ("".equals(bean.getErrorMessage())) {
             try {
                 bean = model.authentication2(bean);
@@ -103,8 +103,8 @@ public class MyPageServlet extends HttpServlet {
             HttpSession session = req.getSession();
             session.setAttribute("session", sessionBean);
             direction = "/main";
+        //更新に失敗した場合→プロフィール情報を再度DBから取得
         }else {
-            //更新に失敗した場合→プロフィール情報を再度DBから取得
             bean = model.authentication(bean);
             req.setAttribute("ProfileBean", bean);
         }

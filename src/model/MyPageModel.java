@@ -10,6 +10,9 @@ import bean.ProfileBean;
 
 public class MyPageModel {
 
+	/**
+	 * ログインユーザーのプロフィール情報を取得
+	 */
 	public ProfileBean authentication(ProfileBean bean) {
 
     	// 初期化
@@ -34,7 +37,8 @@ public class MyPageModel {
         try {
             conn = DriverManager.getConnection(url, user, dbPassword);
 
-            // SQL作成(既存のプロフィール情報取得)
+            // SQL作成
+            //ログインユーザーの表示名と自己紹介文を取得
             sb.append("SELECT ");
             sb.append(" user_name");
             sb.append(" , my_page_text ");
@@ -53,7 +57,6 @@ public class MyPageModel {
             } else {
                 bean.setUserName(rs.getString("user_name"));
                 bean.setMyPageText(rs.getString("my_page_text"));
-
             }
         } catch (SQLException e) {
             bean.setErrFlag(true);
@@ -69,7 +72,9 @@ public class MyPageModel {
         return bean;
     }
 
-
+	/**
+	 * ログインユーザーのプロフィール情報を更新
+	 */
     public ProfileBean authentication2(ProfileBean bean) {
 
         // 初期化
@@ -96,7 +101,8 @@ public class MyPageModel {
         try {
             conn = DriverManager.getConnection(url, user, dbPassword);
 
-            // SQL作成(プロフィール情報更新)
+            // SQL作成
+            //ログインユーザーの表示名と自己紹介文を更新
             sb.append("UPDATE ");
             sb.append(" m_user ");
             sb.append("SET");
@@ -117,6 +123,7 @@ public class MyPageModel {
         } catch (SQLException e) {
             bean.setErrFlag(true);
             e.printStackTrace();
+        //処理終了後、接続を切断
         } finally {
             try {
                 conn.close();

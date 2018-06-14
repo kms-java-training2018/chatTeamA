@@ -35,6 +35,7 @@ public class ShowProfileModel {
             conn = DriverManager.getConnection(url, user, dbPassword);
 
             // SQL作成
+            //対象ユーザーの表示名と自己紹介文を取得
             sb.append("SELECT ");
             sb.append(" user_name");
             sb.append(" , my_page_text ");
@@ -47,6 +48,7 @@ public class ShowProfileModel {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sb.toString());
 
+            //取得したデータをbeanにセット
             if (!rs.next()) {
             	bean.setErrFlag(true);
             } else {
@@ -58,6 +60,7 @@ public class ShowProfileModel {
         } catch (SQLException e) {
             bean.setErrFlag(true);
             e.printStackTrace();
+        //処理終了後、接続を切断
         } finally {
             try {
                 conn.close();
