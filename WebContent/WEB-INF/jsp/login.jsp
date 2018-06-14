@@ -9,7 +9,7 @@
 </head>
 <body id="bgcolor">
 	<h1>チームAのチャット</h1>
-	<div align="center">
+	<div align="center" class="font">
 	<h2>ログイン</h2>
 	<form action="/chat/login" method="POST">
 		<p>会員ID</p>
