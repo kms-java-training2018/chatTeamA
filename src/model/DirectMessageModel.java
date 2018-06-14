@@ -287,7 +287,7 @@ public class DirectMessageModel {
 		return bean;
 	}
 
-	// 次の格納するメッセージの数字
+	// userNoに対応したuserNameの取得
 		public String getToSendUserName(String toSendUserNo) {
 			// 初期化
 			StringBuilder sb = new StringBuilder();

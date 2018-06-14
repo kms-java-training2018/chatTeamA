@@ -76,7 +76,6 @@ public class MainPageModel {
 		ArrayList<MainPageBean> list = new ArrayList<MainPageBean>();
 		try {
 			conn = DriverManager.getConnection(url, user, dbPassword);
-			Statement stmt = conn.createStatement();
 
 			// 会員一覧取得処理SQL作成
 			sb.append("SELECT ");
@@ -90,6 +89,7 @@ public class MainPageModel {
 			sb.append(" user_no ");
 
 			// SQL実行
+			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sb.toString());
 
 			while (rs.next()) {
@@ -238,7 +238,6 @@ public class MainPageModel {
 		ArrayList<MainPageBean> talkG = new ArrayList<MainPageBean>();
 		try {
 			conn = DriverManager.getConnection(url, user, dbPassword);
-			Statement stmt = conn.createStatement();
 
 			/**グループ一覧取得処理
 			  自分の会員IDを条件に、参加しているグループと
@@ -256,6 +255,7 @@ public class MainPageModel {
 			sb.append(" group_no DESC");
 
 			// SQL実行
+			Statement stmt = conn.createStatement();
 			ResultSet rs3 = stmt.executeQuery(sb.toString());
 
 			while (rs3.next()) {
@@ -296,55 +296,6 @@ public class MainPageModel {
 
 				stmt2.close();
 			}
-			// 初期化
-
-			/*sb.delete(0, sb.length());
-
-			//自分が参加しているグループの数を取得
-			sb.append(" select count(*) ");
-			sb.append(" from ");
-			sb.append(" (SELECT ");
-			sb.append(" A.group_no , B.group_name ");
-			sb.append(" FROM ");
-			sb.append(" t_group_info A full outer join m_group B on A.group_no = B.group_no ");
-			sb.append(" WHERE ");
-			sb.append(" A.user_no ='" + userNo + "'");
-			sb.append(" and A.out_flag = 0) ");
-
-			// SQL実行
-			ResultSet groupCount = stmt.executeQuery(sb.toString());
-			groupCount.next();
-			int j = groupCount.getInt(1);
-
-			//メッセージ一覧取得
-			for (int i = 0; i < j; i++) {
-				// 初期化
-				sb.delete(0, sb.length());
-
-				sb.append(" SELECT ");
-				sb.append(" message ");
-				sb.append(" FROM ");
-				sb.append(" t_message_info ");
-				sb.append(" WHERE");
-				sb.append(" regist_date = ( ");
-				sb.append(" SELECT ");
-				sb.append(" MAX(regist_date) ");
-				sb.append(" FROM ");
-				sb.append(" t_message_info ");
-				sb.append(" WHERE ");
-				sb.append(" to_send_group_no = '" + talkG.get(i).getGroupNo() + "'");
-				sb.append(" AND delete_flag =  0) ");
-
-				// SQL実行
-				ResultSet groupMessage = stmt.executeQuery(sb.toString());
-
-				MainPageBean groupMessageList = new MainPageBean();
-				// Listに追加
-				groupMessageList.setGroupNo(groupMessage.getString("message"));
-				talkG.add(groupMessageList);
-			}*/
-			// 初期化
-			//sb.delete(0, sb.length());
 
 		} catch (SQLException e) {
 			e.printStackTrace();
