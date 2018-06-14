@@ -56,7 +56,7 @@ public class MakeGroupModel {
 			// 接続作成
 			try {
 				conn = DriverManager.getConnection(url, user, dbPassword);
-				Statement stmt = conn.createStatement();
+
 				// SQL作成
 
 				// 最大値取得
@@ -66,6 +66,7 @@ public class MakeGroupModel {
 				sb.append(" m_group ");
 
 				// SQL実行
+				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sb.toString());
 
 				int maxGroupNo = 0;
