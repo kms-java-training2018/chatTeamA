@@ -8,7 +8,7 @@
 <title>ログイン</title>
 </head>
 <body id="bgcolor">
-	<h1>チームAのチャット</h1>
+	<h1 id ="changeTitleColor">チームAのチャット</h1>
 	<div align="center" class="font">
 	<h2>ログイン</h2>
 	<form action="/chat/login" method="POST">
@@ -17,7 +17,7 @@
 		<p>パスワード</p>
 		<input type="text" name="password" value="${loginBean.password}">
 		<br>
-		<P>${loginBean.errorMessage}</P>
+		<P id="changeErrorColor">${loginBean.errorMessage}</P>
 		<input type="submit" value="ログイン">
 	</form>
 	</div>
