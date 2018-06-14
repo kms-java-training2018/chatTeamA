@@ -31,19 +31,26 @@
 		</c:if>
 		<c:if test="${bean.sendUserName != '送信者不明' }">
 			<c:if test="${!bean.myMessageFlag }">
+			<div align="left">
 				<a href="/chat/showProfile?user_no=${bean.userNo }" target="_blank">${bean.sendUserName }</a>
+				：<c:out value="${bean.message}" />
+			</div>
 			</c:if>
 
 			<c:if test="${bean.myMessageFlag }">
-				<c:out value="${bean.sendUserName }" />
+			<div align="right">
+				<c:out value="${bean.sendUserName }" />：<c:out value="${bean.message}" />
+			</div>
 			</c:if>
-		</c:if>：<c:out value="${bean.message}" />
+		</c:if>
 		<c:if test="${bean.myMessageFlag}">
+		<div align="right">
 			<form action="/chat/groupMessage" method="POST"
 				onSubmit="return confirm('削除しますか？')">
 				<input type="submit" name="delete" value="削除"> <input
 					type="hidden" name="message_no" value="${bean.messageNo }">
 			</form>
+		</div>
 		</c:if>
 		<br>
 	</c:forEach>

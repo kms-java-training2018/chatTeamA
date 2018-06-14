@@ -27,21 +27,26 @@
 		style="padding: 10px; margin-bottom: 10px; border: 5px double #333333; border-radius: 10px;">
 		<c:forEach var="bean" items="${messageList}" varStatus="status">
 			<c:if test="${!bean.myMessageFlag }">
+			<div align="left">
 				<a href="/chat/showProfile?user_no=${bean.sendUserNo}"
-					target="_blank"><c:out value="${bean.sendUserName}" /> </a>
+					target="_blank"><c:out value="${bean.sendUserName}" /> </a>：<c:out value="${bean.message}" />
+			</div>
 			</c:if>
 			<c:if test="${bean.myMessageFlag }">
-				<c:out value="${bean.sendUserName }" />
-			</c:if>：
-			<c:out value="${bean.message}" />
+			<div align="right">
+				<c:out value="${bean.sendUserName }" />：<c:out value="${bean.message}" />
+			</div>
+			</c:if>
 			<br>
 			<c:if test="${bean.myMessageFlag }">
+			<div align="right">
 				<form action="/chat/directMessage" method="POST"
 					onSubmit="return confirm('削除しますか？')">
 					<input type="submit" name="delete" value="削除">
 					<input
 						type="hidden" name="messageNo" value="${bean.messageNo}">
 				</form>
+			</div>
 			</c:if>
 		</c:forEach>
 	</div>
