@@ -145,15 +145,15 @@ public class MainPageModel {
 			sb.append(" group_no DESC");
 
 			// SQL実行
-			ResultSet rs3 = stmt.executeQuery(sb.toString());
+			ResultSet rs = stmt.executeQuery(sb.toString());
 
-			while (rs3.next()) {
+			while (rs.next()) {
 				Statement stmt2 = conn.createStatement();
 
 				MainPageBean groupList = new MainPageBean();
 				// Listに追加
-				groupList.setGroupNo(rs3.getString("group_no"));
-				groupList.setGroupName(rs3.getString("group_name"));
+				groupList.setGroupNo(rs.getString("group_no"));
+				groupList.setGroupName(rs.getString("group_name"));
 
 				//グループメッセージ取得処理
 				sb2.append(" SELECT ");
