@@ -10,7 +10,11 @@ import java.util.ArrayList;
 import bean.GroupMessageBean;
 
 public class GroupMessageModel {
-    // 次の格納するメッセージの数字
+    /**
+     * 次の数字の確認
+     * @param bean
+     * @return
+     */
     public GroupMessageBean nextNumCheck(GroupMessageBean bean) {
         // 初期化
         StringBuilder sb = new StringBuilder();
@@ -48,8 +52,6 @@ public class GroupMessageModel {
 
             }
 
-            //conn.close();
-
         } catch (SQLException e) {
             bean.setErrFlag(true);
             e.printStackTrace();
@@ -64,7 +66,11 @@ public class GroupMessageModel {
         return bean;
     }
 
-    // グループに入っているか
+    /**
+     * グループチェック
+     * @param bean
+     * @return
+     */
     public GroupMessageBean groupCheck(GroupMessageBean bean) {
         // 初期化
         StringBuilder sb = new StringBuilder();
@@ -190,6 +196,9 @@ public class GroupMessageModel {
 
     /**
      * メッセージ削除処理
+     * @param errFlag
+     * @param delMessageNo
+     * @return
      */
     public boolean DeleteMessage(boolean errFlag, String delMessageNo) {
         // 初期化
@@ -295,6 +304,12 @@ public class GroupMessageModel {
         return bean;
     }
 
+    /**
+     *	グループ作成者チェック
+     * @param bean
+     * @param myUserNo
+     * @return
+     */
     public GroupMessageBean registCheck(GroupMessageBean bean,String myUserNo) {
 
         // 初期化
@@ -327,6 +342,7 @@ public class GroupMessageModel {
             // SQL実行
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sb.toString());
+
             rs.next();
             if(rs.getString("regist_user_no").equals(myUserNo)) {
                 bean.setErrFlag(true);
@@ -436,6 +452,11 @@ public class GroupMessageModel {
         return list;
     }
 
+    /**
+     * グループ名取得処理
+     * @param bean
+     * @return
+     */
     public GroupMessageBean getGroupName(GroupMessageBean bean) {
 
         // 初期化
@@ -468,7 +489,9 @@ public class GroupMessageModel {
             // SQL実行
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sb.toString());
+
             rs.next();
+
             bean.setGroupName(rs.getString("group_name"));
 
             conn.close();

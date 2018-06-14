@@ -45,7 +45,7 @@ public class GroupMessageServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        //modelの会員番号会員名処理をbean経由で取る
+        // グループメッセージ取得
         try {
             list = model.messageCheck(bean, sessionBean.getUserNo());
         } catch (Exception e) {
@@ -55,6 +55,8 @@ public class GroupMessageServlet extends HttpServlet {
         if (bean.isErrFlag()) {
             direction = "/error";
         }
+
+        // グループ名取得
         bean = model.getGroupName(bean);
 
         session.setAttribute("session", sessionBean);
@@ -109,13 +111,14 @@ public class GroupMessageServlet extends HttpServlet {
                 bean.setErrFlag(true);
             } else {
 
+            	// 次の数字の確認
                 try {
                     bean = model.nextNumCheck(bean);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-                // 認証処理
+                // メッセージ送信
                 try {
                     bean = model.sendMessage(bean);
                 } catch (Exception e) {
@@ -124,13 +127,14 @@ public class GroupMessageServlet extends HttpServlet {
             }
         }
 
-        //modelの会員番号会員名処理をbean経由で取る
+        // グループメッセージ取得
         try {
             list = model.messageCheck(bean, sessionBean.getUserNo());
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+        // グループ名取得
         bean = model.getGroupName(bean);
 
         //jspに飛ばす
@@ -139,7 +143,7 @@ public class GroupMessageServlet extends HttpServlet {
 
         // 退会ボタンが押されたとき
         if (req.getParameter("escape") != null) {
-
+        	// グループ作成者取得
             bean = model.registCheck(bean, sessionBean.getUserNo());
             if (!bean.isErrFlag()) {
                 bean = model.escapeGroup(bean);
