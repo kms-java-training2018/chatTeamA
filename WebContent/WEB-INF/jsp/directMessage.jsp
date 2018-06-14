@@ -5,9 +5,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet"type="text/css"href="./css/message.css" media="all">
 <title>${toSendUserName}さんとの会話</title>
 </head>
-<body>
+<body id="bgcolor">
 	<div align="right">
 		${session.getUserName() }さん <br>
 		<form name="log_out" action="/chat/logout" method="POST">
@@ -37,7 +38,8 @@
 			<c:if test="${bean.myMessageFlag }">
 				<form action="/chat/directMessage" method="POST"
 					onSubmit="return confirm('削除しますか？')">
-					<input type="submit" name="delete" value="削除"> <input
+					<input type="submit" name="delete" value="削除">
+					<input
 						type="hidden" name="messageNo" value="${bean.messageNo}">
 				</form>
 			</c:if>

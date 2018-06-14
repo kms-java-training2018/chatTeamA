@@ -5,9 +5,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet"type="text/css"href="./css/message.css" media="all">
 <title>グループメッセージ</title>
 </head>
-<body>
+<body id="bgcolor">
 	<div align="right">
 		${session.getUserName() }さん <br>
 		<form name="log_out" action="/chat/logout" method="POST">
@@ -52,6 +53,7 @@
 		<input type="text" name="message" value="${groupMessageBean.message}">
 		<input type="submit" name="sendMessage" value="メッセージの送信">
 	</form>
+	<br>
 	<form action="/chat/main" method="POST">
 		<input type="submit" value="メインメニューに戻る">
 	</form>

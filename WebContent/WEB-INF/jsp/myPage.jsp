@@ -5,9 +5,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet"type="text/css"href="./css/profile.css" media="all">
 <title>マイページ</title>
 </head>
-<body>
+<body id="bgcolor">
 	<div align="right">
 		${session.getUserName() }さん <br>
 		<form name="log_out" action="/chat/logout" method="POST">
@@ -30,7 +31,7 @@
   <br>
   <br>
     <P>${ProfileBean.errorMessage}</P>
-    <input type="submit" value="プロフィールを更新">
+    <input type="submit" value="プロフィール更新">
     <input type="hidden" name="userNo" value="${ProfileBean.userNo}">
   </form>
   <br>

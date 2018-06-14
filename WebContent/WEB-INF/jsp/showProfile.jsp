@@ -5,9 +5,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet"type="text/css"href="./css/profile.css" media="all">
 <title>${ProfileBean.userName}さんのプロフィール</title>
 </head>
-<body>
+<body id="bgcolor">
   <h1>チームAのチャット</h1>
   <div align="center">
   <h2>プロフィール確認</h2>

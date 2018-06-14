@@ -65,7 +65,7 @@
   </form>
   <br>
   <form action="/chat/myPage" method="GET">
-    <input type="submit" value="プロフィール画面へ">
+    <input type="submit" value="プロフィール編集">
   </form>
 </div>
 
