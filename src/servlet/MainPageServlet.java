@@ -49,24 +49,12 @@ public class MainPageServlet extends HttpServlet {
 		String userNo = sessionBean.getUserNo();
 
 		bean.setUserNo(userNo);
-		ArrayList<MainPageBean> list = new ArrayList<MainPageBean>();
 		ArrayList<MainPageBean> talkD = new ArrayList<MainPageBean>();
 		ArrayList<MainPageBean> talkG = new ArrayList<MainPageBean>();
 
-		//modelの会員番号会員名処理をbean経由で取る
+		//会員一覧と最新メッセージ取得
 		try {
-			list = model.member(bean);
-		} catch (Exception e) {
-			e.printStackTrace();
-			direction = "/error";
-		}
-
-		//jspに飛ばす
-		req.setAttribute("list", list);
-
-		//1対1最新会話情報取得
-		try {
-			talkD = model.latestMyTalk(bean);
+			talkD = model.member(bean);
 		} catch (Exception e) {
 			e.printStackTrace();
 			direction = "/error";

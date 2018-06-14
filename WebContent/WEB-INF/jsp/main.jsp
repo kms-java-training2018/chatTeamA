@@ -29,7 +29,7 @@
    <td class="name">名前</td>
    <td colspan ="3" class ="message">メッセージ</td>
    </tr>
-  <c:forEach var="bean" items="${list}" varStatus="status">
+  <c:forEach var="bean" items="${talkD}" varStatus="status">
   <tr align ="center">
 
     <form action="/chat/directMessage" method="GET">
