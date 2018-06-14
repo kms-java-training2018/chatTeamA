@@ -42,6 +42,7 @@ public class GroupMessageServlet extends HttpServlet {
         try {
             bean = model.groupCheck(bean);
         } catch (Exception e) {
+        	bean.setErrFlag(true);
             e.printStackTrace();
         }
 
@@ -49,15 +50,21 @@ public class GroupMessageServlet extends HttpServlet {
         try {
             list = model.messageCheck(bean, sessionBean.getUserNo());
         } catch (Exception e) {
+        	bean.setErrFlag(true);
             e.printStackTrace();
+        }
+
+        // グループ名取得
+        try {
+        	bean = model.getGroupName(bean);
+        }catch (Exception e) {
+        	bean.setErrFlag(true);
+        	e.printStackTrace();
         }
 
         if (bean.isErrFlag()) {
             direction = "/error";
         }
-
-        // グループ名取得
-        bean = model.getGroupName(bean);
 
         session.setAttribute("session", sessionBean);
 
@@ -93,6 +100,7 @@ public class GroupMessageServlet extends HttpServlet {
         try {
             bean = model.groupCheck(bean);
         } catch (Exception e) {
+        	bean.setErrFlag(true);
             e.printStackTrace();
         }
 
@@ -107,7 +115,6 @@ public class GroupMessageServlet extends HttpServlet {
             String message = req.getParameter("message");
             bean.setMessage(message);
             if (message.length() > 100 || message == null) {
-                // エラー画面へ遷移
                 bean.setErrFlag(true);
             } else {
 
@@ -115,6 +122,7 @@ public class GroupMessageServlet extends HttpServlet {
                 try {
                     bean = model.nextNumCheck(bean);
                 } catch (Exception e) {
+                	bean.setErrFlag(true);
                     e.printStackTrace();
                 }
 
@@ -122,6 +130,7 @@ public class GroupMessageServlet extends HttpServlet {
                 try {
                     bean = model.sendMessage(bean);
                 } catch (Exception e) {
+                	bean.setErrFlag(true);
                     e.printStackTrace();
                 }
             }
@@ -131,11 +140,17 @@ public class GroupMessageServlet extends HttpServlet {
         try {
             list = model.messageCheck(bean, sessionBean.getUserNo());
         } catch (Exception e) {
+        	bean.setErrFlag(true);
             e.printStackTrace();
         }
 
         // グループ名取得
-        bean = model.getGroupName(bean);
+        try {
+        	bean = model.getGroupName(bean);
+        }catch (Exception  e) {
+        	bean.setErrFlag(true);
+        	e.printStackTrace();
+        }
 
         //jspに飛ばす
         req.setAttribute("list", list);
@@ -144,9 +159,20 @@ public class GroupMessageServlet extends HttpServlet {
         // 退会ボタンが押されたとき
         if (req.getParameter("escape") != null) {
         	// グループ作成者取得
-            bean = model.registCheck(bean, sessionBean.getUserNo());
+        	try {
+        		bean = model.registCheck(bean, sessionBean.getUserNo());
+        	}catch(Exception e) {
+        		bean.setErrFlag(true);
+        		e.printStackTrace();
+        	}
+
             if (!bean.isErrFlag()) {
-                bean = model.escapeGroup(bean);
+            	try {
+            		bean = model.escapeGroup(bean);
+            	}catch(Exception e) {
+            		bean.setErrFlag(true);
+            		e.printStackTrace();
+            	}
             }
             direction = "/main";
         }
@@ -158,5 +184,6 @@ public class GroupMessageServlet extends HttpServlet {
         }
 
         req.getRequestDispatcher(direction).forward(req, res);
+        return;
     }
 }
