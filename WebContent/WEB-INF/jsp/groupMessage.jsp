@@ -5,14 +5,23 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<link rel="stylesheet"type="text/css"href="./css/message.css" media="all">
+<title>グループメッセージ</title>
 </head>
-<body>
+<body id="bgcolor">
+	<div align="right">
+		${session.getUserName() }さん <br>
+		<form name="log_out" action="/chat/logout" method="POST">
+			<input type="button" value="ログアウト"
+				onClick="if(confirm ('本当にログアウトしますか？')){submit();}">
+		</form>
+	</div>
+	<hr>
 	<script src="./directMessage.js"></script>
-	<h1>チャット研修プログラム</h1>
-	<h2>グループメッセージ</h2>
+	<h1>チームAのチャット</h1>
+	<h2></h2>
 	<form action="/chat/groupMessage" method="POST">
-	<h3>${group_name }</h3>
+	<h3>「${group_name }」の会話</h3>
 		<input type="submit" name="escape" value="グループを脱退する">
 	</form>
 	<br>
@@ -22,19 +31,26 @@
 		</c:if>
 		<c:if test="${bean.sendUserName != '送信者不明' }">
 			<c:if test="${!bean.myMessageFlag }">
+			<div align="left">
 				<a href="/chat/showProfile?user_no=${bean.userNo }" target="_blank">${bean.sendUserName }</a>
+				：<c:out value="${bean.message}" />
+			</div>
 			</c:if>
 
 			<c:if test="${bean.myMessageFlag }">
-				<c:out value="${bean.sendUserName }" />
+			<div align="right">
+				<c:out value="${bean.sendUserName }" />：<c:out value="${bean.message}" />
+			</div>
 			</c:if>
-		</c:if>：<c:out value="${bean.message}" />
+		</c:if>
 		<c:if test="${bean.myMessageFlag}">
+		<div align="right">
 			<form action="/chat/groupMessage" method="POST"
 				onSubmit="return confirm('削除しますか？')">
 				<input type="submit" name="delete" value="削除"> <input
 					type="hidden" name="message_no" value="${bean.messageNo }">
 			</form>
+		</div>
 		</c:if>
 		<br>
 	</c:forEach>
@@ -44,6 +60,7 @@
 		<input type="text" name="message" value="${groupMessageBean.message}">
 		<input type="submit" name="sendMessage" value="メッセージの送信">
 	</form>
+	<br>
 	<form action="/chat/main" method="POST">
 		<input type="submit" value="メインメニューに戻る">
 	</form>

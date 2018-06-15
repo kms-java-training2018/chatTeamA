@@ -5,10 +5,20 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet"type="text/css"href="./css/makegroup.css" media="all">
 <title>新規グループ作成</title>
 </head>
-<body>
-	<h1>チャット研修プログラム</h1>
+<body id="bgcolor">
+	<div align="right">
+		${session.getUserName() }さん <br>
+		<form name="log_out" action="/chat/logout" method="POST">
+			<input type="button" value="ログアウト"
+				onClick="if(confirm ('本当にログアウトしますか？')){submit();}">
+		</form>
+	</div>
+	<hr>
+	<h1>チームAのチャット</h1>
+	<div align="center">
 	<h2>グループ作成</h2>
 	<p>${errorMessage}</p>
 	<form action="/chat/makeGroup" method="POST">
@@ -30,9 +40,10 @@
 		<br> <input type="submit" value="グループを作成する">
 
 	</form>
-
+<br>
 	<form action="/chat/main" method="POST">
 		<input type="submit" value="メインメニューに戻る">
 	</form>
+	</div>
 </body>
 </html>

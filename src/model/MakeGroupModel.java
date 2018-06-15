@@ -56,7 +56,7 @@ public class MakeGroupModel {
 			// 接続作成
 			try {
 				conn = DriverManager.getConnection(url, user, dbPassword);
-				Statement stmt = conn.createStatement();
+
 				// SQL作成
 
 				// 最大値取得
@@ -66,6 +66,7 @@ public class MakeGroupModel {
 				sb.append(" m_group ");
 
 				// SQL実行
+				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sb.toString());
 
 				int maxGroupNo = 0;
@@ -94,7 +95,7 @@ public class MakeGroupModel {
 				sb.append(" ) ");
 
 				// SQL実行
-				ResultSet rs2 = stmt.executeQuery(sb.toString());
+				stmt.executeUpdate(sb.toString());
 
 				// 初期化
 				sb.delete(0, sb.length());
@@ -106,17 +107,19 @@ public class MakeGroupModel {
 				sb.append(" ( ");
 				sb.append(" group_no ");
 				sb.append(", user_no ");
+				sb.append(", out_flag ");
 				sb.append(", regist_date ");
 				sb.append(" ) ");
 				sb.append("VALUES ");
 				sb.append(" ( ");
 				sb.append(" '" + maxGroupNo + "' , ");
 				sb.append(" '" + authorUserNo + "' , ");
+				sb.append(" 0 ,");
 				sb.append(" sysdate ");
 				sb.append(" ) ");
 
 				// SQL実行
-				ResultSet rs3 = stmt.executeQuery(sb.toString());
+				stmt.executeUpdate(sb.toString());
 
 				// 初期化
 				sb.delete(0, sb.length());
@@ -124,23 +127,25 @@ public class MakeGroupModel {
 				// 自分以外
 				if (soloGroupFlag != 1) {
 
-					// 一人グループじゃなければ他メンバーも追加する
+					// 一人グループじゃなければ他メンバーも追加
 					for (int i = 0; i < groupMemberNo.length; i++) {
 						sb.append("INSERT INTO ");
 						sb.append(" t_group_info ");
 						sb.append(" ( ");
 						sb.append(" group_no ");
 						sb.append(", user_no ");
+						sb.append(", out_flag ");
 						sb.append(", regist_date ");
 						sb.append(" ) ");
 						sb.append("VALUES ");
 						sb.append(" ( ");
 						sb.append(" '" + maxGroupNo + "' , ");
 						sb.append(" '" + groupMemberNo[i] + "' , ");
+						sb.append(" 0 ,");
 						sb.append(" sysdate ");
 						sb.append(" ) ");
 						// SQL実行
-						ResultSet rs4 = stmt.executeQuery(sb.toString());
+						stmt.executeUpdate(sb.toString());
 
 						// 初期化
 						sb.delete(0, sb.length());

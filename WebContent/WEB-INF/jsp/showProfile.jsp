@@ -5,21 +5,30 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<link rel="stylesheet"type="text/css"href="./css/profile.css" media="all">
+<title>${ProfileBean.userName}さんのプロフィール</title>
 </head>
-<body>
-  <h1>チャット研修プログラム</h1>
+<body id="bgcolor">
+  <h1>チームAのチャット</h1>
+  <div align="center">
   <h2>プロフィール確認</h2>
+  <table class ="menu" border ="3" style="table-layout:fixed;">
+   <tr align ="center">
+   <td class="name">名前</td>
+   <td colspan ="3" class ="message">自己紹介文</td>
+   </tr>
   <form action="/showProfile" method="POST">
-    <br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;表示名：&nbsp;&nbsp;&nbsp;&nbsp;<c:out value="${ProfileBean.userName}" />
-    <br>
-    <br>
-    自己紹介文：&nbsp;&nbsp;&nbsp;&nbsp;<c:out value="${ProfileBean.myPageText}" />
-    <br>
-    <br>
-    <br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="閉じる" onclick="window.close();">
+    <br><tr align ="center">
+<td>
+   <c:out value="${ProfileBean.userName}" /></td>
+
+    <td colspan="3">
+   <c:out value="${ProfileBean.myPageText}" /></td>
+   </tr>
+   </table>
+   <br>
+   <input type="submit" value="閉じる" onclick="window.close();">
   </form>
+  </div>
 </body>
 </html>

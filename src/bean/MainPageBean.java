@@ -25,6 +25,12 @@ public class MainPageBean {
     /** 会員数 */
     private int number;
 
+    /** 会員番号カウント用 */
+    private int countUN;
+
+    /** グループ番号 */
+    private String groupNo;
+
 
     public String getUserId() {
         return userId;
@@ -85,6 +91,20 @@ public class MainPageBean {
     }
     public void setNumber(int number) {
         this.number = number;
+    }
+
+    public int getCountUN() {
+        return countUN;
+    }
+    public void setCountUN(int countUN) {
+        this.countUN = countUN;
+    }
+
+    public String getGroupNo() {
+        return groupNo;
+    }
+    public void setGroupNo(String groupNo) {
+        this.groupNo = groupNo;
     }
 
 }

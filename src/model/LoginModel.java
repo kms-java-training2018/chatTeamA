@@ -13,6 +13,11 @@ import bean.LoginBean;
  */
 public class LoginModel {
 
+	/**
+	 * 認証処理
+	 * @param bean
+	 * @return
+	 */
     public LoginBean authentication(LoginBean bean) {
         // 初期化
         StringBuilder sb = new StringBuilder();

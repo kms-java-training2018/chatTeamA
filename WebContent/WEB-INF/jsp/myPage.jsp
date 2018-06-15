@@ -5,11 +5,22 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<link rel="stylesheet"type="text/css"href="./css/profile.css" media="all">
+<title>マイページ</title>
 </head>
-<body>
-  <h1>チャット研修プログラム</h1>
+<body id="bgcolor">
+	<div align="right">
+		${session.getUserName() }さん <br>
+		<form name="log_out" action="/chat/logout" method="POST">
+			<input type="button" value="ログアウト"
+				onClick="if(confirm ('本当にログアウトしますか？')){submit();}">
+		</form>
+	</div>
+	<hr>
+  <h1>チームAのチャット</h1>
+  <div align="center">
   <h2>マイページ</h2>
+
   <p>表示名</p>
   <form action="/chat/myPage" method="POST">
   <input size="55" type="text" name="userName" value="${ProfileBean.userName}">
@@ -20,12 +31,13 @@
   <br>
   <br>
     <P>${ProfileBean.errorMessage}</P>
-    <input type="submit" value="プロフィールを更新">
+    <input type="submit" value="プロフィール更新">
     <input type="hidden" name="userNo" value="${ProfileBean.userNo}">
   </form>
   <br>
   <form action="/chat/main" method="POST">
     <input type="submit" value="メインメニューに戻る">
   </form>
+  </div>
 </body>
 </html>

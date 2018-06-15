@@ -1,0 +1,35 @@
+@charset "UTF-8";
+
+#bgcolor {
+	animation: bgChange 5s infinite linear;
+	}
+.font {
+	font-family: 'メイリオ', Meiryo,sans-serif;
+
+}
+
+#changeTitleColor{
+    	animation: change1 5s infinite linear;
+}
+
+#changeErrorColor{
+	animation: change2 0.5s infinite linear;
+}
+
+@keyframes change1{
+    0%    {color:#ffff00;}
+    50%   {color:#00FFFF;}
+    100%  {color:#ffff00;}
+}
+
+@keyframes change2{
+	0%    {color:#000000;}
+    50%   {color:#ff0000;}
+    100%  {color:#000000;}
+}
+
+@keyframes bgChange{
+	0%    {background:#c5c56a;}
+    50%   {background:#98605e;}
+    100%  {background:#c5c56a;}
+}

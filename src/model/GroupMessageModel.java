@@ -10,12 +10,14 @@ import java.util.ArrayList;
 import bean.GroupMessageBean;
 
 public class GroupMessageModel {
-    // 次の格納するメッセージの数字
+    /**
+     * 次の数字の確認
+     * @param bean
+     * @return
+     */
     public GroupMessageBean nextNumCheck(GroupMessageBean bean) {
         // 初期化
         StringBuilder sb = new StringBuilder();
-        String groupNo = bean.getGroupNo();
-        String userNo = bean.getUserNo();
 
         Connection conn = null;
         String url = "jdbc:oracle:thin:@192.168.51.67:1521:XE";
@@ -50,8 +52,6 @@ public class GroupMessageModel {
 
             }
 
-            //conn.close();
-
         } catch (SQLException e) {
             bean.setErrFlag(true);
             e.printStackTrace();
@@ -66,7 +66,11 @@ public class GroupMessageModel {
         return bean;
     }
 
-    // グループに入っているか
+    /**
+     * グループチェック
+     * @param bean
+     * @return
+     */
     public GroupMessageBean groupCheck(GroupMessageBean bean) {
         // 初期化
         StringBuilder sb = new StringBuilder();
@@ -172,7 +176,7 @@ public class GroupMessageModel {
 
             // SQL実行
             Statement stmt = conn.createStatement();
-            stmt.executeQuery(sb.toString());
+            stmt.executeUpdate(sb.toString());
 
             conn.close();
 
@@ -191,14 +195,14 @@ public class GroupMessageModel {
     }
 
     /**
-     * メッセージ削除
+     * メッセージ削除処理
+     * @param errFlag
+     * @param delMessageNo
+     * @return
      */
-    public GroupMessageBean DeleteMessage(GroupMessageBean bean, String delMessageNo) {
+    public boolean DeleteMessage(boolean errFlag, String delMessageNo) {
         // 初期化
         StringBuilder sb = new StringBuilder();
-        String groupNo = bean.getGroupNo();
-        String userNo = bean.getUserNo();
-        String messageNo = bean.getMessageNo();
 
         Connection conn = null;
         String url = "jdbc:oracle:thin:@192.168.51.67:1521:XE";
@@ -208,7 +212,7 @@ public class GroupMessageModel {
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
         } catch (ClassNotFoundException e) {
-            bean.setErrFlag(true);
+            errFlag= true;
             e.printStackTrace();
         }
         // 接続作成
@@ -226,12 +230,12 @@ public class GroupMessageModel {
 
             // SQL実行
             Statement stmt = conn.createStatement();
-            stmt.executeQuery(sb.toString());
+            stmt.executeUpdate(sb.toString());
 
             conn.close();
 
         } catch (SQLException e) {
-            bean.setErrFlag(true);
+            errFlag = true;
             e.printStackTrace();
         } finally {
             try {
@@ -241,7 +245,7 @@ public class GroupMessageModel {
             }
         }
 
-        return bean;
+        return errFlag;
     }
 
     /**	グループ退会処理
@@ -282,7 +286,7 @@ public class GroupMessageModel {
 
             // SQL実行
             Statement stmt = conn.createStatement();
-            stmt.executeQuery(sb.toString());
+            stmt.executeUpdate(sb.toString());
 
             conn.close();
 
@@ -300,12 +304,17 @@ public class GroupMessageModel {
         return bean;
     }
 
+    /**
+     *	グループ作成者チェック
+     * @param bean
+     * @param myUserNo
+     * @return
+     */
     public GroupMessageBean registCheck(GroupMessageBean bean,String myUserNo) {
 
         // 初期化
         StringBuilder sb = new StringBuilder();
         String groupNo = bean.getGroupNo();
-        String userNo = bean.getUserNo();
 
         Connection conn = null;
         String url = "jdbc:oracle:thin:@192.168.51.67:1521:XE";
@@ -333,6 +342,7 @@ public class GroupMessageModel {
             // SQL実行
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sb.toString());
+
             rs.next();
             if(rs.getString("regist_user_no").equals(myUserNo)) {
                 bean.setErrFlag(true);
@@ -354,11 +364,16 @@ public class GroupMessageModel {
         return bean;
     }
 
+    /**
+     * メッセージ取得処理
+     * @param bean
+     * @param myUserNo
+     * @return
+     */
     public ArrayList<GroupMessageBean> messageCheck(GroupMessageBean bean, String myUserNo) {
 
         // 初期化
         StringBuilder sb = new StringBuilder();
-        String sendUserName = bean.getSendUserName();
         String groupNo = bean.getGroupNo();
         Connection conn = null;
         String url = "jdbc:oracle:thin:@192.168.51.67:1521:XE";
@@ -396,6 +411,7 @@ public class GroupMessageModel {
             sb.append("WHERE ");
             sb.append(" to_send_group_no ='" + groupNo + "'");
             sb.append(" AND delete_flag = 0");
+            sb.append(" order by message_no");
 
             // SQL実行
             Statement stmt = conn.createStatement();
@@ -429,19 +445,23 @@ public class GroupMessageModel {
                 conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
-                //この場合エラー画面へ遷移
+
             }
         }
 
         return list;
     }
 
+    /**
+     * グループ名取得処理
+     * @param bean
+     * @return
+     */
     public GroupMessageBean getGroupName(GroupMessageBean bean) {
 
         // 初期化
         StringBuilder sb = new StringBuilder();
         String groupNo = bean.getGroupNo();
-        String userNo = bean.getUserNo();
 
         Connection conn = null;
         String url = "jdbc:oracle:thin:@192.168.51.67:1521:XE";
@@ -469,7 +489,9 @@ public class GroupMessageModel {
             // SQL実行
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sb.toString());
+
             rs.next();
+
             bean.setGroupName(rs.getString("group_name"));
 
             conn.close();

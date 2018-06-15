@@ -20,12 +20,12 @@ public class MyPageServlet extends HttpServlet {
          */
 
         // Beanの初期化
-        SessionBean bean1 = new SessionBean();
-        ProfileBean bean2 = new ProfileBean();
-        bean2.setUserNo("");
-        bean2.setErrorMessage("");
-        bean2.setUserName("");
-        bean2.setMyPageText("");
+        SessionBean sessionBean = new SessionBean();
+        ProfileBean bean = new ProfileBean();
+        bean.setUserNo("");
+        bean.setUserName("");
+        bean.setMyPageText("");
+        bean.setErrorMessage("");
 
         // 初期化
         MyPageModel model = new MyPageModel();
@@ -33,23 +33,30 @@ public class MyPageServlet extends HttpServlet {
 
         //セッション情報の取得
         HttpSession session = req.getSession();
-        bean1 = (SessionBean) session.getAttribute("session");
-        bean2.setUserNo(bean1.getUserNo());
+        sessionBean = (SessionBean) session.getAttribute("session");
+
+        if(sessionBean == null) {
+			req.getRequestDispatcher("/error").forward(req, res);
+			return;
+		}
+
+        bean.setUserNo(sessionBean.getUserNo());
 
         /**
          * パラメータチェック
-         *   ・セッションが存在する場合→Modelでプロフィール情報を取得
-         *   ・セッションが存在しない場合→エラー画面へ
+         *   ログインユーザーの会員番号をパラメータに、
+         *   ・保持している場合→Modelでプロフィール情報を取得
+         *   ・保持していない場合→エラー画面へ
          */
         if(session != null) {
             try{
-                bean2 = model.authentication(bean2);
+                bean = model.authentication(bean);
             } catch (Exception e) {
                 e.printStackTrace();
                 direction = "/error";
             }
         }
-        req.setAttribute("ProfileBean", bean2);
+        req.setAttribute("ProfileBean", bean);
         req.getRequestDispatcher(direction).forward(req, res);
     }
 
@@ -64,8 +71,8 @@ public class MyPageServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
 
         // 初期化
-        SessionBean bean1 = new SessionBean();
-        ProfileBean bean2 = new ProfileBean();
+        SessionBean sessionBean = new SessionBean();
+        ProfileBean bean = new ProfileBean();
         MyPageModel model = new MyPageModel();
         String direction = "/WEB-INF/jsp/myPage.jsp";
 
@@ -76,33 +83,32 @@ public class MyPageServlet extends HttpServlet {
 
         //"プロフィールを更新"のリクエスト送信後、入力値チェック
         if (userName.length() > 30 || myPageText.length() > 100) {
-        	bean2.setErrorMessage("表示名は30文字以下、自己紹介文は100文字以下で入力してください。");
+        	bean.setErrorMessage("表示名は30文字以下、自己紹介文は100文字以下で入力してください。");
         } else {
-            bean2.setUserName(userName);
-            bean2.setUserNo(userNo);
-            bean2.setMyPageText(myPageText);
-            bean2.setErrorMessage("");
+        	bean.setUserNo(userNo);
+            bean.setUserName(userName);
+            bean.setMyPageText(myPageText);
+            bean.setErrorMessage("");
         }
 
-        // 更新処理が成功した場合セッションに情報をセット
-        bean1.setUserNo(userNo);
-        if ("".equals(bean2.getErrorMessage())) {
+        // 更新処理が成功した場合→セッションに情報をセット
+        if ("".equals(bean.getErrorMessage())) {
             try {
-                bean2 = model.authentication2(bean2);
+                bean = model.authentication2(bean);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            bean1.setUserName(bean2.getUserName());
-            bean1.setMyPageText(bean2.getMyPageText());
+            sessionBean.setUserNo(userNo);
+            sessionBean.setUserName(bean.getUserName());
             HttpSession session = req.getSession();
-            session.setAttribute("session", bean1);
+            session.setAttribute("session", sessionBean);
             direction = "/main";
+        //更新に失敗した場合→プロフィール情報を再度DBから取得
         }else {
-            //更新に失敗した場合→プロフィール情報を再度DBから取得
-            bean2 = model.authentication(bean2);
-            req.setAttribute("ProfileBean", bean2);
+            bean = model.authentication(bean);
+            req.setAttribute("ProfileBean", bean);
         }
-        req.setAttribute("session", bean1);
+        req.setAttribute("session", sessionBean);
         req.getRequestDispatcher(direction).forward(req, res);
 
     }

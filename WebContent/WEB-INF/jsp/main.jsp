@@ -5,42 +5,69 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet"type="text/css"href="./css/main.css" media="all">
 <title>メインメニュー</title>
 </head>
-<body>
-  <h1>チャット研修プログラム</h1>
+<body id="bgcolor">
+	<div align="right">
+		${session.getUserName() }さん <br>
+		<form name="log_out" action="/chat/logout" method="POST">
+			<input type="button" value="ログアウト"
+				onClick="if(confirm ('本当にログアウトしますか？')){submit();}">
+		</form>
+	</div>
+	<hr>
+  <h1>チームAのチャット</h1>
+  <div align="center">
   <h2>メインメニュー</h2>
   <br><div>■会員一覧</div>
-  <c:forEach var="bean" items="${list}" varStatus="status">
+ <table class ="menu" border ="3" style="table-layout:fixed;">
+  <tr align ="center">
+
+  </tr>
+   <tr align ="center">
+   <td class="name">名前</td>
+   <td colspan ="3" class ="message">メッセージ</td>
+   </tr>
+  <c:forEach var="bean" items="${talkD}" varStatus="status">
+  <tr align ="center">
+
     <form action="/chat/directMessage" method="GET">
-    <a href="/chat/directMessage?user_no=${bean.userNo}&user_name=${bean.userName}"><c:out value="${bean.userNo}"/><c:out value="${bean.userName}"/></a><br>
+     <td>
+    <a href="/chat/directMessage?user_no=${bean.userNo}"><c:out value="${bean.userName}"/>
+    </a></td>
+
+    <td colspan="3"><c:out value="${bean.message}"/></td>
      </form>
     </c:forEach>
-
-<c:forEach var="bean" items="${talkD}" varStatus="status">
-<c:out value="${bean.message}"/><br>
-    </c:forEach>
-
+</table>
 
 
   <br>■グループ一覧
-  <br>
-  <a href="/chat/groupMessage">グループ名（グループメッセージへ）</a>
-  <br>
 
+<table class ="menu" border ="3" style="table-layout:fixed;">
+ <tr align ="center">
+
+  </tr>
+   <tr align ="center">
+   <td class="name">グループ名</td>
+   <td colspan ="3" class ="message">メッセージ</td>
+   </tr>
 <c:forEach var="bean" items="${talkG}" varStatus="status">
-<p>グループ名</p><a href="/chat/groupMessage?group_no=${bean.userNo}"><c:out value="${bean.groupName}"/></a>
-<p>最新グループトーク</p><c:out value="${bean.message}"/><br>
+<tr align ="center">
+<td><a href="/chat/groupMessage?group_no=${bean.groupNo}"><c:out value="${bean.groupName}"/></a></td>
+<td colspan="3"><c:out value="${bean.message}"/></td>
     </c:forEach>
-
+    </table>
   <br>
   <form action="/chat/makeGroup" method="GET">
     <input type="submit" value="グループの作成">
   </form>
+  <br>
   <form action="/chat/myPage" method="GET">
-    <input type="submit" value="プロフィール画面へ">
+    <input type="submit" value="プロフィール編集">
   </form>
-
+</div>
 
 </body>
 </html>

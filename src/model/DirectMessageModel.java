@@ -58,45 +58,43 @@ public class DirectMessageModel {
 			sb.append(" OR (to_send_user_no = '" + userNo + "'");
 			sb.append(" AND send_user_no = '" + toSendUserNo + "'");
 			sb.append(" AND delete_flag = 0)");
+			sb.append(" order by message_no");
 
 			// SQL実行
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sb.toString());
 
 			//--メッセージの分だけ取得--//
-			if (!rs.next()) {
-				bean.setErrorMessage("メッセージの取得に失敗しました");
 
-			} else {
-				//bean型のlistにメッセージを格納
-				while (rs.next()) {
-					DirectMessageBean directMessage = new DirectMessageBean();
-					directMessage.setMessage(rs.getString("message"));
-					directMessage.setMessageNo(rs.getString("message_no"));
-					directMessage.setSendUserName(rs.getString("sendUserName"));
-					directMessage.setSendUserNo(rs.getString("sendUserNo"));
+			//bean型のlistにメッセージを格納
+			while (rs.next()) {
+				DirectMessageBean directMessage = new DirectMessageBean();
+				directMessage.setMessage(rs.getString("message"));
+				directMessage.setMessageNo(rs.getString("message_no"));
+				directMessage.setSendUserName(rs.getString("sendUserName"));
+				directMessage.setSendUserNo(rs.getString("sendUserNo"));
 
-					if (rs.getString("sendUserNo").equals(userNo)) {
-						directMessage.setMyMessageFlag(true);
-					} else {
-						directMessage.setMyMessageFlag(false);
-					}
-
-					list.add(directMessage);
-
-					if (!rs.getString("sendUserName").equals(userName)) {
-						directMessage.setMyNameFlag(true);
-					} else {
-						directMessage.setMyNameFlag(false);
-					}
-
+				if (rs.getString("sendUserNo").equals(userNo)) {
+					directMessage.setMyMessageFlag(true);
+				} else {
+					directMessage.setMyMessageFlag(false);
 				}
-				bean.setErrorMessage("");
+
+				list.add(directMessage);
+
+				if (!rs.getString("sendUserName").equals(userName)) {
+					directMessage.setMyNameFlag(true);
+				} else {
+					directMessage.setMyNameFlag(false);
+				}
+
 			}
+			bean.setErrorMessage("");
 
 			conn.close();
 
 		} catch (SQLException e) {
+			bean.setErrorMessage("メッセージの取得に失敗しました");
 			e.printStackTrace();
 		} finally {
 			try {
@@ -136,7 +134,7 @@ public class DirectMessageModel {
 
 			// SQL作成
 			sb.append("SELECT ");
-			sb.append("COUNT(*) ");
+			sb.append("MAX(message_no) ");
 			sb.append("FROM ");
 			sb.append("t_message_info");
 
@@ -214,12 +212,12 @@ public class DirectMessageModel {
 
 			// SQL実行
 			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(sb.toString());
+			stmt.executeUpdate(sb.toString());
 
-			if (!rs.next()) {
+			/*if (!rs.next()) {
 				bean.setErrorMessage("メッセージの登録に失敗しました");
 
-			}
+			}*/
 			conn.close();
 
 		} catch (SQLException e) {
@@ -273,7 +271,7 @@ public class DirectMessageModel {
 
 			// SQL実行
 			Statement stmt = conn.createStatement();
-			stmt.executeQuery(sb.toString());
+			stmt.executeUpdate(sb.toString());
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -288,4 +286,60 @@ public class DirectMessageModel {
 
 		return bean;
 	}
+
+	// userNoに対応したuserNameの取得
+		public String getToSendUserName(String toSendUserNo) {
+			// 初期化
+			StringBuilder sb = new StringBuilder();
+
+			String userName = "";
+
+			Connection conn = null;
+			String url = "jdbc:oracle:thin:@192.168.51.67:1521:XE";
+			String user = "DEV_TEAM_A";
+			String dbPassword = "A_DEV_TEAM";
+			// JDBCドライバーのロード
+			try {
+				Class.forName("oracle.jdbc.driver.OracleDriver");
+			} catch (ClassNotFoundException e) {
+				//bean.setErrorMessage("エラーです");
+				e.printStackTrace();
+			}
+			// 接続作成
+			try {
+				conn = DriverManager.getConnection(url, user, dbPassword);
+
+				// SQL作成
+				sb.append("SELECT ");
+				sb.append(" user_name ");
+				sb.append("FROM ");
+				sb.append(" m_user ");
+				sb.append("WHERE ");
+				sb.append("user_no = '"+ toSendUserNo +"'");
+
+				// SQL実行
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sb.toString());
+
+				if (rs.next()) {
+					userName = rs.getString("user_name");
+				}
+
+				conn.close();
+
+			} catch (SQLException e) {
+				//bean.setErrorMessage("エラーです");
+				e.printStackTrace();
+			} finally {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+			return userName;
+		}
 }
+
+
