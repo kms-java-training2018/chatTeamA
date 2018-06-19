@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import bean.DirectMessageBean;
 import bean.SessionBean;
 import model.DirectMessageModel;
+import model.MakeGroupModel;
 
 public class DirectMessageServlet extends HttpServlet {
 
@@ -30,6 +31,8 @@ public class DirectMessageServlet extends HttpServlet {
 		* パラメータチェック
 		*/
 
+		String direction = "/WEB-INF/jsp/directMessage.jsp";
+		DirectMessageBean bean = new DirectMessageBean();
 		DirectMessageModel model = new DirectMessageModel();
 		ArrayList<DirectMessageBean> list = new ArrayList<DirectMessageBean>();
 
@@ -40,7 +43,7 @@ public class DirectMessageServlet extends HttpServlet {
 		SessionBean sessionBean = new SessionBean();
 		sessionBean = (SessionBean) session.getAttribute("session");
 
-		if(sessionBean == null) {
+		if (sessionBean == null) {
 			req.getRequestDispatcher("/error").forward(req, res);
 			return;
 		}
@@ -49,14 +52,19 @@ public class DirectMessageServlet extends HttpServlet {
 		//main.jspから送信対象者番号取得
 		//ログイン情報から送信者番号(ログイン)取得
 		String toSendUserNo = req.getParameter("user_no");
-		//String toSendUserName = req.getParameter("user_name");
+
+		String toSendUserName = "";
 		// ユーザー名取得処理
-		String toSendUserName = model.getToSendUserName(toSendUserNo);
+		try {
+			toSendUserName = model.getToSendUserName(toSendUserNo, bean);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		String sendUserNo = sessionBean.getUserNo();
 		String sendUserName = sessionBean.getUserName();
 
-		DirectMessageBean bean = new DirectMessageBean();
+		//DirectMessageBean bean = new DirectMessageBean();
 		bean.setUserNo(sendUserNo);
 		bean.setUserName(sendUserName);
 		bean.setToSendUserNo(toSendUserNo);
@@ -69,7 +77,13 @@ public class DirectMessageServlet extends HttpServlet {
 		try {
 			list = model.getMessage(bean);
 		} catch (Exception e) {
+			bean.setErrorMessage("接続できませんでした");
 			e.printStackTrace();
+		}
+
+		//会話情報を取得できなかった場合
+		if (bean.getErrorMessage() != null) {
+			direction = "/error";
 		}
 
 		//jspに飛ばす
@@ -84,10 +98,7 @@ public class DirectMessageServlet extends HttpServlet {
 		sessionBean.setToSendUserName(toSendUserName);
 		session.setAttribute("session", sessionBean);
 
-
-		//DirectMessageBean bean = new DirectMessageBean();
-		//req.setAttribute("directMessage", bean);
-		req.getRequestDispatcher("/WEB-INF/jsp/directMessage.jsp").forward(req, res);
+		req.getRequestDispatcher(direction).forward(req, res);
 		return;
 	}
 
@@ -136,13 +147,13 @@ public class DirectMessageServlet extends HttpServlet {
 			//メッセージ画面に遷移する。--//
 
 			//未入力の場合
-			if (message.equals("")) {
+			if (!MakeGroupModel.spaceCheck(message)) {
 
 				//エラーメッセージ設定
 				bean.setErrorMessage("メッセージを入力してください");
 
 				//桁数チェック
-			} else if (message.length() > 100) {
+			} else if (message.getBytes().length > 100) {
 
 				//エラーメッセージ設定
 				bean.setErrorMessage("メッセージは100桁以内にしてください");
@@ -153,7 +164,6 @@ public class DirectMessageServlet extends HttpServlet {
 
 			//エラーメッセージを表示させる
 			req.setAttribute("errorMessage", bean.getErrorMessage());
-
 
 			/*
 			 * (2) 会話情報登録処理
@@ -167,11 +177,6 @@ public class DirectMessageServlet extends HttpServlet {
 
 				//登録処理へ
 				bean = model.messageRegi(bean);
-
-				//--(2)-2 エラーメッセージがセットされていた場合はエラー画面へ--//
-//				if (bean.getErrorMessage() != null) {
-//					direction = "/error";
-//				}
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -224,20 +229,10 @@ public class DirectMessageServlet extends HttpServlet {
 		*
 		*パラメータチェック画面表示処理
 		*【処理概要】
-		*メインメニュー画面で対象ユーザーリンクを押したときに実行される処理。
-		*セッション情報チェック・会話情報取得処理が成功した場合、メッセージ画面に遷移する。
+		*メッセージ画面で送信・削除等を行った場合に実行される処理。
+		*セッション情報チェック・会話情報取得処理が成功した場合、メッセージ画面に留まる。
 		*
 		*/
-
-		/*
-		* パラメータチェック
-		*/
-
-		//--セッションの存在チェック--//
-
-		//--パラメータチェック--//
-
-		//--存在しなければエラー画面へ遷移--//
 
 		/*
 		* 会話情報取得処理
@@ -246,8 +241,14 @@ public class DirectMessageServlet extends HttpServlet {
 		//--セッション情報の会員番号と、送信対象者の会員番号を条件に会話情報取得する処理--//
 		try {
 			list = model.getMessage(bean);
+
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+
+		//会話情報を取得できなかった場合
+		if (bean.getErrorMessage() != null) {
+			direction = "/error";
 		}
 
 		//jspに飛ばす
@@ -255,9 +256,7 @@ public class DirectMessageServlet extends HttpServlet {
 		req.setAttribute("messageList", list);
 		req.setAttribute("toSendUserName", bean.getToSendUserName());
 
-
-
 		req.getRequestDispatcher(direction).forward(req, res);
-
+		return;
 	}
 }
