@@ -10,6 +10,18 @@ import bean.MakeGroupBean;
 
 public class MakeGroupModel {
 
+	public static boolean spaceCheck(String input) {
+		boolean result;
+
+		String str = input.replaceAll(" ", "");
+		str = str.replaceAll("　", "");
+
+		result = !(str.isEmpty());
+
+		return result;
+
+	}
+
 	//グループ名の長さの指定
 	final int GN_LENGTH = 30;
 
@@ -21,7 +33,7 @@ public class MakeGroupModel {
 		int soloGroupFlag = 0;
 
 		// jspの入力値分析
-		if (groupName.equals("")) {
+		if (MakeGroupModel.spaceCheck(groupName) == false) {
 
 			// グループ名が空
 			bean.setErrorMessage("グループ名を入力してください");
