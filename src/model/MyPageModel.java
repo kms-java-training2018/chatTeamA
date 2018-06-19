@@ -29,7 +29,7 @@ public class MyPageModel {
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
         } catch (ClassNotFoundException e) {
-            bean.setErrFlag(true);
+            bean.setErrorFlag(true);
             e.printStackTrace();
         }
 
@@ -53,13 +53,13 @@ public class MyPageModel {
 
             //取得したデータをbeanにセット
             if (!rs.next()) {
-                bean.setErrFlag(true);
+                bean.setErrorFlag(true);
             } else {
                 bean.setUserName(rs.getString("user_name"));
                 bean.setMyPageText(rs.getString("my_page_text"));
             }
         } catch (SQLException e) {
-            bean.setErrFlag(true);
+            bean.setErrorFlag(true);
             e.printStackTrace();
         //処理終了後、接続を切断
         } finally {
@@ -93,7 +93,7 @@ public class MyPageModel {
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
         } catch (ClassNotFoundException e) {
-            bean.setErrFlag(true);
+            bean.setErrorFlag(true);
             e.printStackTrace();
         }
 
@@ -118,17 +118,17 @@ public class MyPageModel {
 
             //更新に失敗した場合
             if (resultCount == 0) {
-                bean.setErrFlag(true);
+                bean.setErrorFlag(true);
             }
         } catch (SQLException e) {
-            bean.setErrFlag(true);
+            bean.setErrorFlag(true);
             e.printStackTrace();
         //処理終了後、接続を切断
         } finally {
             try {
                 conn.close();
             } catch (SQLException e) {
-                bean.setErrFlag(true);
+                bean.setErrorFlag(true);
                 e.printStackTrace();
             }
         }

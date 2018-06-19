@@ -14,6 +14,18 @@ import model.MyPageModel;
 
 public class MyPageServlet extends HttpServlet {
 
+	public static boolean spaceCheck(String input) {
+		boolean result;
+
+		String str = input.replaceAll(" ", "");
+		str = str.replaceAll("　", "");
+
+		result = !(str.isEmpty());
+
+		return result;
+
+	}
+
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
         /**
          * プロフィール情報の取得
@@ -78,17 +90,25 @@ public class MyPageServlet extends HttpServlet {
 
         // パラメータの取得
         String userNo = (String) req.getParameter("userNo");
-        String userName = (String) req.getParameter("userName");
-        String myPageText = (String) req.getParameter("myPageText");
+
 
         //"プロフィールを更新"のリクエスト送信後、入力値チェック
-        if (userName.length() > 30 || myPageText.length() > 100) {
-        	bean.setErrorMessage("表示名は30文字以下、自己紹介文は100文字以下で入力してください。");
-        } else {
-        	bean.setUserNo(userNo);
+        if("userName" != null || "myPageText" != null) {
+        	String userName = (String) req.getParameter("userName");
+            String myPageText = (String) req.getParameter("myPageText");
+            bean.setUserNo(userNo);
             bean.setUserName(userName);
             bean.setMyPageText(myPageText);
             bean.setErrorMessage("");
+
+
+
+        if (userName.getBytes().length > 30 || myPageText.getBytes().length > 100) {
+        	bean.setErrorMessage("表示名は30桁以下、自己紹介文は100桁以下で入力してください。");
+        } else if (!MyPageServlet.spaceCheck(userName) || !MyPageServlet.spaceCheck(myPageText)) {
+        	bean.setErrorMessage("メッセージを入力してください。");
+        }
+
         }
 
         // 更新処理が成功した場合→セッションに情報をセット

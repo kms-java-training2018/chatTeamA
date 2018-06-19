@@ -53,10 +53,6 @@ public class ShowProfileServlet extends HttpServlet {
             }else {
             	direction = "/error";
             }
-            //Modelにエラーがあった場合→エラー画面に遷移
-            if(bean.isErrFlag()) {
-                direction = "/error";
-            }
         }
         req.setAttribute("ProfileBean", bean);
         req.getRequestDispatcher(direction).forward(req, res);

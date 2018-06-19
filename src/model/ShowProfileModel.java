@@ -26,7 +26,7 @@ public class ShowProfileModel {
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
         } catch (ClassNotFoundException e) {
-            bean.setErrFlag(true);
+            bean.setErrorFlag(true);
             e.printStackTrace();
         }
 
@@ -50,7 +50,7 @@ public class ShowProfileModel {
 
             //取得したデータをbeanにセット
             if (!rs.next()) {
-            	bean.setErrFlag(true);
+            	bean.setErrorFlag(true);
             } else {
             	bean.setUserName(rs.getString("user_name"));
                 bean.setMyPageText(rs.getString("my_page_text"));
@@ -58,14 +58,14 @@ public class ShowProfileModel {
                 conn.close();
             }
         } catch (SQLException e) {
-            bean.setErrFlag(true);
+            bean.setErrorFlag(true);
             e.printStackTrace();
         //処理終了後、接続を切断
         } finally {
             try {
                 conn.close();
             } catch (SQLException e) {
-                bean.setErrFlag(true);
+                bean.setErrorFlag(true);
                 e.printStackTrace();
             }
         }

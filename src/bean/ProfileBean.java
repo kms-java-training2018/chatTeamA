@@ -11,12 +11,11 @@ public class ProfileBean {
     /** 自己紹介文 */
     private String myPageText;
 
-    /** エラーメッセージ() */
-    private String errorMessage;
+	/** エラーメッセージ */
+	private String errorMessage="";
 
-    /** エラーフラグ */
-    private boolean errFlag;
-
+	/** エラーフラグ */
+	private boolean errorFlag;
 
     public String getUserNo() {
         return userNo;
@@ -41,22 +40,21 @@ public class ProfileBean {
     public void setMyPageText(String myPageText) {
         this.myPageText = myPageText;
     }
+	public String getErrorMessage() {
+		return errorMessage;
+	}
 
-    public String getErrorMessage() {
-        return errorMessage;
-    }
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
+	}
 
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
-    }
+	public boolean getErrorFlag() {
+		return errorFlag;
+	}
 
-    public boolean isErrFlag() {
-        return errFlag;
-    }
-
-    public void setErrFlag(boolean errFlag) {
-        this.errFlag = errFlag;
-    }
-
+	public void setErrorFlag(boolean errorFlag) {
+		this.errorFlag = errorFlag;
+	}
 }
+
 
