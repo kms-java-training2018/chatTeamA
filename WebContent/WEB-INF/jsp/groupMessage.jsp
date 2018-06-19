@@ -6,6 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet"type="text/css"href="./css/message.css" media="all">
+<link rel="stylesheet"type="text/css"href="./css/login.css" media="all">
 <title>グループメッセージ</title>
 </head>
 <body id="bgcolor">
@@ -20,8 +21,8 @@
 	<script src="./directMessage.js"></script>
 	<h1>チームAのチャット</h1>
 	<h2></h2>
-	<form action="/chat/groupMessage" method="POST">
 	<h3>「${group_name }」の会話</h3>
+	<form action="/chat/groupMessage" method="POST" onSubmit="return confirm('脱退しますか？')">
 		<input type="submit" name="escape" value="グループを脱退する">
 	</form>
 	<br>
@@ -56,6 +57,7 @@
 	</c:forEach>
 	<br>
 	<br>
+	<p id="changeErrorColor">${errorMessage }</p>
 	<form action="/chat/groupMessage" method="POST">
 		<input type="text" name="message" value="${groupMessageBean.message}">
 		<input type="submit" name="sendMessage" value="メッセージの送信">

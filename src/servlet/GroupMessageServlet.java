@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import bean.GroupMessageBean;
 import bean.SessionBean;
 import model.GroupMessageModel;
+import model.MakeGroupModel;
 
 public class GroupMessageServlet extends HttpServlet {
 
@@ -42,7 +43,6 @@ public class GroupMessageServlet extends HttpServlet {
         try {
             bean = model.groupCheck(bean);
         } catch (Exception e) {
-        	bean.setErrFlag(true);
             e.printStackTrace();
         }
 
@@ -50,7 +50,6 @@ public class GroupMessageServlet extends HttpServlet {
         try {
             list = model.messageCheck(bean, sessionBean.getUserNo());
         } catch (Exception e) {
-        	bean.setErrFlag(true);
             e.printStackTrace();
         }
 
@@ -58,7 +57,6 @@ public class GroupMessageServlet extends HttpServlet {
         try {
         	bean = model.getGroupName(bean);
         }catch (Exception e) {
-        	bean.setErrFlag(true);
         	e.printStackTrace();
         }
 
@@ -96,11 +94,12 @@ public class GroupMessageServlet extends HttpServlet {
         bean.setUserName(sessionBean.getUserName());
         bean.setGroupNo(sessionBean.getGroupNo());
 
+        String errorMessage = "";
+
         // グループ番号チェック
         try {
             bean = model.groupCheck(bean);
         } catch (Exception e) {
-        	bean.setErrFlag(true);
             e.printStackTrace();
         }
 
@@ -114,15 +113,15 @@ public class GroupMessageServlet extends HttpServlet {
         if (req.getParameter("sendMessage") != null) {
             String message = req.getParameter("message");
             bean.setMessage(message);
-            if (message.length() > 100 || message == null) {
-                bean.setErrFlag(true);
+            if (message.length() > 100) {
+                errorMessage = "メッセージは100桁以内にしてください。";
+            } else if(!MakeGroupModel.spaceCheck(message)) {
+            	errorMessage = "メッセージを入力してください。";
             } else {
-
             	// 次の数字の確認
                 try {
                     bean = model.nextNumCheck(bean);
                 } catch (Exception e) {
-                	bean.setErrFlag(true);
                     e.printStackTrace();
                 }
 
@@ -130,17 +129,17 @@ public class GroupMessageServlet extends HttpServlet {
                 try {
                     bean = model.sendMessage(bean);
                 } catch (Exception e) {
-                	bean.setErrFlag(true);
                     e.printStackTrace();
                 }
             }
         }
 
+
+
         // グループメッセージ取得
         try {
             list = model.messageCheck(bean, sessionBean.getUserNo());
         } catch (Exception e) {
-        	bean.setErrFlag(true);
             e.printStackTrace();
         }
 
@@ -148,12 +147,12 @@ public class GroupMessageServlet extends HttpServlet {
         try {
         	bean = model.getGroupName(bean);
         }catch (Exception  e) {
-        	bean.setErrFlag(true);
         	e.printStackTrace();
         }
 
         //jspに飛ばす
         req.setAttribute("list", list);
+        req.setAttribute("errorMessage", errorMessage);
         req.setAttribute("group_name", bean.getGroupName());
 
         // 退会ボタンが押されたとき
@@ -162,7 +161,6 @@ public class GroupMessageServlet extends HttpServlet {
         	try {
         		bean = model.registCheck(bean, sessionBean.getUserNo());
         	}catch(Exception e) {
-        		bean.setErrFlag(true);
         		e.printStackTrace();
         	}
 
@@ -170,7 +168,6 @@ public class GroupMessageServlet extends HttpServlet {
             	try {
             		bean = model.escapeGroup(bean);
             	}catch(Exception e) {
-            		bean.setErrFlag(true);
             		e.printStackTrace();
             	}
             }
