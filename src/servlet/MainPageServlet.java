@@ -28,7 +28,7 @@ public class MainPageServlet extends HttpServlet {
 		SessionBean sessionBean = new SessionBean();
 		sessionBean = (SessionBean) session.getAttribute("session");
 		if (sessionBean == null) {
-			// エラーサーブレットへ
+			// エラーへ
 			req.getRequestDispatcher("/error").forward(req, res);
 			return;
 		}
@@ -55,10 +55,11 @@ public class MainPageServlet extends HttpServlet {
 		//会員一覧と最新メッセージ取得
 		try {
 			talkD = model.member(bean);
-		} catch (Exception e) {
-			e.printStackTrace();
+		}catch (Exception e) {
 			direction = "/error";
-		}
+        	e.printStackTrace();
+        }
+
 
 		//jspに飛ばす
 		req.setAttribute("talkD", talkD);
@@ -66,10 +67,11 @@ public class MainPageServlet extends HttpServlet {
 		//グループ一覧情報取得
 		try {
 			talkG = model.latestGroupTalk(bean);
-		} catch (Exception e) {
-			e.printStackTrace();
+		}catch (Exception e) {
 			direction = "/error";
-		}
+        	e.printStackTrace();
+        }
+
 
 		//jspに飛ばす
 		req.setAttribute("talkG", talkG);

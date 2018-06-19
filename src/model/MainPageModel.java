@@ -46,6 +46,7 @@ public class MainPageModel {
 			sb.append(" user_no <> '" + userNo + "' ");
 			sb.append(" ORDER BY ");
 			sb.append(" user_no ");
+			sb.append(" DESC ");
 
 			// SQL実行
 			ResultSet rs = stmt.executeQuery(sb.toString());

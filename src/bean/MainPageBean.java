@@ -31,6 +31,10 @@ public class MainPageBean {
     /** グループ番号 */
     private String groupNo;
 
+    /** エラーフラグ */
+    private int errFlag;
+
+
 
     public String getUserId() {
         return userId;
@@ -105,6 +109,14 @@ public class MainPageBean {
     }
     public void setGroupNo(String groupNo) {
         this.groupNo = groupNo;
+    }
+
+    public int getErrFlag() {
+        return errFlag;
+    }
+
+    public void setErrFlag(int errFlag) {
+        this.errFlag = errFlag;
     }
 
 }
