@@ -60,10 +60,6 @@ public class MainPageServlet extends HttpServlet {
         	e.printStackTrace();
         }
 
-
-		//jspに飛ばす
-		req.setAttribute("talkD", talkD);
-
 		//グループ一覧情報取得
 		try {
 			talkG = model.latestGroupTalk(bean);
@@ -72,8 +68,14 @@ public class MainPageServlet extends HttpServlet {
         	e.printStackTrace();
         }
 
+		if(bean.getErrFlag() == 1) {
+			direction = "/error";
+			talkD.remove(bean);
+			talkG.remove(bean);
+		}
 
 		//jspに飛ばす
+		req.setAttribute("talkD", talkD);
 		req.setAttribute("talkG", talkG);
 
 		// 取得に成功した場合セッション情報をセット
@@ -82,6 +84,8 @@ public class MainPageServlet extends HttpServlet {
 			sessionBean.setUserNo(bean.getUserNo());
 			session.setAttribute("session", sessionBean);
 		}
+
+
 
 		req.getRequestDispatcher(direction).forward(req, res);
 

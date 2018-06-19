@@ -28,6 +28,7 @@ public class MainPageModel {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 		} catch (ClassNotFoundException e) {
+			bean.setErrFlag(1);
 			e.printStackTrace();
 		}
 		// 接続作成
@@ -97,12 +98,17 @@ public class MainPageModel {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			bean.setErrFlag(1);
 		} finally {
 			try {
 				conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+		}
+
+		if(bean.getErrFlag() == 1) {
+			talkD.add(bean);
 		}
 
 		return talkD;
@@ -126,6 +132,7 @@ public class MainPageModel {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 		} catch (ClassNotFoundException e) {
+			bean.setErrFlag(1);
 			e.printStackTrace();
 		}
 		// 接続作成
@@ -189,12 +196,17 @@ public class MainPageModel {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			bean.setErrFlag(1);
 		} finally {
 			try {
 				conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+		}
+
+		if(bean.getErrFlag() == 1) {
+			talkG.add(bean);
 		}
 
 		return talkG;
