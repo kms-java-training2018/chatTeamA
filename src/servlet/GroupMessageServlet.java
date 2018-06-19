@@ -113,7 +113,7 @@ public class GroupMessageServlet extends HttpServlet {
         if (req.getParameter("sendMessage") != null) {
             String message = req.getParameter("message");
             bean.setMessage(message);
-            if (message.length() > 100) {
+            if (message.getBytes().length > 100) {
                 errorMessage = "メッセージは100桁以内にしてください。";
             } else if(!MakeGroupModel.spaceCheck(message)) {
             	errorMessage = "メッセージを入力してください。";
