@@ -174,16 +174,18 @@ public class DirectMessageServlet extends HttpServlet {
 			 */
 
 			//--(2)-1 セッション情報の会員番号を条件に、内容を登録する。--//
-			try {
+			if (!judgeErrorMessage) {
+				try {
 
-				//会話番号をカウントし次の番号へ
-				bean = model.nextNumCheck(bean);
+					//会話番号をカウントし次の番号へ
+					bean = model.nextNumCheck(bean);
 
-				//登録処理へ
-				bean = model.messageRegi(bean);
+					//登録処理へ
+					bean = model.messageRegi(bean);
 
-			} catch (Exception e) {
-				e.printStackTrace();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 
 		}
