@@ -22,7 +22,7 @@
 	<h2>グループ作成</h2>
 	<p>${errorMessage}</p>
 	<form action="/chat/makeGroup" method="POST">
-		グループ名(最大30字)<input type="text" name="groupName" value="" size="30">
+		グループ名<input type="text" name="groupName" value="" size="30">
 		<br>
 		<table>
 			<tr>
