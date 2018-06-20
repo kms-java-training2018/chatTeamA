@@ -60,7 +60,7 @@
 	</form>
 
 	<form action="/chat/main" method="POST">
-		<input type="submit" value="メインメニューへ戻る">
+		<input type="submit" value="メインメニューに戻る">
 	</form>
 </body>
 </html>

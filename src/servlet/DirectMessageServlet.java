@@ -123,6 +123,8 @@ public class DirectMessageServlet extends HttpServlet {
 		bean.setToSendUserNo(sessionBean.getToSendUserNo());
 		bean.setToSendUserName(sessionBean.getToSendUserName());
 
+		boolean judgeErrorMessage = false;
+
 		//req.setAttribute("toSendUserName", req.getParameter("toSendUserName"));
 
 		/**
@@ -137,7 +139,7 @@ public class DirectMessageServlet extends HttpServlet {
 		if (req.getParameter("send") != null) {
 
 			/*
-			 * （1）パラメータチェック
+			 * （1）パラメータチェックge
 			 */
 
 			//メッセージ画面で入力された情報を取得
@@ -151,12 +153,14 @@ public class DirectMessageServlet extends HttpServlet {
 
 				//エラーメッセージ設定
 				bean.setErrorMessage("メッセージを入力してください");
+				judgeErrorMessage = true;
 
 				//桁数チェック
 			} else if (message.getBytes().length > 100) {
 
 				//エラーメッセージ設定
 				bean.setErrorMessage("メッセージは100桁以内にしてください");
+				judgeErrorMessage = true;
 			}
 
 			//--パラメータチェック完了--//
@@ -247,10 +251,10 @@ public class DirectMessageServlet extends HttpServlet {
 		}
 
 		//会話情報を取得できなかった場合
-		if (bean.getErrorMessage() != null) {
+		if (bean.getErrorMessage() != null && !judgeErrorMessage) {
 			direction = "/error";
 		}
-
+		judgeErrorMessage = false;
 		//jspに飛ばす
 
 		req.setAttribute("messageList", list);
