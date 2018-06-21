@@ -1,10 +1,7 @@
 function confirm() {
 	if (window.confirm()) {
-		return true;
+		return false;
 	}
-	return false;
+	return true;
 };
 
-function alertMessage(){
-		window.alert("あああ");
-};

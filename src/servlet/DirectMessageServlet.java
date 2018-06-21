@@ -135,6 +135,8 @@ public class DirectMessageServlet extends HttpServlet {
 		*
 		*/
 
+
+
 		if (req.getParameter("send") != null) {
 
 			/*
@@ -167,7 +169,6 @@ public class DirectMessageServlet extends HttpServlet {
 
 			//エラーメッセージを表示させる
 			req.setAttribute("errorMessage", bean.getErrorMessage());
-
 			/*
 			 * (2) 会話情報登録処理
 			 */
