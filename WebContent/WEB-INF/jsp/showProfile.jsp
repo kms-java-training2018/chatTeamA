@@ -7,6 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet"type="text/css"href="./css/profile.css" media="all">
 <title>${ProfileBean.userName}さんのプロフィール</title>
+
 </head>
 <body id="bgcolor">
   <h1>チームAのチャット</h1>
@@ -27,7 +28,7 @@
    </tr>
    </table>
    <br>
-   <input type="submit" value="閉じる" onclick="window.close();">
+  <input type="button" value="閉じる" onclick="window.close();">
   </form>
   </div>
 </body>
