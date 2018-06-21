@@ -125,7 +125,6 @@ public class DirectMessageServlet extends HttpServlet {
 
 		boolean judgeErrorMessage = false;
 
-		//req.setAttribute("toSendUserName", req.getParameter("toSendUserName"));
 
 		/**
 		*
@@ -187,6 +186,8 @@ public class DirectMessageServlet extends HttpServlet {
 					e.printStackTrace();
 				}
 			}
+
+
 
 		}
 		//成功した場合、そのままメッセージ画面表示
@@ -261,6 +262,7 @@ public class DirectMessageServlet extends HttpServlet {
 
 		req.setAttribute("messageList", list);
 		req.setAttribute("toSendUserName", bean.getToSendUserName());
+		req.setAttribute("toSendUserNo", bean.getToSendUserNo());
 
 		req.getRequestDispatcher(direction).forward(req, res);
 		return;
