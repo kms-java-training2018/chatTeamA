@@ -149,6 +149,7 @@ public class MainPageModel {
 			sb.append("WHERE");
 			sb.append(" A.user_no = '" + userNo + "'");
 			sb.append(" and A.out_flag = 0");
+			sb.append(" and B.delete_flag = 0");
 			sb.append(" ORDER BY ");
 			sb.append(" group_no DESC");
 

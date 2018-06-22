@@ -22,8 +22,15 @@
 	<h1>チームAのチャット</h1>
 	<h2></h2>
 	<h3>「${group_name }」の会話</h3>
+	<c:forEach var="groupMember" items="${groupMemberList }">
+		<c:out value="${groupMember }"></c:out><br>
+	</c:forEach>
 	<form action="/chat/groupMessage" method="POST" onSubmit="return confirm('脱退しますか？')">
 		<input type="submit" name="escape" value="グループを脱退する">
+	</form>
+	<br>
+	<form action="/chat/groupMessage" method="POST" onSubmit="return confirm('グループを消去しますか？')">
+		<input type="submit" name="deleteGroup" value="グループを消去する">
 	</form>
 	<br>
 	<c:forEach var="bean" items="${list}" varStatus="status">
