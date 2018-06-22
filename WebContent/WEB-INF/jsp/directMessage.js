@@ -5,13 +5,7 @@ function confirm() {
 	return true;
 };
 
-flag = false;
-function sendFlag(){
-	if(flag){
-		alert("送信済み");
-		return false;
+function getScrollTop(){
+	 $("#result").text($(window).scrollTop() + $(window).height() + 'px');
 	}
-
-	flag = true;
-	return true;
-}
+	$(window).on("load scroll resize", getScrollTop);
