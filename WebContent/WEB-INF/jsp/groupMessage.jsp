@@ -8,6 +8,8 @@
 <link rel="stylesheet"type="text/css"href="./css/message.css" media="all">
 <link rel="stylesheet"type="text/css"href="./css/login.css" media="all">
 <title>グループメッセージ</title>
+
+<script type="text/javascript" src="./js/submit.js" charset="UTF-8"></script>
 </head>
 <body id="bgcolor">
 	<div align="right">
@@ -33,6 +35,9 @@
 		<input type="submit" name="deleteGroup" value="グループを消去する">
 	</form>
 	<br>
+	<div
+		style="padding: 10px; margin-bottom: 10px; border: 5px double #333333;
+		border-radius: 10px; width: 1305px; height: 300px; overflow: auto;"id =result>
 	<c:forEach var="bean" items="${list}" varStatus="status">
 		<c:if test="${bean.sendUserName == '送信者不明' }">
 			<c:out value="${bean.sendUserName }" />
@@ -62,10 +67,11 @@
 		</c:if>
 		<br>
 	</c:forEach>
+	</div>
 	<br>
 	<br>
 	<p id="changeErrorColor">${errorMessage }</p>
-	<form action="/chat/groupMessage" method="POST" onSubmit="return sendFlag()">
+	<form action="/chat/groupMessage" method="POST" onSubmit="return checkNijyuSubmit()">
 		<input type="text" name="message" value="${groupMessageBean.message}">
 		<input type="submit" name="sendMessage"  value="メッセージの送信" />
 	</form>
