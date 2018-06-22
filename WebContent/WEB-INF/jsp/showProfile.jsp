@@ -5,9 +5,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet"type="text/css"href="./css/profile.css" media="all">
 <link rel="stylesheet"type="text/css"href="./css/all.css" media="all">
-<link rel="stylesheet" type="text/css" href="./css/kaiten.css" media="all">
+<link rel="stylesheet" type="text/css" href="./css/pyonpyon.css" media="all">
 <title>${ProfileBean.userName}さんのプロフィール</title>
 
 </head>

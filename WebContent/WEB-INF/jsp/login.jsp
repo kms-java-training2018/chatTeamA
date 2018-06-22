@@ -6,10 +6,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet"type="text/css"href="./css/login.css" media="all">
 <link rel="stylesheet"type="text/css"href="./css/all.css" media="all">
-<link rel="stylesheet" type="text/css" href="./css/kaiten.css" media="all">
+<link rel="stylesheet" type="text/css" href="./css/pyonpyon.css" media="all">
 <title>ログイン</title>
 </head>
-<body id="bgcolor">
+<body id="bglogincolor">
 	<h1 id ="changeTitleColor">チームAのチャット</h1>
 	<div align="center" class="font">
 	<h2 class="item_text">ログイン</h2>

@@ -5,8 +5,6 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" type="text/css" href="./css/message.css"
-	media="all">
 <link rel="stylesheet" type="text/css" href="./css/all.css" media="all">
 <title>グループメッセージ</title>
 <script type="text/javascript" src="./jQuery/jquery-3.3.1.min.js" charset="UTF-8"></script>

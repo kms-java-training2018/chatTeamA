@@ -1,0 +1,8 @@
+.item_text{
+  animation: key1 .3s ease infinite alternate;
+}
+
+@keyframes key1{
+  0% {transform: translateY(0px);}
+  100% {transform: translateY(-10px);}
+}

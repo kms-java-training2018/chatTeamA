@@ -5,9 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" type="text/css" href="./css/kaiten.css"
-	media="all">
-<link rel="stylesheet" type="text/css" href="./css/makegroup.css"
+<link rel="stylesheet" type="text/css" href="./css/pyonpyon.css"
 	media="all">
 	<link rel="stylesheet"type="text/css"href="./css/all.css" media="all">
 <title>新規グループ作成</title>

@@ -1,17 +1,6 @@
 @charset "UTF-8";
 
-#bgcolor {
+#bglogincolor {
 	background:#c5c56a;
 	}
-
-#changeErrorColor{
-	animation: change 0.5s infinite linear;
-}
-
-
-@keyframes change{
-	0%    {color:#000000;}
-    50%   {color:#ff0000;}
-    100%  {color:#000000;}
-}
 

@@ -20,3 +20,20 @@ a:hover {
 }
 
 
+#changeErrorColor{
+	animation: change 0.5s infinite linear;
+}
+
+
+@keyframes change{
+	0%    {color:#000000;}
+    50%   {color:#ff0000;}
+    100%  {color:#000000;}
+}
+
+
+@charset "UTF-8";
+
+#bgcolor {
+	background:#e3d7a3;
+	}
