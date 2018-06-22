@@ -9,10 +9,11 @@
 	media="all">
 <link rel="stylesheet" type="text/css" href="./css/all.css" media="all">
 <title>グループメッセージ</title>
-
+<script type="text/javascript" src="./jQuery/jquery-3.3.1.min.js" charset="UTF-8"></script>
 <script type="text/javascript" src="./js/submit.js" charset="UTF-8"></script>
 </head>
 <body id="bgcolor">
+
 	<div align="right">
 		${session.getUserName() }さん <br>
 		<form name="log_out" action="/chat/logout" method="POST">
@@ -25,22 +26,19 @@
 	<h1 id="changeTitleColor">チームAのチャット</h1>
 	<h2>「${group_name }」の会話</h2>
 	<c:forEach var="groupMember" items="${groupMemberList }">
-		<c:out value="${groupMember }"></c:out>
-		<br>
+		<c:out value="${groupMember }"></c:out>,
 	</c:forEach>
 	<form action="/chat/groupMessage" method="POST"
 		onSubmit="return confirm('脱退しますか？')">
 		<input type="submit" name="escape" value="グループを脱退する">
 	</form>
-	<br>
 	<form action="/chat/groupMessage" method="POST"
 		onSubmit="return confirm('グループを消去しますか？')">
 		<input type="submit" name="deleteGroup" value="グループを消去する">
 	</form>
-	<br>
-	<div
-		style="padding: 10px; margin-bottom: 10px; border: 5px double #333333; border-radius: 10px; width: 1305px; height: 300px; overflow: auto;"
-		id=result>
+	<div class="overview"
+		style="padding: 10px; margin-bottom: 10px; border: 5px double #333333; border-radius: 10px; width: 1305px;
+		height: 300px; overflow:auto;"id="auto_scroll">
 		<c:forEach var="bean" items="${list}" varStatus="status">
 			<c:if test="${bean.sendUserName == '送信者不明' }">
 				<c:out value="${bean.sendUserName }" />
