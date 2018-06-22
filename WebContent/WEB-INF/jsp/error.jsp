@@ -8,8 +8,10 @@
 <title>エラー画面</title>
 </head>
 <body id="bgcolor">
+<div align="center" class="font">
   <h1>エラーが発生しました。再度ログインしてください。</h1>
 
   <a href="/chat/login">ログイン画面へ戻る</a>
+  </div>
 </body>
 </html>

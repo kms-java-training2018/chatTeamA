@@ -5,6 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet"type="text/css"href="./css/login.css" media="all">
+<link rel="stylesheet"type="text/css"href="./css/all.css" media="all">
 <title>ログイン</title>
 </head>
 <body id="bgcolor">

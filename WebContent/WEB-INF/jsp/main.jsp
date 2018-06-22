@@ -6,6 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet"type="text/css"href="./css/main.css" media="all">
+<link rel="stylesheet"type="text/css"href="./css/all.css" media="all">
 <title>メインメニュー</title>
 </head>
 <body id="bgcolor">
@@ -17,7 +18,7 @@
 		</form>
 	</div>
 	<hr>
-  <h1>チームAのチャット</h1>
+  <h1 id ="changeTitleColor">チームAのチャット</h1>
   <div align="center">
   <h2>メインメニュー</h2>
   <br><div>■会員一覧</div>
