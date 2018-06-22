@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet"type="text/css"href="./css/kaiten.css" media="all">
 <link rel="stylesheet"type="text/css"href="./css/makegroup.css" media="all">
 <title>新規グループ作成</title>
 </head>
@@ -17,12 +18,19 @@
 		</form>
 	</div>
 	<hr>
-	<h1>チームAのチャット</h1>
+	<div class="type-stripe"></div>
+	<h1 class="item_text">
+
+	チームA
+
+	</h1>
 	<div align="center">
+			<div class="type-pers-parent">
+  <div class="type-pers-child">
 	<h2>グループ作成</h2>
-	<p>${errorMessage}</p>
+	<p>${errorMessage}</p></div></div>
 	<form action="/chat/makeGroup" method="POST">
-		グループ名<input type="text" name="groupName" value="" size="30">
+グループ名<input type="text" name="groupName" value="" size="30">
 		<br>
 		<table>
 			<tr>
@@ -45,5 +53,6 @@
 		<input type="submit" value="メインメニューに戻る">
 	</form>
 	</div>
+
 </body>
 </html>
