@@ -7,13 +7,14 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet"type="text/css"href="./css/profile.css" media="all">
 <link rel="stylesheet"type="text/css"href="./css/all.css" media="all">
+<link rel="stylesheet" type="text/css" href="./css/kaiten.css" media="all">
 <title>${ProfileBean.userName}さんのプロフィール</title>
 
 </head>
 <body id="bgcolor">
   <h1 id ="changeTitleColor">チームAのチャット</h1>
   <div align="center">
-  <h2>プロフィール確認</h2>
+  <h2 class="item_text">プロフィール確認</h2>
   <table class ="menu" border ="3" style="table-layout:fixed;">
    <tr align ="center">
    <td class="name">名前</td>

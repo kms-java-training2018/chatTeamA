@@ -7,6 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet"type="text/css"href="./css/main.css" media="all">
 <link rel="stylesheet"type="text/css"href="./css/all.css" media="all">
+<link rel="stylesheet" type="text/css" href="./css/kaiten.css" media="all">
 <title>メインメニュー</title>
 </head>
 <body id="bgcolor">
@@ -20,7 +21,7 @@
 	<hr>
   <h1 id ="changeTitleColor">チームAのチャット</h1>
   <div align="center">
-  <h2>メインメニュー</h2>
+  <h2 class="item_text">メインメニュー</h2>
   <br><div>■会員一覧</div>
  <table class ="menu" border ="3" style="table-layout:fixed;">
   <tr align ="center">

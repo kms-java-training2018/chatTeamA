@@ -7,10 +7,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css" href="./css/message.css"
 	media="all">
+	<link rel="stylesheet"type="text/css"href="./css/all.css" media="all">
 <title>${toSendUserName}さんとの会話</title>
 <script src="./jQuery/jquery-3.3.1.min.js">
 </script>
-<script type="text/javascript" src="directMessage.js" charset="UTF-8"></script>
+
 <script type="text/javascript" src="./js/submit.js" charset="UTF-8"></script>
 
 </head>
@@ -23,14 +24,14 @@
 		</form>
 	</div>
 	<hr>
-	<h1>チームAのチャット</h1>
+	<h1 id ="changeTitleColor">チームAのチャット</h1>
 	<h2>
 		<a href="/chat/showProfile?user_no=${toSendUserNo}" target="_blank">${toSendUserName}</a>
 		さんとの会話
 	</h2>
 	<div
 		style="padding: 10px; margin-bottom: 10px; border: 5px double #333333;
-		border-radius: 10px; width: 1320px; height: 300px; overflow: auto;"id =result>
+		border-radius: 10px; width: 1320px; height: 300px; overflow: auto;">
 		<c:forEach var="bean" items="${messageList}" varStatus="status">
 			<c:if test="${!bean.myMessageFlag }">
 				<div align="left">
@@ -65,7 +66,7 @@
 			name="toSend" value="${toSendUserNo}"> <input type="hidden"
 			name="toSendUserName" value="${toSendUserName}"> <input
 			type="submit" name="send" class="click" value="メッセージの送信">
-		<P>${errorMessage}</P>
+		<P id="changeErrorColor">${errorMessage}</P>
 	</form>
 
 	<form action="/chat/main" method="POST">

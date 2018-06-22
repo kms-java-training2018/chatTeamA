@@ -9,6 +9,7 @@
 	media="all">
 <link rel="stylesheet" type="text/css" href="./css/makegroup.css"
 	media="all">
+	<link rel="stylesheet"type="text/css"href="./css/all.css" media="all">
 <title>新規グループ作成</title>
 <script type="text/javascript" src="./js/submit.js" charset="UTF-8"></script>
 </head>
@@ -21,10 +22,10 @@
 		</form>
 	</div>
 	<hr>
-	<h1 class="item_text">チームAのチャット</h1>
+	<h1 id ="changeTitleColor">チームAのチャット</h1>
 	<div align="center">
-		<h2>グループ作成</h2>
-		<p>${errorMessage}</p>
+		<h2 class="item_text">グループ作成</h2>
+		<p id="changeErrorColor">${errorMessage}</p>
 	</div>
 	<form action="/chat/makeGroup" method="POST"
 		onSubmit="return checkNijyuSubmit()">
