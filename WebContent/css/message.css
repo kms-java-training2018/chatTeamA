@@ -14,7 +14,3 @@
     50%   {color:#ff0000;}
     100%  {color:#000000;}
 }
-
-#sample input:focus{
-	background-color:#6FC;
-}
