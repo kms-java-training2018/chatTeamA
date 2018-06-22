@@ -58,7 +58,7 @@
 	<br>
 	<br>
 	<p id="changeErrorColor">${errorMessage }</p>
-	<form action="/chat/groupMessage" method="POST" onSubmit="return confirm('送信しますか？')">
+	<form action="/chat/groupMessage" method="POST" onSubmit="return sendFlag()">
 		<input type="text" name="message" value="${groupMessageBean.message}">
 		<input type="submit" name="sendMessage"  value="メッセージの送信" />
 	</form>
