@@ -4,12 +4,6 @@
 	background:#c5c56a;
 	}
 
-.font {
-	font-family: 'メイリオ', Meiryo,sans-serif;
-
-}
-
-
 #changeErrorColor{
 	animation: change 0.5s infinite linear;
 }
