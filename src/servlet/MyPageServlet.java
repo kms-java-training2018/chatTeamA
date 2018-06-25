@@ -101,7 +101,7 @@ public class MyPageServlet extends HttpServlet {
 			bean.setErrorMessage("");
 			//桁数チェック
 			if (userName.getBytes().length > 30 || myPageText.getBytes().length > 100) {
-				bean.setErrorMessage("表示名は30桁以下、自己紹介文は100桁以下で入力してください。");
+				bean.setErrorMessage("表示名は30桁以内、自己紹介文は100桁以内で入力してください。");
 			} else if (!MyPageServlet.spaceCheck(userName) || !MyPageServlet.spaceCheck(myPageText)) {
 				bean.setErrorMessage("メッセージを入力してください。");
 			}

@@ -59,7 +59,7 @@
 	</div>
 
 	<form action="/chat/directMessage" method="POST"
-		onSubmit="return checkNijyuSubmit()">
+		onSubmit="return doubleSubmit()">
 		<input type="text" name="message"> <input type="hidden"
 			name="toSend" value="${toSendUserNo}"> <input type="hidden"
 			name="toSendUserName" value="${toSendUserName}"> <input

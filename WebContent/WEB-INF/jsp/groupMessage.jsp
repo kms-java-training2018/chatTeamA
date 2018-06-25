@@ -74,7 +74,7 @@
 	<br>
 	<p id="changeErrorColor">${errorMessage }</p>
 	<form action="/chat/groupMessage" method="POST"
-		onSubmit="return checkNijyuSubmit()">
+		onSubmit="return doubleSubmit()">
 		<input type="text" name="message" value="${groupMessageBean.message}">
 		<input type="submit" name="sendMessage" value="メッセージの送信" />
 	</form>

@@ -1,7 +1,7 @@
 //判定用フラグ
 var isSubmit = false;
 
-function checkNijyuSubmit(){
+function doubleSubmit(){
   if(isSubmit){
     //フラグがtrueならアラートを表示してsubmitしない
     alert("処理中です。");
@@ -12,7 +12,3 @@ function checkNijyuSubmit(){
     return true;
   }
 }
-
-$(function(){
-	$(".overview").scrollTop($("#auto_scroll")[0].scrolllHeight);
-} );

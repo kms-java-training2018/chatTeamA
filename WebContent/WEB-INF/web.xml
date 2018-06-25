@@ -72,4 +72,12 @@
 		<servlet-name>LogoutServlet</servlet-name>
 		<url-pattern>/logout</url-pattern>
   </servlet-mapping>
+   <servlet>
+    <servlet-name>NewInsertServlet</servlet-name>
+    <servlet-class>servlet.NewInsertServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>NewInsertServlet</servlet-name>
+    <url-pattern>/newInsert</url-pattern>
+  </servlet-mapping>
 </web-app>

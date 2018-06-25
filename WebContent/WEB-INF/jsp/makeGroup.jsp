@@ -26,7 +26,7 @@
 		<p id="changeErrorColor">${errorMessage}</p>
 	</div>
 	<form action="/chat/makeGroup" method="POST"
-		onSubmit="return checkNijyuSubmit()">
+		onSubmit="return doubleSubmit()">
 		<div align="center">
 		グループ名<input type="text" name="groupName" value="" size="30"> <br>
 
