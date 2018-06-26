@@ -29,7 +29,7 @@
 	</h2>
 	<div
 		style="padding: 10px; margin-bottom: 10px; border: 5px double #333333;
-		border-radius: 10px; width: 1320px; height: 300px; overflow: auto;">
+		border-radius: 10px; width: 1305px; height: 295px; overflow: auto;">
 		<c:forEach var="bean" items="${messageList}" varStatus="status">
 			<c:if test="${!bean.myMessageFlag }">
 				<div align="left">
