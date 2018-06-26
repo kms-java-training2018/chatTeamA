@@ -29,7 +29,12 @@ public class NewInsertServlet extends HttpServlet{
     }
 
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        // 初期化
+
+    	//文字コード設定
+    	res.setContentType("text/html; charset=UTF-8");
+    	req.setCharacterEncoding("UTF-8");
+
+    	// 初期化
         NewInsertBean bean = new NewInsertBean();
         NewInsertModel model = new NewInsertModel();
         String direction = "/WEB-INF/jsp/newInsert.jsp";
