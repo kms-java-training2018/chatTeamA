@@ -41,7 +41,7 @@ public class MakeGroupModel {
 
 		} else if ((groupName.getBytes()).length > GN_LENGTH) {
 			// グループ名が所定の文字数より長い
-			bean.setErrorMessage("グループ名は30文字以内で入力してください");
+			bean.setErrorMessage("グループ名は30桁以内で入力してください");
 			bean.setErrorFlag(2);
 		} else if (groupMemberNo == null) {
 			// グループメンバーがいない
