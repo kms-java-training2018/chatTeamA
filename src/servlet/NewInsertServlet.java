@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import bean.NewInsertBean;
+import model.MakeGroupModel;
 import model.NewInsertModel;
 
 public class NewInsertServlet extends HttpServlet{
@@ -54,6 +55,10 @@ public class NewInsertServlet extends HttpServlet{
         		|| userName.getBytes().length > 30 || password2.length() > 20
         		|| !password1.equals(password2)) {
             bean.setErrorMessage("入力された値は正しくありません");
+        } else if (!MakeGroupModel.spaceCheck(userName)
+        		|| !MakeGroupModel.spaceCheck(userId)
+        		|| !MakeGroupModel.spaceCheck(password1)) {
+				bean.setErrorMessage("値を入力してください。");
         } else {
         	bean.setUserName(userName);
             bean.setUserId(userId);
