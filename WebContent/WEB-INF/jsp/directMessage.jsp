@@ -60,7 +60,7 @@
 
 	<form action="/chat/directMessage" method="POST"
 		onSubmit="return doubleSubmit()">
-		<input type="text" name="message" placeholder="100桁以内で入力してください"size="50"> <input type="hidden"
+		<input type="text" name="message" placeholder="100桁以内"size="50"> <input type="hidden"
 			name="toSend" value="${toSendUserNo}"> <input type="hidden"
 			name="toSendUserName" value="${toSendUserName}"> <input
 			type="submit" name="send" class="click" value="メッセージの送信">
