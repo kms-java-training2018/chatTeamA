@@ -75,7 +75,7 @@
 	<p id="changeErrorColor">${errorMessage }</p>
 	<form action="/chat/groupMessage" method="POST"
 		onSubmit="return doubleSubmit()">
-		<input type="text" name="message" value="${groupMessageBean.message}">
+		<input type="text" name="message" value="${groupMessageBean.message}"placeholder="100桁以内で入力してください"size="50">
 		<input type="submit" name="sendMessage" value="メッセージの送信" />
 	</form>
 	<br>

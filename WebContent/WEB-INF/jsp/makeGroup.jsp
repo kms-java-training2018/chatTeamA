@@ -28,7 +28,7 @@
 	<form action="/chat/makeGroup" method="POST"
 		onSubmit="return doubleSubmit()">
 		<div align="center">
-		グループ名<input type="text" name="groupName" value="" size="30"> <br>
+		グループ名<input type="text" name="groupName" value="" size="30"placeholder="30桁以内"> <br>
 
 			<table>
 				<tr>
