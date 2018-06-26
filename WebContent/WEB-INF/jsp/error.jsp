@@ -4,12 +4,15 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet"type="text/css"href="./css/main.css" media="all">
+<link rel="stylesheet"type="text/css"href="./css/login.css" media="all">
+	<link rel="stylesheet"type="text/css"href="./css/all.css" media="all">
 <title>エラー画面</title>
 </head>
-<body id="bgcolor">
-  <h1>エラーが発生しました。再度ログインしてください。</h1>
+<body id="bglogincolor">
+<div align="center" class="font">
+  <h1 id = changeErrorColor>エラーが発生しました。再度ログインしてください。</h1>
 
   <a href="/chat/login">ログイン画面へ戻る</a>
+  </div>
 </body>
 </html>

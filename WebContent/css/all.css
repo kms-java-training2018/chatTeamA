@@ -1,0 +1,39 @@
+@charset "UTF-8";
+
+#changeTitleColor{
+
+background: #6e4a55; /*背景色*/
+padding: 0.5em;/*文字周りの余白*/
+color: white;/*文字を白に*/
+border-radius: 0.5em;/*角の丸み*/
+width:21%;
+
+}
+
+a {
+  padding: 0 .3em;
+  transition: all .3s;
+}
+a:hover {
+  color: #fff;
+  background-color: #2ecc71;
+}
+
+
+#changeErrorColor{
+	animation: change 0.5s infinite linear;
+}
+
+
+@keyframes change{
+	0%    {color:#000000;}
+    50%   {color:#ff0000;}
+    100%  {color:#000000;}
+}
+
+
+@charset "UTF-8";
+
+#bgcolor {
+	background:#e3d7a3;
+	}

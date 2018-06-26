@@ -10,129 +10,130 @@ import bean.ProfileBean;
 
 public class MyPageModel {
 
-	/**
-	 * ログインユーザーのプロフィール情報を取得
-	 */
-	public ProfileBean authentication(ProfileBean bean) {
+	public ProfileBean getMyProfile(ProfileBean bean) {
+		/**
+		 * ログインユーザーのプロフィール情報を取得
+		 */
 
-    	// 初期化
-        StringBuilder sb = new StringBuilder();
-        String userNo = bean.getUserNo();
+		// 初期化
+		StringBuilder sb = new StringBuilder();
+		String userNo = bean.getUserNo();
 
-        // DB
-        Connection conn = null;
-        String url = "jdbc:oracle:thin:@192.168.51.67:1521:XE";
-        String user = "DEV_TEAM_A";
-        String dbPassword = "A_DEV_TEAM";
+		// DB
+		Connection conn = null;
+		String url = "jdbc:oracle:thin:@192.168.51.67:1521:XE";
+		String user = "DEV_TEAM_A";
+		String dbPassword = "A_DEV_TEAM";
 
-        // JDBCドライバーのロード
-        try {
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-        } catch (ClassNotFoundException e) {
-            bean.setErrFlag(true);
-            e.printStackTrace();
-        }
+		// JDBCドライバーのロード
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+		} catch (ClassNotFoundException e) {
+			bean.setErrorFlag(true);
+			e.printStackTrace();
+		}
 
-        // 接続作成
-        try {
-            conn = DriverManager.getConnection(url, user, dbPassword);
+		// 接続作成
+		try {
+			conn = DriverManager.getConnection(url, user, dbPassword);
 
-            // SQL作成
-            //ログインユーザーの表示名と自己紹介文を取得
-            sb.append("SELECT ");
-            sb.append(" user_name");
-            sb.append(" , my_page_text ");
-            sb.append("FROM ");
-            sb.append(" m_user ");
-            sb.append("WHERE ");
-            sb.append(" user_no = '" + userNo + "'");
+			// SQL作成
+			//ログインユーザーの表示名と自己紹介文を取得
+			sb.append("SELECT ");
+			sb.append(" user_name");
+			sb.append(" , my_page_text ");
+			sb.append("FROM ");
+			sb.append(" m_user ");
+			sb.append("WHERE ");
+			sb.append(" user_no = '" + userNo + "'");
 
-            // SQL実行
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sb.toString());
+			// SQL実行
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sb.toString());
 
-            //取得したデータをbeanにセット
-            if (!rs.next()) {
-                bean.setErrFlag(true);
-            } else {
-                bean.setUserName(rs.getString("user_name"));
-                bean.setMyPageText(rs.getString("my_page_text"));
-            }
-        } catch (SQLException e) {
-            bean.setErrFlag(true);
-            e.printStackTrace();
-        //処理終了後、接続を切断
-        } finally {
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return bean;
-    }
+			//取得したデータをProfileBeanにセット
+			if (!rs.next()) {
+				bean.setErrorFlag(true);
+			} else {
+				bean.setUserName(rs.getString("user_name"));
+				bean.setMyPageText(rs.getString("my_page_text"));
+			}
+		} catch (SQLException e) {
+			bean.setErrorFlag(true);
+			e.printStackTrace();
+		//処理終了後、接続を切断
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return bean;
+	}
 
-	/**
-	 * ログインユーザーのプロフィール情報を更新
-	 */
-    public ProfileBean authentication2(ProfileBean bean) {
 
-        // 初期化
-        StringBuilder sb = new StringBuilder();
-        String userNo = bean.getUserNo();
-        String userName = bean.getUserName();
-        String myPageText = bean.getMyPageText();
+	public ProfileBean updateMyProfile(ProfileBean bean) {
+		/**
+		 * ログインユーザーのプロフィール情報を更新
+		 */
 
-        // DB
-        Connection conn = null;
-        String url = "jdbc:oracle:thin:@192.168.51.67:1521:XE";
-        String user = "DEV_TEAM_A";
-        String dbPassword = "A_DEV_TEAM";
+		// 初期化
+		StringBuilder sb = new StringBuilder();
+		String userNo = bean.getUserNo();
+		String userName = bean.getUserName();
+		String myPageText = bean.getMyPageText();
 
-        // JDBCドライバーのロード
-        try {
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-        } catch (ClassNotFoundException e) {
-            bean.setErrFlag(true);
-            e.printStackTrace();
-        }
+		// DB
+		Connection conn = null;
+		String url = "jdbc:oracle:thin:@192.168.51.67:1521:XE";
+		String user = "DEV_TEAM_A";
+		String dbPassword = "A_DEV_TEAM";
 
-        // 接続作成
-        try {
-            conn = DriverManager.getConnection(url, user, dbPassword);
+		// JDBCドライバーのロード
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+		} catch (ClassNotFoundException e) {
+			bean.setErrorFlag(true);
+			e.printStackTrace();
+		}
 
-            // SQL作成
-            //ログインユーザーの表示名と自己紹介文を更新
-            sb.append("UPDATE ");
-            sb.append(" m_user ");
-            sb.append("SET");
-            sb.append(" user_name='"+ userName + "' ");
-            sb.append(" , my_page_text='"+ myPageText + "' ");
-            sb.append(" , update_date = sysdate ");
-            sb.append("WHERE ");
-            sb.append(" user_no = '" + userNo + "' ");
+		// 接続作成
+		try {
+			conn = DriverManager.getConnection(url, user, dbPassword);
 
-            // SQL実行
-            Statement stmt = conn.createStatement();
-            int resultCount = stmt.executeUpdate(sb.toString());
+			// SQL作成
+			//ログインユーザーの表示名と自己紹介文を更新
+			sb.append("UPDATE ");
+			sb.append(" m_user ");
+			sb.append("SET");
+			sb.append(" user_name='" + userName + "' ");
+			sb.append(" , my_page_text='" + myPageText + "' ");
+			sb.append(" , update_date = sysdate ");
+			sb.append("WHERE ");
+			sb.append(" user_no = '" + userNo + "' ");
 
-            //更新に失敗した場合
-            if (resultCount == 0) {
-                bean.setErrFlag(true);
-            }
-        } catch (SQLException e) {
-            bean.setErrFlag(true);
-            e.printStackTrace();
-        //処理終了後、接続を切断
-        } finally {
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                bean.setErrFlag(true);
-                e.printStackTrace();
-            }
-        }
-        return bean;
-    }
+			// SQL実行
+			Statement stmt = conn.createStatement();
+			int resultCount = stmt.executeUpdate(sb.toString());
+
+			//更新に失敗した場合
+			if (resultCount == 0) {
+				bean.setErrorFlag(true);
+			}
+		} catch (SQLException e) {
+			bean.setErrorFlag(true);
+			e.printStackTrace();
+		//処理終了後、接続を切断
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				bean.setErrorFlag(true);
+				e.printStackTrace();
+			}
+		}
+		return bean;
+	}
 
 }

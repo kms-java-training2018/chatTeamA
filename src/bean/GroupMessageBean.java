@@ -22,6 +22,7 @@ public class GroupMessageBean {
     /** エラーフラグ */
     private boolean errFlag;
 
+
     /** メッセージ番号 */
     private String messageNo;
 
@@ -132,4 +133,5 @@ public class GroupMessageBean {
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
 	}
+
 }

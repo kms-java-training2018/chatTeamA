@@ -5,7 +5,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet"type="text/css"href="./css/profile.css" media="all">
+<link rel="stylesheet"type="text/css"href="./css/all.css" media="all">
+<link rel="stylesheet" type="text/css" href="./css/pyonpyon.css" media="all">
 <title>マイページ</title>
 </head>
 <body id="bgcolor">
@@ -17,9 +18,9 @@
 		</form>
 	</div>
 	<hr>
-  <h1>チームAのチャット</h1>
+  <h1 id ="changeTitleColor">チームAのチャット</h1>
   <div align="center">
-  <h2>マイページ</h2>
+  <h2 class="item_text">マイページ</h2>
 
   <p>表示名</p>
   <form action="/chat/myPage" method="POST">
@@ -28,9 +29,7 @@
   <p>自己紹介</p>
   <textarea name="myPageText" rows="4" cols="43" ><c:out value="${ProfileBean.myPageText}" /></textarea>
   <br>
-  <br>
-  <br>
-    <P>${ProfileBean.errorMessage}</P>
+    <P id="changeErrorColor">${ProfileBean.errorMessage}<p>
     <input type="submit" value="プロフィール更新">
     <input type="hidden" name="userNo" value="${ProfileBean.userNo}">
   </form>

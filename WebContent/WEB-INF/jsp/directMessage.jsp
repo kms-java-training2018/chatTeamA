@@ -5,8 +5,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet"type="text/css"href="./css/message.css" media="all">
+	<link rel="stylesheet"type="text/css"href="./css/all.css" media="all">
 <title>${toSendUserName}さんとの会話</title>
+<script src="./jQuery/jquery-3.3.1.min.js">
+</script>
+
+<script type="text/javascript" src="./js/submit.js" charset="UTF-8"></script>
+
 </head>
 <body id="bgcolor">
 	<div align="right">
@@ -17,50 +22,53 @@
 		</form>
 	</div>
 	<hr>
-	<script src="./directMessage.js"></script>
-	<h1>チームAのチャット</h1>
-		<h2>
-			<a href="/chat/showProfile?user_no=${toSendUserNo}" target="_blank">${toSendUserName}</a>
-			さんとの会話
-		</h2>
+	<h1 id ="changeTitleColor">チームAのチャット</h1>
+	<h2>
+		<a href="/chat/showProfile?user_no=${toSendUserNo}" target="_blank">${toSendUserName}</a>
+		さんとの会話
+	</h2>
 	<div
-		style="padding: 10px; margin-bottom: 10px; border: 5px double #333333; border-radius: 10px;">
+		style="padding: 10px; margin-bottom: 10px; border: 5px double #333333;
+		border-radius: 10px; width: 1305px; height: 295px; overflow: auto;">
 		<c:forEach var="bean" items="${messageList}" varStatus="status">
 			<c:if test="${!bean.myMessageFlag }">
-			<div align="left">
-				<a href="/chat/showProfile?user_no=${bean.sendUserNo}"
-					target="_blank"><c:out value="${bean.sendUserName}" /> </a>：<c:out value="${bean.message}" />
-			</div>
+				<div align="left">
+					<a href="/chat/showProfile?user_no=${bean.sendUserNo}"
+						target="_blank"><c:out value="${bean.sendUserName}" /> </a>：
+					<c:out value="${bean.message}" />
+				</div>
 			</c:if>
 			<c:if test="${bean.myMessageFlag }">
-			<div align="right">
-				<c:out value="${bean.sendUserName }" />：<c:out value="${bean.message}" />
-			</div>
+				<div align="right">
+					<c:out value="${bean.sendUserName }" />
+					：
+					<c:out value="${bean.message}" />
+				</div>
 			</c:if>
 			<br>
 			<c:if test="${bean.myMessageFlag }">
-			<div align="right">
-				<form action="/chat/directMessage" method="POST"
-					onSubmit="return confirm('削除しますか？')">
-					<input type="submit" name="delete" value="削除">
-					<input
-						type="hidden" name="messageNo" value="${bean.messageNo}">
-				</form>
-			</div>
+				<div align="right">
+					<form action="/chat/directMessage" method="POST"
+						onSubmit="return confirm('削除しますか？')">
+						<input type="submit" name="delete" value="削除"> <input
+							type="hidden" name="messageNo" value="${bean.messageNo}">
+					</form>
+				</div>
 			</c:if>
 		</c:forEach>
 	</div>
 
-	<form action="/chat/directMessage" method="POST">
-		<input type="text" name="message"> <input type="hidden"
+	<form action="/chat/directMessage" method="POST"
+		onSubmit="return doubleSubmit()">
+		<input type="text" name="message" placeholder="100桁以内"size="50"> <input type="hidden"
 			name="toSend" value="${toSendUserNo}"> <input type="hidden"
 			name="toSendUserName" value="${toSendUserName}"> <input
-			type="submit" name="send" value="メッセージの送信">
-			<P>${errorMessage}</P>
+			type="submit" name="send" class="click" value="メッセージの送信">
+		<P id="changeErrorColor">${errorMessage}</P>
 	</form>
 
 	<form action="/chat/main" method="POST">
-		<input type="submit" value="メインメニューへ戻る">
+		<input type="submit" value="メインメニューに戻る">
 	</form>
 </body>
 </html>

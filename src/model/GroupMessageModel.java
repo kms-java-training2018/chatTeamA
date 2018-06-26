@@ -509,4 +509,115 @@ public class GroupMessageModel {
 
         return bean;
     }
+
+    public ArrayList<String> getGroupMember(String groupno) {
+
+        // 初期化
+        StringBuilder sb = new StringBuilder();
+        String groupNo = groupno;
+        Connection conn = null;
+        String url = "jdbc:oracle:thin:@192.168.51.67:1521:XE";
+        String user = "DEV_TEAM_A";
+        String dbPassword = "A_DEV_TEAM";
+        // JDBCドライバーのロード
+        try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        // 接続作成
+        ArrayList<String> list = new ArrayList<String>();
+        try {
+            conn = DriverManager.getConnection(url, user, dbPassword);
+
+            // メッセージ一覧取得処理SQL作成
+            sb.append("SELECT ");
+            sb.append(" user_name ");
+            sb.append("FROM ");
+            sb.append(" t_group_info ");
+            sb.append("INNER JOIN ");
+            sb.append(" m_user ");
+            sb.append("ON ");
+            sb.append(" t_group_info.user_no = m_user.user_no ");
+            sb.append("WHERE ");
+            sb.append(" t_group_info.group_no ='" + groupNo + "'");
+            sb.append(" AND out_flag = 0");
+
+            // SQL実行
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sb.toString());
+
+            while (rs.next()) {
+                String groupMember = "";
+                // Listに追加
+                groupMember = rs.getString("user_name");
+
+                list.add(groupMember);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+            }
+        }
+
+        return list;
+    }
+
+
+    public GroupMessageBean deleteGroup(GroupMessageBean bean) {
+
+        // 初期化
+        StringBuilder sb = new StringBuilder();
+        String groupNo = bean.getGroupNo();
+        String userNo = bean.getUserNo();
+
+        Connection conn = null;
+        String url = "jdbc:oracle:thin:@192.168.51.67:1521:XE";
+        String user = "DEV_TEAM_A";
+        String dbPassword = "A_DEV_TEAM";
+        // JDBCドライバーのロード
+        try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+        } catch (ClassNotFoundException e) {
+            bean.setErrFlag(true);
+            e.printStackTrace();
+        }
+        // 接続作成
+        try {
+            conn = DriverManager.getConnection(url, user, dbPassword);
+
+            // SQL作成
+            sb.append("UPDATE ");
+            sb.append(" m_group ");
+            sb.append("SET ");
+            sb.append(" delete_flag = 1 ");
+            sb.append("WHERE ");
+            sb.append(" group_no = '" + groupNo + "'");
+            sb.append(" AND regist_user_no = '" + userNo + "'");
+            sb.append(" AND delete_flag = 0");
+
+            // SQL実行
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(sb.toString());
+
+            conn.close();
+
+        } catch (SQLException e) {
+            bean.setErrFlag(true);
+            e.printStackTrace();
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return bean;
+    }
 }

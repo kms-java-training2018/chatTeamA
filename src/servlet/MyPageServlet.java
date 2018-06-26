@@ -14,103 +14,117 @@ import model.MyPageModel;
 
 public class MyPageServlet extends HttpServlet {
 
-    public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
-        /**
-         * プロフィール情報の取得
-         */
+	public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+		/**
+		 * プロフィール情報の取得
+		 */
 
-        // Beanの初期化
-        SessionBean sessionBean = new SessionBean();
-        ProfileBean bean = new ProfileBean();
-        bean.setUserNo("");
-        bean.setUserName("");
-        bean.setMyPageText("");
-        bean.setErrorMessage("");
+		// 初期化
+		MyPageModel model = new MyPageModel();
+		String direction = "/WEB-INF/jsp/myPage.jsp";
 
-        // 初期化
-        MyPageModel model = new MyPageModel();
-        String direction = "/WEB-INF/jsp/myPage.jsp";
+		// Beanの初期化
+		SessionBean sessionBean = new SessionBean();
+		ProfileBean bean = new ProfileBean();
+		bean.setUserNo("");
+		bean.setUserName("");
+		bean.setMyPageText("");
+		bean.setErrorMessage("");
 
-        //セッション情報の取得
-        HttpSession session = req.getSession();
-        sessionBean = (SessionBean) session.getAttribute("session");
+		//セッション情報の取得
+		HttpSession session = req.getSession();
+		sessionBean = (SessionBean) session.getAttribute("session");
 
-        if(sessionBean == null) {
+		//セッション情報が無い場合→エラー画面へ
+		if (sessionBean == null) {
 			req.getRequestDispatcher("/error").forward(req, res);
 			return;
 		}
 
-        bean.setUserNo(sessionBean.getUserNo());
+		//パラメータチェック
+		//会員番号をパラメータに保持している場合→ModelでDBからプロフィール情報を取得→ProfileBeanにセット
+		if (session != null) {
+			bean.setUserNo(sessionBean.getUserNo());
+			try {
+				bean = model.getMyProfile(bean);
+			//会員番号をパラメータに保持していない場合→エラー画面へ
+			} catch (Exception e) {
+				e.printStackTrace();
+				direction = "/error";
+			}
+		}
+		req.setAttribute("ProfileBean", bean);
+		req.getRequestDispatcher(direction).forward(req, res);
+	}
 
-        /**
-         * パラメータチェック
-         *   ログインユーザーの会員番号をパラメータに、
-         *   ・保持している場合→Modelでプロフィール情報を取得
-         *   ・保持していない場合→エラー画面へ
-         */
-        if(session != null) {
-            try{
-                bean = model.authentication(bean);
-            } catch (Exception e) {
-                e.printStackTrace();
-                direction = "/error";
-            }
-        }
-        req.setAttribute("ProfileBean", bean);
-        req.getRequestDispatcher(direction).forward(req, res);
-    }
+	public static boolean spaceCheck(String input) {
+		/**
+		 * スペースを空白に置き換える処理
+		 */
 
+		boolean result;
+		String str = input.replaceAll(" ", "");
+		str = str.replaceAll("　", "");
+		result = !(str.isEmpty());
+		return result;
+	}
 
-    public void doPost (HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
-        /**
-         * プロフィール情報の変更・更新
-         */
+	public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+		/**
+		 * プロフィール情報の変更・更新
+		 */
 
-        //文字コード設定
-        res.setContentType("text/html; charset=UTF-8");
-        req.setCharacterEncoding("UTF-8");
+		//文字コード設定
+		res.setContentType("text/html; charset=UTF-8");
+		req.setCharacterEncoding("UTF-8");
 
-        // 初期化
-        SessionBean sessionBean = new SessionBean();
-        ProfileBean bean = new ProfileBean();
-        MyPageModel model = new MyPageModel();
-        String direction = "/WEB-INF/jsp/myPage.jsp";
+		// 初期化
+		SessionBean sessionBean = new SessionBean();
+		ProfileBean bean = new ProfileBean();
+		MyPageModel model = new MyPageModel();
+		String direction = "/WEB-INF/jsp/myPage.jsp";
 
-        // パラメータの取得
-        String userNo = (String) req.getParameter("userNo");
-        String userName = (String) req.getParameter("userName");
-        String myPageText = (String) req.getParameter("myPageText");
+		//セッションから会員番号を取得
+		HttpSession session = req.getSession();
+		sessionBean = (SessionBean) session.getAttribute("session");
+		bean.setUserNo(sessionBean.getUserNo());
 
-        //"プロフィールを更新"のリクエスト送信後、入力値チェック
-        if (userName.length() > 30 || myPageText.length() > 100) {
-        	bean.setErrorMessage("表示名は30文字以下、自己紹介文は100文字以下で入力してください。");
-        } else {
-        	bean.setUserNo(userNo);
-            bean.setUserName(userName);
-            bean.setMyPageText(myPageText);
-            bean.setErrorMessage("");
-        }
+		// パラメータ(テキストボックスに入力された値)を取得
+		String userName = (String) req.getParameter("userName");
+		String myPageText = (String) req.getParameter("myPageText");
 
-        // 更新処理が成功した場合→セッションに情報をセット
-        if ("".equals(bean.getErrorMessage())) {
-            try {
-                bean = model.authentication2(bean);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            sessionBean.setUserNo(userNo);
-            sessionBean.setUserName(bean.getUserName());
-            HttpSession session = req.getSession();
-            session.setAttribute("session", sessionBean);
-            direction = "/main";
-        //更新に失敗した場合→プロフィール情報を再度DBから取得
-        }else {
-            bean = model.authentication(bean);
-            req.setAttribute("ProfileBean", bean);
-        }
-        req.setAttribute("session", sessionBean);
-        req.getRequestDispatcher(direction).forward(req, res);
+		//"プロフィールを更新"のリクエスト送信後、入力値チェック
+		if ("userName" != null && "myPageText" != null) {
+			bean.setUserNo(bean.getUserNo());
+			bean.setUserName(userName);
+			bean.setMyPageText(myPageText);
+			bean.setErrorMessage("");
+			//桁数チェック
+			if (userName.getBytes().length > 30 || myPageText.getBytes().length > 100) {
+				bean.setErrorMessage("表示名は30桁以内、自己紹介文は100桁以内で入力してください。");
+			} else if (!MyPageServlet.spaceCheck(userName) || !MyPageServlet.spaceCheck(myPageText)) {
+				bean.setErrorMessage("メッセージを入力してください。");
+			}
+		}
 
-    }
+		//更新処理が成功した場合→セッションに情報をセット→メインメニューへ
+		if ("".equals(bean.getErrorMessage())) {
+			try {
+				bean = model.updateMyProfile(bean);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			sessionBean.setUserNo(bean.getUserNo());
+			sessionBean.setUserName(bean.getUserName());
+			session.setAttribute("session", sessionBean);
+			direction = "/main";
+		//更新に失敗した場合→ModelでDBからプロフィール情報を再取得
+		} else {
+			bean = model.getMyProfile(bean);
+			req.setAttribute("ProfileBean", bean);
+		}
+		req.setAttribute("session", sessionBean);
+		req.getRequestDispatcher(direction).forward(req, res);
+	}
 
 }

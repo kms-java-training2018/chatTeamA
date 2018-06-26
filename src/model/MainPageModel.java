@@ -28,6 +28,7 @@ public class MainPageModel {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 		} catch (ClassNotFoundException e) {
+			bean.setErrFlag(1);
 			e.printStackTrace();
 		}
 		// 接続作成
@@ -46,6 +47,7 @@ public class MainPageModel {
 			sb.append(" user_no <> '" + userNo + "' ");
 			sb.append(" ORDER BY ");
 			sb.append(" user_no ");
+			sb.append(" DESC ");
 
 			// SQL実行
 			ResultSet rs = stmt.executeQuery(sb.toString());
@@ -96,12 +98,17 @@ public class MainPageModel {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			bean.setErrFlag(1);
 		} finally {
 			try {
 				conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+		}
+
+		if(bean.getErrFlag() == 1) {
+			talkD.add(bean);
 		}
 
 		return talkD;
@@ -125,6 +132,7 @@ public class MainPageModel {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 		} catch (ClassNotFoundException e) {
+			bean.setErrFlag(1);
 			e.printStackTrace();
 		}
 		// 接続作成
@@ -141,6 +149,7 @@ public class MainPageModel {
 			sb.append("WHERE");
 			sb.append(" A.user_no = '" + userNo + "'");
 			sb.append(" and A.out_flag = 0");
+			sb.append(" and B.delete_flag = 0");
 			sb.append(" ORDER BY ");
 			sb.append(" group_no DESC");
 
@@ -188,12 +197,17 @@ public class MainPageModel {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			bean.setErrFlag(1);
 		} finally {
 			try {
 				conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+		}
+
+		if(bean.getErrFlag() == 1) {
+			talkG.add(bean);
 		}
 
 		return talkG;
