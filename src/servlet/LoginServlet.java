@@ -39,9 +39,12 @@ public class LoginServlet extends HttpServlet {
         LoginModel model = new LoginModel();
         String direction = "/WEB-INF/jsp/login.jsp";
 
+        String userId = "";
+        String password = "";
+
         // パラメータの取得
-        String userId = (String) req.getParameter("userId");
-        String password = (String) req.getParameter("password");
+        userId = (String) req.getParameter("userId");
+        password = (String) req.getParameter("password");
         Pattern p = Pattern.compile("^[0-9a-zA-Z]+$");
         Matcher mUserId = p.matcher(userId);
 

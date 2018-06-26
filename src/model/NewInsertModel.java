@@ -6,23 +6,23 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import bean.LoginBean;
+import bean.NewInsertBean;
 
-/**
- * ログイン画面ビジネスロジック
- */
-public class LoginModel {
 
+
+public class NewInsertModel {
 	/**
 	 * 認証処理
 	 * @param bean
 	 * @return
 	 */
-    public LoginBean authentication(LoginBean bean) {
+    public NewInsertBean signUp(NewInsertBean bean) {
         // 初期化
         StringBuilder sb = new StringBuilder();
         String userId = bean.getUserId();
         String password = bean.getPassword();
+        String userName = bean.getUserName();
+        bean.setErrorMessage("");
 
         Connection conn = null;
         String url = "jdbc:oracle:thin:@192.168.51.67:1521:XE";
@@ -39,29 +39,45 @@ public class LoginModel {
         try {
             conn = DriverManager.getConnection(url, user, dbPassword);
 
+         // 最大値取得
+			sb.append("SELECT ");
+			sb.append(" MAX(user_no) ");
+			sb.append("FROM ");
+			sb.append(" m_user ");
+
+			// SQL実行
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sb.toString());
+
+			int userNo = 0;
+			while (rs.next()) {
+				// 値を取得、その次の番号に
+				userNo = rs.getInt("MAX(USER_NO)") + 1;
+			}
+			// 初期化
+			sb.delete(0, sb.length());
+
+
             // SQL作成
-            sb.append("SELECT ");
+            sb.append("INSERT ");
+            sb.append("INTO ");
+            sb.append(" m_user( ");
             sb.append(" user_no ");
-            sb.append(" ,user_name ");
-            sb.append("FROM ");
-            sb.append(" m_user ");
-            sb.append("WHERE ");
-            sb.append(" user_id = '" + userId + "' ");
-            sb.append(" AND password = '" + password + "'");
+            sb.append(" , user_id ");
+            sb.append(" , password ");
+            sb.append(" , user_name ");
+            sb.append(" , regist_date) ");
+            sb.append(" values( ");
+            sb.append(" " + userNo + " ");
+            sb.append(" ,'" + userId + "' ");
+            sb.append(" ,'" + password + "' ");
+            sb.append(" ,'" + userName + "' ");
+            sb.append(" , sysdate)");
 
             // SQL実行
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sb.toString());
+            stmt = conn.createStatement();
+            stmt.executeUpdate(sb.toString());
 
-            if (!rs.next()) {
-                bean.setErrorMessage("会員IDもしくはパスワードが間違っています。");
-            } else {
-                bean.setUserNo(rs.getString("user_no"));
-                bean.setUserName(rs.getString("user_name"));
-                bean.setErrorMessage("");
-                conn.close();
-
-            }
         } catch (SQLException e) {
             bean.setErrorMessage("データベースと接続出来ませんでした。");
             e.printStackTrace();

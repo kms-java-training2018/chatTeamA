@@ -17,10 +17,13 @@
 		<p>会員ID</p>
 		<input type="text" name="userId" value="${loginBean.userId}">
 		<p>パスワード</p>
-		<input type="text" name="password" value="${loginBean.password}">
+		<input type="password" name="password" value="${loginBean.password}">
 		<br>
 		<P id="changeErrorColor">${loginBean.errorMessage}</P>
 		<input type="submit" value="ログイン">
+	</form>
+	<form action="/chat/newInsert" method="GET">
+		<input type="submit" value="新規登録">
 	</form>
 	</div>
 </body>
