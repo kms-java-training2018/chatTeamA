@@ -119,8 +119,8 @@ public class GroupMessageServlet extends HttpServlet {
 
 		// メッセージ送信機能
 		if (req.getParameter("sendMessage") != null) {
-			//String message = req.getParameter("message");
-			String message = new String(req.getParameter("message").getBytes("ISO-8859-1"));
+			String message = req.getParameter("message");
+			//String message = new String(req.getParameter("message").getBytes("ISO-8859-1"));
 			//req.getParameter("userId").getBytes("ISO-8859-1"));
 			//コメント変換
 			message = MakeGroupModel.commentCheck(message);

@@ -144,7 +144,8 @@ public class DirectMessageServlet extends HttpServlet {
 			 */
 
 			//メッセージ画面で入力された情報を取得
-			String message = new String(req.getParameter("message").getBytes("ISO-8859-1"));
+			String message = req.getParameter("message");
+			//String message = new String(req.getParameter("message").getBytes("ISO-8859-1"));
 			//--(1)-1 パラメータチェック--//
 			//--(1)-2 チェックでエラーが発生した場合,エラーメッセージを設定して、//
 			//メッセージ画面に遷移する。--//
