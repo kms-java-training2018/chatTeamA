@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import bean.ProfileBean;
 import bean.SessionBean;
+import model.MakeGroupModel;
 import model.MyPageModel;
 
 public class MyPageServlet extends HttpServlet {
@@ -90,8 +91,12 @@ public class MyPageServlet extends HttpServlet {
 		bean.setUserNo(sessionBean.getUserNo());
 
 		// パラメータ(テキストボックスに入力された値)を取得
-		String userName = (String) req.getParameter("userName");
-		String myPageText = (String) req.getParameter("myPageText");
+		String userName = req.getParameter("userName");
+		String myPageText = req.getParameter("myPageText");
+
+		//コメント変換
+		userName = MakeGroupModel.commentCheck(userName);
+		myPageText = MakeGroupModel.commentCheck(myPageText);
 
 		//"プロフィールを更新"のリクエスト送信後、入力値チェック
 		if ("userName" != null && "myPageText" != null) {

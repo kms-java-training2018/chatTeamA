@@ -41,13 +41,18 @@ public class NewInsertServlet extends HttpServlet{
         String direction = "/WEB-INF/jsp/newInsert.jsp";
 
         // パラメータの取得
-        String userName = (String) req.getParameter("name");
-        String userId = (String) req.getParameter("userId");
-        String password1 = (String) req.getParameter("password1");
-        String password2 = (String) req.getParameter("password2");
+        String userName = new String(req.getParameter("name").getBytes("ISO-8859-1"));
+        String userId = new String(req.getParameter("userId").getBytes("ISO-8859-1"));;
+        String password1 = new String(req.getParameter("password1").getBytes("ISO-8859-1"));
+        String password2 = new String(req.getParameter("password2").getBytes("ISO-8859-1"));
+
+		userName = MakeGroupModel.commentCheck(userName);
+		userId = MakeGroupModel.commentCheck(userId);
+		password1 = MakeGroupModel.commentCheck(password1);
+		password2 = MakeGroupModel.commentCheck(password2);
+
         Pattern p = Pattern.compile("^[0-9a-zA-Z]+$");
         Matcher mUserId = p.matcher(userId);
-
         Matcher mPassword = p.matcher(password1);
 
         // パラメータの判定

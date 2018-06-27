@@ -22,6 +22,14 @@ public class MakeGroupModel {
 
 	}
 
+	public static String commentCheck(String str) {
+
+		String result = str.replaceAll("<", "&lt;");
+		result = result.replaceAll("-", "&#45;");
+
+		return result;
+	}
+
 	//グループ名の長さの指定
 	final int GN_LENGTH = 30;
 
