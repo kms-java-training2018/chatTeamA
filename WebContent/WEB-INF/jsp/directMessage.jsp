@@ -34,15 +34,15 @@
 			<c:if test="${!bean.myMessageFlag }">
 				<div align="left">
 					<a href="/chat/showProfile?user_no=${bean.sendUserNo}"
-						target="_blank"><c:out value="${bean.sendUserName}" /> </a>：
-					<c:out value="${bean.message}" />
+						target="_blank"><c:out escapeXml="false" value="${bean.sendUserName}" /> </a>：
+					<c:out escapeXml="false" value="${bean.message}" />
 				</div>
 			</c:if>
 			<c:if test="${bean.myMessageFlag }">
 				<div align="right">
-					<c:out value="${bean.sendUserName }" />
+					<c:out escapeXml="false" value="${bean.sendUserName }" />
 					：
-					<c:out value="${bean.message}" />
+					<c:out escapeXml="false" value="${bean.message}" />
 				</div>
 			</c:if>
 			<br>

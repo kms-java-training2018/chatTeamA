@@ -27,7 +27,7 @@
   <input size="55" type="text" name="userName" value="${ProfileBean.userName}">
   <br>
   <p>自己紹介</p>
-  <textarea name="myPageText" rows="4" cols="43" ><c:out value="${ProfileBean.myPageText}" /></textarea>
+  <textarea name="myPageText" rows="4" cols="43" ><c:out escapeXml="false" value="${ProfileBean.myPageText}" /></textarea>
   <br>
     <P id="changeErrorColor">${ProfileBean.errorMessage}<p>
     <input type="submit" value="プロフィール更新">

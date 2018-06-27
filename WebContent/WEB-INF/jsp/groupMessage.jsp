@@ -24,7 +24,7 @@
 	<h1 id="changeTitleColor">チームAのチャット</h1>
 	<h2>「${group_name }」の会話</h2>
 	<c:forEach var="groupMember" items="${groupMemberList }">
-		<c:out value="${groupMember }"></c:out>,
+		<c:out escapeXml="false" value="${groupMember }"></c:out>,
 	</c:forEach>
 	<form action="/chat/groupMessage" method="POST"
 		onSubmit="return confirm('脱退しますか？')">
@@ -39,22 +39,22 @@
 		height: 300px; overflow:auto;"id="auto_scroll">
 		<c:forEach var="bean" items="${list}" varStatus="status">
 			<c:if test="${bean.sendUserName == '送信者不明' }">
-				<c:out value="${bean.sendUserName }" />
+				<c:out escapeXml="false" value="${bean.sendUserName }" />
 			</c:if>
 			<c:if test="${bean.sendUserName != '送信者不明' }">
 				<c:if test="${!bean.myMessageFlag }">
 					<div align="left">
 						<a href="/chat/showProfile?user_no=${bean.userNo }"
 							target="_blank">${bean.sendUserName }</a> ：
-						<c:out value="${bean.message}" />
+						<c:out escapeXml="false" value="${bean.message}" />
 					</div>
 				</c:if>
 
 				<c:if test="${bean.myMessageFlag }">
 					<div align="right">
-						<c:out value="${bean.sendUserName }" />
+						<c:out escapeXml="false" value="${bean.sendUserName }" />
 						：
-						<c:out value="${bean.message}" />
+						<c:out escapeXml="false" value="${bean.message}" />
 					</div>
 				</c:if>
 			</c:if>

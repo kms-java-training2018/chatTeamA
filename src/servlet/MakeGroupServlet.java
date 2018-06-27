@@ -74,8 +74,11 @@ public class MakeGroupServlet extends HttpServlet {
 		// セッション情報確認
 		HttpSession session = req.getSession();
 		// 入力値を変数に渡す
-		String groupName = req.getParameter("groupName");
+		String groupName = new String(req.getParameter("groupName").getBytes("ISO-8859-1"));
 		String[] groupMemberNo = req.getParameterValues("userNo");
+
+		//コメント変換
+		groupName = MakeGroupModel.commentCheck(groupName);
 
 		if (session == null) {
 

@@ -35,10 +35,10 @@
 
     <form action="/chat/directMessage" method="GET">
      <td>
-    <a href="/chat/directMessage?user_no=${bean.userNo}"><c:out value="${bean.userName}"/>
+    <a href="/chat/directMessage?user_no=${bean.userNo}"><c:out escapeXml="false" value="${bean.userName}"/>
     </a></td>
 
-    <td colspan="3"><c:out value="${bean.message}"/></td>
+    <td colspan="3"><c:out escapeXml="false" value="${bean.message}"/></td>
      </form>
     </c:forEach>
 </table>
@@ -56,8 +56,8 @@
    </tr>
 <c:forEach var="bean" items="${talkG}" varStatus="status">
 <tr align ="center">
-<td><a href="/chat/groupMessage?group_no=${bean.groupNo}"><c:out value="${bean.groupName}"/></a></td>
-<td colspan="3"><c:out value="${bean.message}"/></td>
+<td><a href="/chat/groupMessage?group_no=${bean.groupNo}"><c:out escapeXml="false" value="${bean.groupName}"/></a></td>
+<td colspan="3"><c:out escapeXml="false" value="${bean.message}"/></td>
     </c:forEach>
     </table>
   <br>
